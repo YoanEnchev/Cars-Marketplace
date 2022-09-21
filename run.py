@@ -1,11 +1,9 @@
 from flask import Flask
-app = Flask(__name__)
+main_app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return '<h1>Hello, World!aaaaa<h1><img src="http://localhost:5000/static/pic.webp">'
+from src.apps.cars.views import cars_app
+from src.apps.users.views import users_app
 
-
-@app.route('/about/<username>')
-def about_page(username):
-    return f'<h1>Hello, {username}<h1>'
+# Register all apps views:
+main_app.register_blueprint(cars_app)
+main_app.register_blueprint(users_app)
