@@ -1,9 +1,6 @@
 // JS
 import bootstrap from 'bootstrap';
 
-// SCSS
-import "bootstrap/dist/css/bootstrap.min.css";
-
-alert(
-    'test'
-);
+// SCSS/CSS (it's added to <style>)
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "../scss/app.scss"
