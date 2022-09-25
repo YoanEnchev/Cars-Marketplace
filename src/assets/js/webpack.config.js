@@ -1,6 +1,9 @@
 const path = require('path');
 
 module.exports = {
+  resolve: {
+    extensions: ['.js', '.json', '.jsx', '.wasm'], // Add your extensions here.
+  },
   entry: {
     index: './app.js'
   },
@@ -12,7 +15,7 @@ module.exports = {
   module: {
     rules: [
         {
-            test: /\.css|\.scss$/,
+            test: /\.(css|scss)$/,
             use: [
               // Creates `style` nodes from JS imports of css files
               'style-loader',
@@ -23,6 +26,13 @@ module.exports = {
               // Compiles Sass to CSS
               'sass-loader'
             ]
+        },
+        {
+          test: /\.(ts|js|jsx)?$/,
+          loader: 'babel-loader',
+          options: {
+             presets: ['@babel/env', '@babel/preset-react']
+          }
         }
     ]
   }
