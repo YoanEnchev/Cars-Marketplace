@@ -6,7 +6,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
 <body {% if body_id is defined %} id="{{body_id}}" {% endif %}>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler" aria-controls="navbar-toggler" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
@@ -15,13 +15,13 @@
                 <a class="navbar-brand" href="{{url_for('cars_app.home')}}">Cars Market</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('cars_app.home')}}">Home</a>
+                        <a class="nav-link" href="{{url_for('cars_app.home')}}">Търсене</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link" href="#">Публикуване</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        <a class="nav-link" href="#">Влизане</a>
                     </li>
                 </ul>
             </div>
