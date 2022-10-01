@@ -10,12 +10,19 @@
         <div class="car-background" style="background-image: url('static/imgs/pages/home-header.jpg')"></div>
         <div class="dark-overlay"></div>
         <div class="content">
-            <p class="h2 text-white text-center">Find your dream car.</p>
-            <p class="text-white text-center">Explore cars based on your preferences.</p>
+            <p class="h2 text-white text-center mb-3">Коли за всеки.</p>
+            <p class="text-white text-center">Намери своя автомобил на база предпочитанията ти.</p>
+
+            <a class="btn btn-primary search-cars-btn mt-4" class="btn btn-primary btn-xl text-uppercase" href="#cars-search-section">Търси автомобили</a>
         </div>
     </header>
-    <div class="container mt-4 mb-3">
-        <div id="cars-search-container"></div>
+    <div class="container mb-3">
+        <section id="cars-search-section" class="pt-4">
+            <p class="h2 mb-4 text-center">Търсене на автомобили</p>
+            <div id="cars-search-container"></div>
+        </section>
+
+        <p class="h2 mt-5 mb-4 text-center">Най - нови обяви</p>
         <div id="car-ads-listing"></div>
-    </section>
+    </div>
 {% endblock %}

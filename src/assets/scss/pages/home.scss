@@ -29,5 +29,14 @@ body#home {
             position: relative;
             top: -53%;
         }
+
+        .search-cars-btn {
+            display: flex;
+            width: fit-content;
+            margin: 0 auto;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 12px 20px;
+        }
     }
 }

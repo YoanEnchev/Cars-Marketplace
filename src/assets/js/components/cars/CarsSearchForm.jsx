@@ -47,7 +47,7 @@ class CarsSearchForm extends React.Component {
                     </div>
                 </div>
 
-                <div className="row mt-3 gy-3">
+                <div className="row mt-0 gy-3">
                     <div className="col-6 col-md-3">
                         <label htmlFor="max_price" className="mb-2">Максимална цена</label>
                         <input className="form-control form-control" type="number" id="max_price" min="0" max="10000000"/>
@@ -71,11 +71,12 @@ class CarsSearchForm extends React.Component {
                     </div>
                 </div>
 
-                <div className="row mt-3 gy-3">
+                <div className="row mt-0 gy-3">
                     <div className="col-6 col-md-3">
                         <label htmlFor="engine-type" className="mb-2">Двигател</label>
                         <select className="form-select form-select" name="engine_type" id="engine-type">
                             <option value="1">Бензинов</option>
+                            <option value="1">Газ / Бензин</option>
                             <option value="2">Дизелов</option>
                             <option value="3">Електрически</option>
                             <option value="4">Хибриден</option>
