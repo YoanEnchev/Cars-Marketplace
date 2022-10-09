@@ -11,7 +11,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler" aria-controls="navbar-toggler" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbar-toggler">
+            <div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbar-toggler">
                 <a class="navbar-brand" href="{{url_for('cars_app.home')}}">Cars Market</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
@@ -21,7 +21,10 @@
                         <a class="nav-link" href="#">Публикуване</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Влизане</a>
+                        <a class="nav-link" href="{{url_for('auth_app.register-form')}}">Регистриране</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('auth_app.login-form')}}">Влизане</a>
                     </li>
                 </ul>
             </div>
