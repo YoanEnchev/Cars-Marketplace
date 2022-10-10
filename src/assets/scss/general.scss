@@ -1,0 +1,11 @@
+body {
+    
+    /* So we could set footer to be at the bottom. */
+    min-height: 100vh;
+    display: flex;
+    flex-flow: column;
+
+    footer {
+        margin-top: auto;
+    }
+}

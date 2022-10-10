@@ -9,18 +9,18 @@ export default function RegisterForm() {
     
     function onInputTyping(event) {
         let elem = event.target
-        let value = elem.value;
+        let value = elem.value
         
         switch(elem.name) {
             case 'email':
                 setEmail(value)
-                break;
+                break
             case 'password':
                 setPassword(value)
-                break;
-            case 'repeat-password':
+                break
+            case 'repeat_password':
                 setRepeatPassword(value)
-                break;
+                break
         }
     }
 
@@ -30,27 +30,33 @@ export default function RegisterForm() {
         repeatPassword: password === repeatPassword && repeatPassword.length > 0
     }
 
-    console.log(Object.entries(conditions).map(([key, result]) => result));
+    let filledEmail = email !== ''
+    let filledPassword = password !== ''
+    let filledRepeatPassword = repeatPassword !== ''
+
+    let allFieldsAreValid = Object.entries(conditions)
+      .map(([key, condition]) => condition)
+      .every(c => c)
 
     return (
         <form>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" onChange={onInputTyping} value={email} />
-            {(email !== '' && !conditions.email) ? <small class="form-text text-danger">Email must be valid.</small> : ''}
+          <div className="form-group mb-3">
+            <label htmlFor="email" className='mb-2'>Email</label>
+            <input type="email" className={'form-control ' + (filledEmail ? (conditions.email ? 'is-valid' : 'is-invalid') : '')} id="email" name="email" onChange={onInputTyping} value={email} />
+            {(filledEmail && !conditions.email) ? <small className="form-text text-danger">Email must be valid.</small> : ''}
           </div>
-          <div class="form-group">
-            <label for="password">Парола</label>
-            <input type="password" class="form-control" id="password" onChange={onInputTyping} value={password} />
-            {(password !== '' && !conditions.password) ? <small class="form-text text-danger">Password must be 6 .</small> : ''}
+          <div className="form-group mb-3">
+            <label htmlFor="password" className='mb-2'>Парола</label>
+            <input type="password" className={'form-control ' + (filledPassword ? (conditions.password ? 'is-valid' : 'is-invalid') : '')} id="password" name="password" onChange={onInputTyping} value={password} />
+            {(filledPassword && !conditions.password) ? <small className="form-text text-danger">Password must be at least 6 symbols long.</small> : ''}
           </div>
-          <div class="form-group">
-            <label for="repeat-password">Повтори Парола</label>
-            <input type="password" class="form-control" id="repeat-password" onChange={onInputTyping} value={repeatPassword} />
-            {(repeatPassword !== '' && conditions.repeatPassword) ? <small class="form-text text-danger">Password must be 6 .</small> : ''}
+          <div className="form-group mb-3">
+            <label htmlFor="repeat-password" className='mb-2'>Повтори Парола</label>
+            <input type="password" className={'form-control ' + (filledRepeatPassword ? (conditions.repeatPassword ? 'is-valid' : 'is-invalid') : '')} id="repeat-password" name="repeat_password" onChange={onInputTyping} value={repeatPassword} />
+            {(filledRepeatPassword && !conditions.repeatPassword) ? <small className="form-text text-danger">Repeat password must match password.</small> : ''}
           </div>
 
-          <button type="submit" class="btn btn-primary">Регистрирай</button>
+          <button type="submit" className="btn btn-primary" disabled={!allFieldsAreValid}>Регистрирай</button>
         </form>
     )
 }
