@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 export default function CarsSearchForm() {
     return (
@@ -41,7 +41,7 @@ export default function CarsSearchForm() {
             <div className="row mt-0 gy-3">
                 <div className="col-6 col-md-3">
                     <label htmlFor="max_price" className="mb-2">Максимална цена</label>
-                    <input className="form-control form-control" type="number" id="max_price" min="0" max="10000000"/>
+                    <input className="form-control" type="number" id="max_price" min="0" max="10000000"/>
                 </div>
                 <div className="col-6 col-md-3">
                     <label htmlFor="year" className="mb-2">Година</label>

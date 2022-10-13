@@ -12,13 +12,13 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbar-toggler">
-                <a class="navbar-brand" href="{{url_for('cars_app.home')}}">Cars Market</a>
+                <a class="navbar-brand" href="{{url_for('home_app.home')}}">Cars Market</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('cars_app.home')}}">Начало</a>
+                        <a class="nav-link" href="{{url_for('home_app.home')}}">Начало</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Публикуване</a>
+                        <a class="nav-link" href="{{url_for('cars_app.create')}}">Публикуване</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('auth_app.register-form')}}">Регистриране</a>
