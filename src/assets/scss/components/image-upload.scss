@@ -22,3 +22,30 @@
         opacity: 0.6;
     }
 }
+
+.thumbs-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 16px;
+
+    .thumb-item {
+        display: inline-flex;
+        border-radius: 2px;
+        border: 1px solid #eaeaea;
+        margin-bottom: 8px;
+        margin-right: 8px;
+        width: 100px;
+        height: 100px;
+        padding: 4px;
+        box-sizing: border-box;
+
+        img {
+            display: block;
+            width: auto;
+            height: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+    }
+}

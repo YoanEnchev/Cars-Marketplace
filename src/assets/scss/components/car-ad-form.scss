@@ -5,4 +5,22 @@ form.car-ad-form {
         text-overflow: ellipsis;
         width: 100%;
     }
+
+    div#cars-extras-container li.list-group-item {
+    
+        p {
+            font-weight: 400;
+            font-size: 16px;
+            margin-bottom: 0px;
+        }
+
+        svg {
+            font-size: 19px;
+        }
+
+        &:hover {
+            background: #d9e5ff;
+            cursor: pointer;
+        }
+    }
 }

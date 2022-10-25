@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import CarAdForm from '../components/cars/CarAdForm'
+import CarAdForm from '../components/cars/CarCreateEditForm/CarAdForm'
 
 let CarAdCreation = {
     'init': () => {
