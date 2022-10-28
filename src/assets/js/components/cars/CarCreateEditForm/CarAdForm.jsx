@@ -244,6 +244,14 @@ export default function CarAdForm(props) {
                 addDisabledOption: 'Избери област',
                 startWithEmptyValue: true
             },
+            {
+                label: 'Описание',
+                name: 'description',
+                type: 'textarea',
+                size: 'entire-row',
+                maxLength: 500,
+                minHeight: '128px'
+            },
         ])
 
         setCarExtras({
@@ -369,23 +377,44 @@ export default function CarAdForm(props) {
     
     return (
         <>
-            <form method='GET' action='' className='car-ad-form'>
+            <form method='POST' action='' className='car-ad-form'>
                 <div className="row gy-3">
                     {formFields.map((field, index) => {
 
                         let fieldType = field.type
 
+                        let sizeClasses = 'col-6 col-md-3'
+                        
+                        if (field.size === 'entire-row') {
+                            sizeClasses = 'col-12'
+                        }
+
+                        let fieldClasses = 'mt-2 ' + (fieldType === 'dropdown' ? 'form-select' : 'form-control')
+
+                        let propsObj = {
+                            className: fieldClasses,
+                            placeholder: field.placeholder,
+                            name: field.name,
+                            maxLength: field.maxLength,
+                            placeholder: field.placeholder,
+                            style: {
+                                minHeight: field.minHeight
+                            }
+                        }
+
                         return (
-                            <div className="field-wrapper col-6 col-md-3" key={index}>
+                            <div className={`field-wrapper ${sizeClasses}`} key={index}>
                                 <label className='p-1'>{field.label}
                                     {
                                         fieldType === 'input' ?
-                                            <input className="form-control mt-2" placeholder={field.placeholder} name={field.name} /> :
+                                            <input {...propsObj} /> :
                                         fieldType === 'dropdown' ?
-                                            <select className="form-select mt-2" name={field.name}>
+                                            <select {...propsObj} >
                                                 {field.addDisabledOption ? <option>{field.addDisabledOption}</option> : ''}
                                                 {Object.entries(field.values).map(([value, label], index) => <option value={value} key={index}>{label}</option>)}
-                                            </select>
+                                            </select> :
+                                        fieldType === 'textarea' ? 
+                                            <textarea rows="5" {...propsObj}></textarea>
                                         : ''
                                     }
                                 </label>
@@ -397,14 +426,17 @@ export default function CarAdForm(props) {
                 <div id="cars-extras-container" className='mt-4'>
                     <p className='h5 mb-3'>Избери екстри</p>
                     <ul className="list-group">
-                        {Object.entries(carExtras).map(([categoryId, categoryData], groupIndex) =>
-                            <li className="list-group-item" key={groupIndex} onClick={() => handleExtraModalShow(categoryId)}>
+                        {Object.entries(carExtras).map(([categoryId, categoryData], groupIndex) => {
+                            
+                            let selectedExtras = categoryData.items.filter(item => item.selected)
+
+                            return <li className="list-group-item" key={groupIndex} onClick={() => handleExtraModalShow(categoryId)}>
                                 <div className='d-flex'>
                                     <div className='w-100'>
                                         <p className='me-2'>
-                                            {categoryData.name} 
+                                            {categoryData.name + ` (${selectedExtras.length} избрани)`}
                                             <small className='d-block text-gray mt-2'>
-                                                {categoryData.items.filter(item => item.selected).map(item => item.name).join(', ')}
+                                                {selectedExtras.map(item => item.name).join(', ')}
                                             </small>
                                         </p>
                                     </div>
@@ -413,7 +445,7 @@ export default function CarAdForm(props) {
                                     </div>
                                 </div>
                             </li>
-                        )}
+                        })}
                     </ul>
                 </div>
                 <div className='mt-4'>

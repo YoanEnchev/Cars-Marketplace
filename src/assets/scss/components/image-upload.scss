@@ -39,6 +39,7 @@
         height: 100px;
         padding: 4px;
         box-sizing: border-box;
+        position: relative;
 
         img {
             display: block;
@@ -46,6 +47,25 @@
             height: 100%;
             aspect-ratio: 1 / 1;
             object-fit: cover;
+        }
+
+        .action-button {
+            position: absolute;
+            padding: 1px 6px;
+            border-radius: 20%;
+            background-color: rgb(0, 0, 0);
+            color: white;
+            top: 2px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .remove-thumbnail {
+            right: 2px;
+        }
+
+        .expand-image {
+            right: 25px;
         }
     }
 }

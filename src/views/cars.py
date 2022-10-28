@@ -7,6 +7,9 @@ def create():
     return render_template('cars/create.html')
 
 
+@cars_app.route('/cars/{id}', methods=['GET'], endpoint='show')
+def detail():
+    return render_template('cars/show.html')
 
 #list /cars/
 #create /cars/new/

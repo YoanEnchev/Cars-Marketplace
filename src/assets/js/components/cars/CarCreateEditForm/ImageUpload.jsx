@@ -1,6 +1,10 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {useDropzone} from 'react-dropzone'
 import { ReactSortable } from "react-sortablejs";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 
 import '../../../../scss/components/image-upload.scss'
 
@@ -16,7 +20,6 @@ const getColor = (props) => {
   }
   return '#eeeeee';
 }
-
 
 export default function ImageUpload(props) {
   const [files, setFiles] = useState([])
@@ -38,25 +41,38 @@ export default function ImageUpload(props) {
     }
   })
 
+  function onRemoveThumbnailClick(fileToRemoveIndex) {
+    setFiles(files.filter((file, index) => index !== fileToRemoveIndex))
+  }
+
+  function onExpandThumbnailClick(index) {
+    window.open(files[index].preview);
+  }
+
   return (
     <section>
-      <div {...getRootProps({className: 'dropzone'})} style={{borderColor: getColor({isFocused, isDragAccept, isDragReject})}}>
-        <input {...getInputProps()} />
-        <p className='mb-0'>Качване на снимки</p>
-      </div>
       <aside className='thumbs-container'>
         <ReactSortable list={files} setList={setFiles}>
           {
           files.map((item, index) => (
             <div className='thumb-item' key={item.name + index}>
-              <div>{console.log(item.name + index)}
-                <img src={item.preview}
-                />
+              <div>
+                <img src={item.preview} />
+              </div>
+              <div className='action-button expand-image' onClick={() => onExpandThumbnailClick(index)}>
+                <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+              </div>
+              <div className='action-button remove-thumbnail' onClick={() => onRemoveThumbnailClick(index)}>
+                <FontAwesomeIcon icon={faXmark} />
               </div>
             </div>
           ))}
         </ReactSortable>
       </aside>
+      <div {...getRootProps({className: 'dropzone'})} style={{borderColor: getColor({isFocused, isDragAccept, isDragReject})}}>
+        <input {...getInputProps()} />
+        <p className='mb-0'>Качване на снимки</p>
+      </div>
     </section>
   )
 }
