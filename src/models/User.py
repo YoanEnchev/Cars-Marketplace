@@ -1,18 +1,17 @@
 from run import db
-
-# Creating the Inserttable for inserting data into the database
-
+from werkzeug.security import generate_password_hash
 
 class User(db.Model):
 
+    __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    name = db.Column(db.String(80), nullable=False)
+    first_name = db.Column(db.String(80), nullable=False)
     password = db.Column(db.String(100))
 
-
-    def __init__(self, x, y):
-        print("2. Initialize the new instance of Point.")
-        self.x = x
-        self.y = y
+    def __init__(self, email, first_name, password):
+        self.email = email
+        self.first_name = first_name
+        self.password = generate_password_hash(password, method = 'sha256')
         

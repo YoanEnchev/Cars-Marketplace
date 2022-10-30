@@ -12,8 +12,7 @@ def seed():
     fake = Faker()
     
     for i in range(1, 4):
-        user = User(email=fake.email(), name=fake.name(), password=generate_password_hash('123456', method='sha256'))
+        user = User(email = fake.email(), first_name = fake.name(), password = '123456')
         db.session.add(user)
-
-
+    
     db.session.commit()
