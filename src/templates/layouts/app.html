@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset='utf-8'>
-    <title>{% block title %}{% endblock %} - </title>
+    <title>{% block title %}{% endblock %}</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
 <body {% if body_id is defined %} id="{{body_id}}" {% endif %}>
@@ -20,23 +20,34 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('cars_app.create')}}">Публикуване</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('auth_app.register-form')}}">Регистриране</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('auth_app.login-form')}}">Влизане</a>
-                    </li>
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('auth_app.logout')}}">Изход</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('auth_app.register')}}">Регистриране</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('auth_app.login')}}">Влизане</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
+    {% for category in ['primary', 'danger'] %}
+        {% include 'partials/alert.html' %}
+    {% endfor %}
     {% block content %}{% endblock %}
-
     <footer class="bg-light text-center text-lg-start">
         <p class="copyright mb-0 text-center">
             Cars Market © 2022
         </p>
     </footer>
+    <script>
+        {% block js_vars %}{% endblock %}
+    </script>
     <script src="{{ url_for('static', filename='js/app.bundle.js') }}"></script>
 </body>
 </html>

@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import validateEmail from '../../helpers/validateEmail'
 
-export default function RegisterForm() {
+export default function RegisterForm(props) {
 
-    const [email, setEmail] = useState('')
+    const [email, setEmail] = useState(props.email || '')
+    const [name, setName] = useState(props.name || '')
     const [password, setPassword] = useState('')
-    const [repeatPassword, setRepeatPassword] = useState('')
+    const [repeatPassword, setRepeatPassword] = useState(props.repeat_password || '')
     
     function onInputTyping(event) {
         let elem = event.target
@@ -14,6 +15,9 @@ export default function RegisterForm() {
         switch(elem.name) {
             case 'email':
                 setEmail(value)
+                break
+            case 'name':
+                setName(value)
                 break
             case 'password':
                 setPassword(value)
@@ -26,11 +30,13 @@ export default function RegisterForm() {
 
     let conditions = {
         email: validateEmail(email),
+        name: name.length >= 2,
         password: password.length >= 6,
         repeatPassword: password === repeatPassword && repeatPassword.length > 0
     }
 
     let filledEmail = email !== ''
+    let filledName = name !== ''
     let filledPassword = password !== ''
     let filledRepeatPassword = repeatPassword !== ''
 
@@ -39,11 +45,16 @@ export default function RegisterForm() {
       .every(c => c)
 
     return (
-        <form>
+        <form method='POST' action='/register'>
           <div className="form-group mb-3">
             <label htmlFor="email" className='mb-2'>Email</label>
             <input type="email" className={'form-control ' + (filledEmail ? (conditions.email ? 'is-valid' : 'is-invalid') : '')} id="email" name="email" onChange={onInputTyping} value={email} />
             {(filledEmail && !conditions.email) ? <small className="form-text text-danger">Email must be valid.</small> : ''}
+          </div>
+          <div className="form-group mb-3">
+            <label htmlFor="name" className='mb-2'>Име</label>
+            <input className={'form-control ' + (filledName ? (conditions.name ? 'is-valid' : 'is-invalid') : '')} id="name" name="name" onChange={onInputTyping} value={name} />
+            {(filledName && !conditions.name) ? <small className="form-text text-danger">Name must be at least 2 symbols long.</small> : ''}
           </div>
           <div className="form-group mb-3">
             <label htmlFor="password" className='mb-2'>Парола</label>

@@ -1,6 +1,7 @@
 {% set body_id = 'registration' %}
 {% extends 'layouts/app.html' %}
 
+
 {% block title %}
     Register
 {% endblock %}
@@ -8,4 +9,10 @@
 {% block content %}
     <h1 class="h3 text-center mt-4 mb-3">Регистрация</h1>
     <div id="register-form" class="container"></div>
+{% endblock %}
+
+{% block js_vars %}
+    var fromPHP = {
+        registrationData: {{ form_values == None and '{}' or form_values|tojson }}
+    }
 {% endblock %}

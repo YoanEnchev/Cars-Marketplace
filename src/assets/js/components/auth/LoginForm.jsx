@@ -20,7 +20,7 @@ export default function LoginForm() {
     }
 
     return (
-        <form>
+        <form method='POST' action='/login'>
             <div className="form-group mb-3">
               <label htmlFor="email" className='mb-2'>Email</label>
               <input type="email" className="form-control" id="email" name="email" onChange={onInputTyping} />
