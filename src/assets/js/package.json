@@ -17,6 +17,7 @@
     "react-dropzone": "^14.2.3",
     "react-sortablejs": "^6.1.4",
     "sortablejs": "^1.15.0",
+    "swiper": "^8.4.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

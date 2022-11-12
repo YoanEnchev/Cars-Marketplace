@@ -4,12 +4,10 @@ import CarAdForm from '../components/cars/CarCreateEditForm/CarAdForm'
 
 let CarAdCreation = {
     'init': () => {
-        return (
-            document.body.getAttribute('id') === 'car-ad-creation' ?
-                ReactDOM
-                    .createRoot(document.getElementById('car-ad-form'))
-                    .render(<CarAdForm />) : ''
-        )
+        document.body.getAttribute('id') === 'car-ad-creation' ?
+            ReactDOM
+                .createRoot(document.getElementById('car-ad-form'))
+                .render(<CarAdForm />) : ''
     }
 }
 

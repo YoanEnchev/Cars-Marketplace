@@ -7,18 +7,16 @@ import "../../scss/pages/home.scss"
 
 let Home = {
     'init': () => {
-        return (
-            document.body.getAttribute('id') === 'home' ?
-            [
-                ReactDOM
-                    .createRoot(document.getElementById('cars-search-container'))
-                    .render(<CarsSearchForm />),
-            
-                ReactDOM
-                    .createRoot(document.getElementById('car-ads-listing'))
-                    .render(<CarsList />)
-            ] : ''
-        )
+        document.body.getAttribute('id') === 'home' ?
+        [
+            ReactDOM
+                .createRoot(document.getElementById('cars-search-container'))
+                .render(<CarsSearchForm />),
+        
+            ReactDOM
+                .createRoot(document.getElementById('car-ads-listing'))
+                .render(<CarsList />)
+        ] : ''
     }
 }
 

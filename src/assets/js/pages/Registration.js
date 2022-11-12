@@ -4,12 +4,10 @@ import RegisterForm from '../components/auth/RegisterForm'
 
 let Registration = {
     'init': () => {
-        return (
-            document.body.getAttribute('id') === 'registration' ?
-                ReactDOM
-                    .createRoot(document.getElementById('register-form'))
-                    .render(<RegisterForm {...fromPHP.registrationData} />) : ''
-        )
+        document.body.getAttribute('id') === 'registration' ?
+            ReactDOM
+                .createRoot(document.getElementById('register-form'))
+                .render(<RegisterForm {...fromPHP.registrationData} />) : ''
     }
 }
 

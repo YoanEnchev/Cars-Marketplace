@@ -69,6 +69,7 @@ def login():
     
     return redirect(url_for(redirect_endpoint))
 
+
 @auth_app.route("/logout", methods=['GET'], endpoint="logout")
 @login_required
 def logout():

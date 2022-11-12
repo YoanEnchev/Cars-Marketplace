@@ -10,17 +10,11 @@ main_app.config['SQLALCHEMY_DATABASE_URI'] = envData['DB_URL']
 
 db = SQLAlchemy(main_app)
 
-login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
-login_manager.init_app(main_app)
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
 
 from src.views.home import home_app
 from src.views.cars import cars_app
 from src.views.auth import auth_app
+from src.initializers.login_manager import login_manager
 
 from flask_migrate import Migrate
 
