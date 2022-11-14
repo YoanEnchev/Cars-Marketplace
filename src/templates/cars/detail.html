@@ -53,10 +53,21 @@
                     {% endfor %}
                 </div>
                 <hr>
+                <a class="btn btn-primary mb-2" href="tel:+359874848455">
+                    <span class="text-white d-inline-block me-1"
+                        style="width: 17px; position: relative; top: -2px; fill: white;">
+                        {% with icon='phone-solid' %}
+                            {% include 'partials/icons.html' %}
+                        {% endwith %}
+                    </span>
+                    <span>+359874848455</span>
+                </a>
+                <p class="mb-1">Кристиян Вълчев</p>
+                <b class="d-block mb-3">Варна</b>
 
             </div>
             <div class="col-12 col-md-7">
-                <div id="car-thumbnail-slider"></div>
+                <div id="car-thumbnail-slider" class="mb-3"></div>
             </div>
         </div>
     </div>
