@@ -1,13 +1,14 @@
 from run import db
 
-class ExtraCategory(db.Model):
+class Extra(db.Model):
 
     __tablename__ = 'extras'
 
     id = db.Column(db.Integer, primary_key=True)
-    key = db.Column(db.String(80), nullable=False)
+    title = db.Column(db.String(80), nullable=False)
     extra_category_id = db.Column(db.Integer, db.ForeignKey('extra_categories.id'))
 
-    def __init__(self, key):
-        self.key = key
+    def __init__(self, title, category_id):
+        self.title = title
+        self.extra_category_id = category_id
         

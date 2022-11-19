@@ -13,14 +13,16 @@ export default function ThumbnailSliderModal(props) {
     }
   
     return (
-      <Modal show={props.show} onHide={handleClose} className='thumbnail-slider-modal modal-xl'>
+      <Modal show={props.show} onHide={handleClose} className='thumbnail-slider-modal'>
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
         <Swiper className='car-images-slider-modal'
             navigation={true} 
             modules={[Navigation]}
             onSwiper={(swiper) => setSwiper(swiper)}
-            onSlideChange={() => props.onSlideChange(swiper.activeIndex)}
+            onSlideChange={() => {
+              (swiper !== null &&  swiper.activeIndex ) ? props.onSlideChange(swiper.activeIndex) : ''
+            }}
             initialSlide={props.activeSliderIndex}
         >
             

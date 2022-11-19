@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function CarsSearchForm() {
     return (
-        <form method='GET' action=''>
+        <form method='GET' action='/cars'>
             <div className="row gy-3">
                 <div className="col-6 col-md-3">
                     <label htmlFor="make" className="mb-2">Марка</label>
@@ -51,18 +51,7 @@ export default function CarsSearchForm() {
                         <option value="3">Three</option>
                     </select>
                 </div>
-                <div className="col-12 col-md-6">
-                    <label htmlFor="order-by" className="mb-2">Подреди по</label>
-                    <select className="form-select form-select" name="order-by" id="order-by">
-                        <option value="price_asc">Цена - Възходящо</option>
-                        <option value="price_desc">Цена - Низходящо</option>
-                        <option value="year_asc">Година На Производство - Възходящо</option>
-                        <option value="year_desc">Година На Производство - Низходящо</option>
-                    </select>
-                </div>
-            </div>
 
-            <div className="row mt-0 gy-3">
                 <div className="col-6 col-md-3">
                     <label htmlFor="engine-type" className="mb-2">Двигател</label>
                     <select className="form-select form-select" name="engine_type" id="engine-type">
@@ -80,6 +69,18 @@ export default function CarsSearchForm() {
                         <option value="1">Ръчна</option>
                         <option value="2">Автоматична</option>
                         <option value="3">Полуавтоматична</option>
+                    </select>
+                </div>
+            </div>
+
+            <div className="row mt-0 gy-3">
+                <div className="col-12 col-md-6">
+                    <label htmlFor="order-by" className="mb-2">Подреди по</label>
+                    <select className="form-select form-select" name="order-by" id="order-by">
+                        <option value="price_asc">Цена - Възходящо</option>
+                        <option value="price_desc">Цена - Низходящо</option>
+                        <option value="year_asc">Година На Производство - Възходящо</option>
+                        <option value="year_desc">Година На Производство - Низходящо</option>
                     </select>
                 </div>
 

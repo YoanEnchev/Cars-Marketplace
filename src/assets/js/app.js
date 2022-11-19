@@ -10,6 +10,7 @@ import Registration from './pages/Registration'
 import Login from './pages/Login'
 import CarAdCreation from './pages/CarAdCreation'
 import CarDetails from './pages/CarDetails'
+import CarListing from './pages/CarListing'
 
 
 // Initialize JS pages
@@ -18,3 +19,4 @@ Registration.init()
 Login.init()
 CarAdCreation.init()
 CarDetails.init()
+CarListing.init()

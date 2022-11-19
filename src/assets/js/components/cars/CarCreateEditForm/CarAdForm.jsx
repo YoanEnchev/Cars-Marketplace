@@ -48,16 +48,6 @@ export default function CarAdForm(props) {
     useEffect(() => {
         setFormFields([
             {
-                label: 'Вид превозно средство',
-                name: 'vehicle_type',
-                type: 'dropdown',
-                values: {
-                    '1': 'Автомобил',
-                    '2': 'Мотор / Скутер',
-                    '3': 'Камион'
-                }
-            },
-            {
                 label: 'Марка',
                 name: 'make',
                 type: 'dropdown',

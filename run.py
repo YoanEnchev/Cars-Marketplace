@@ -16,8 +16,6 @@ from src.views.cars import cars_app
 from src.views.auth import auth_app
 from src.initializers.login_manager import login_manager
 
-from flask_migrate import Migrate
-
 # flask run
 # 123456   common
 # flask seed
@@ -28,8 +26,12 @@ from flask_migrate import Migrate
 from src.models import *
 from src.models.extras import *
 
-from src.commands.seeders.main_seeder import seed
+from src.commands.seeder import seed
+from src.commands.drop_tables import drop_tables
+
+
 main_app.cli.add_command(seed)
+main_app.cli.add_command(drop_tables)
 
 # Register all apps views:
 main_app.register_blueprint(home_app)
@@ -38,11 +40,3 @@ main_app.register_blueprint(auth_app)
 
 # Needed for session.
 main_app.secret_key = envData['SECRET_KEY']
-
-# migrate = Migrate()
-# migrate.init_app(main_app, db)
-
-with main_app.app_context():
-    # Create tables of each models
-    db.create_all()
-    db.session.commit()

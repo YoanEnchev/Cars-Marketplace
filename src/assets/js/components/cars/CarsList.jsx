@@ -7,7 +7,8 @@ export default function CarsList(props) {
     const [cars, setCars] = useState([])
 
     useEffect(() => {
-        setCars([
+        console.log(props.apiURL);
+        let cars = [
             {
                 thumbnail: 'https://g1-bg.cars.bg/2021-10-30_2/617d3d02ffd9427c8b3e6987o.jpg',
                 make: 'Mercedes',
@@ -88,7 +89,9 @@ export default function CarsList(props) {
                 isInWishlist: true,
                 isEditable: true
             },
-        ])
+        ]
+
+        setCars([...cars, ...cars])
     }, [])
 
     return (

@@ -5,7 +5,6 @@ class VehicleAds(db.Model):
     __tablename__ = 'vehicle_ads'
 
     id = db.Column(db.Integer, primary_key = True)
-    vehicle_type_id = db.Column(db.Integer, db.ForeignKey('vehicle_types.id'))
     
     make_id = db.Column(db.Integer, db.ForeignKey('makes.id'))
     model_id = db.Column(db.Integer, db.ForeignKey('models.id'))

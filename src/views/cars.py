@@ -6,13 +6,11 @@ cars_app = Blueprint('cars_app', __name__, template_folder='../templates')
 def create():
     return render_template('cars/create.html')
 
+@cars_app.route('/cars', methods=['GET'], endpoint='list')
+def list():
+    return render_template('cars/list.html')
+
 
 @cars_app.route('/cars/<id>', methods=['GET'], endpoint='detail')
 def detail(id):
     return render_template('cars/detail.html')
-
-#list /cars/
-#create /cars/new/
-#detail /cars/1/
-#update /cars/1/edit/
-#delete /cars/1/delete/

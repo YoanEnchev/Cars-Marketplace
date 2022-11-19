@@ -5,6 +5,7 @@ import ThumbnailSliderModal from './ThumbnailSliderModal'
 
 
 import "../../../scss/components/car-slider.scss"
+import "../../../scss/components/swiper-navigation.scss"
 
 import "swiper/css"
 import "swiper/css/navigation"
@@ -27,7 +28,9 @@ export default function CarImageSlider(props) {
     }
 
     function openThumbnailModal() {
-        setShowThumbnailModal(true)
+        if (document.body.clientWidth > 700) {
+            setShowThumbnailModal(true)
+        }
     }
 
     function closeThumbnailModal() {
@@ -64,6 +67,7 @@ export default function CarImageSlider(props) {
                 </div>
             })}
         </div>
+
         <ThumbnailSliderModal thumbnails={thumbnails}
             show={showThumbnailModal}
             onHide={closeThumbnailModal}
