@@ -5,4 +5,3 @@ def get_err_msg_for_form(form):
         return errors[list(errors.keys())[0]][0]
     
     return None
-

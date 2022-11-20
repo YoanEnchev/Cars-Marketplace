@@ -1,7 +1,11 @@
 from wtforms import Form, StringField, PasswordField
-from wtforms.validators import DataRequired, EqualTo, Length
+from wtforms.validators import DataRequired, EqualTo, Length, ValidationError
+from src.repositories.UserRepository import UserRepository
 
-from src.services.validation.validate_email import validate_email
+
+def validate_email(self, field):
+    if (UserRepository()).find_by_email(field.data):
+        raise ValidationError('Email is already in use.')
 
 class RegistrationForm(Form):
     email = StringField('Email', [DataRequired(), Length(min=6, max=100), validate_email])

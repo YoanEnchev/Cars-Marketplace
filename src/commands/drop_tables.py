@@ -4,5 +4,5 @@ from flask.cli import with_appcontext
 @main_app.cli.command('drop-tables')
 @with_appcontext
 def drop_tables():
-    # Create tables of each models
+    # drops all tables.
     db.drop_all()

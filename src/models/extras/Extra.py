@@ -6,7 +6,7 @@ class Extra(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
-    extra_category_id = db.Column(db.Integer, db.ForeignKey('extra_categories.id'))
+    extra_category_id = db.Column(db.Integer, db.ForeignKey('extras_categories.id'))
 
     def __init__(self, title, category_id):
         self.title = title

@@ -1,6 +1,6 @@
 from run import db
 
-class VehicleAds(db.Model):
+class VehicleAd(db.Model):
 
     __tablename__ = 'vehicle_ads'
 
@@ -19,15 +19,36 @@ class VehicleAds(db.Model):
     region_id = db.Column(db.Integer, db.ForeignKey('regions.id'))
     settlement_id = db.Column(db.Integer, db.ForeignKey('settlements.id'))
 
-    modification = db.Column(db.String(20))
     hp = db.Column(db.Integer)
     price = db.Column(db.Float(precision=2), nullable=False)
     mileage = db.Column(db.Integer)
-    description = db.Column(db.Text)
 
+    modification = db.Column(db.String(20))
+    description = db.Column(db.Text)
     views = db.Column(db.Integer)
 
 
-    def __init__(self, x):
-        self.x = x
+    def __init__(self, make_id, model_id, fuel_type_id, eco_standart_id, gearbox_id, car_body_configuration_id, color_id,
+        region_id, settlement_id, hp, price, mileage, modification, description, views):
+        
+        self.make_id = make_id
+        self.model_id = model_id
+
+        self.fuel_type_id = fuel_type_id
+        self.eco_standart_id = eco_standart_id
+
+        self.gearbox_id = gearbox_id
+        self.car_body_configuration_id = car_body_configuration_id
+        self.color_id = color_id
+
+        self.region_id = region_id
+        self.settlement_id = settlement_id
+
+        self.hp = hp
+        self.price = price
+        self.mileage = mileage
+
+        self.modification = modification
+        self.description = description
+        self.views = views
         
