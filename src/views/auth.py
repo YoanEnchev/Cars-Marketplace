@@ -1,10 +1,13 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, session
 from flask_login import login_user, login_required, logout_user
+from flask_injector import FlaskInjector
+from injector import inject
 from werkzeug.security import check_password_hash
 from run import db
 
 from src.forms.RegistrationForm import RegistrationForm
 from src.services.get_err_msg_for_form import get_err_msg_for_form
+from src.services.UserService import UserService
 from src.models.User import User
 
 auth_app = Blueprint('auth_app', __name__, template_folder='templates')
@@ -42,8 +45,9 @@ def register():
     return redirect(url_for(endpoint))
 
 
+@inject
 @auth_app.route('/login', methods=['GET', 'POST'], endpoint="login")
-def login():
+def login(user_service: UserService):
     if request.method == 'GET':
         return render_template('auth/login.html')
 
@@ -51,7 +55,7 @@ def login():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    user = User.query.filter_by(email=email).first()
+    user = user_service.get_user_by_email(email)
     redirect_endpoint = 'home_app.home' # Assume successful login
     
     if not user or not check_password_hash(user.password, password):
