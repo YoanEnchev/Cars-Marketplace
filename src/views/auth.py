@@ -48,30 +48,16 @@ def register():
 @inject
 @auth_app.route('/login', methods=['GET', 'POST'], endpoint="login")
 def login(user_service: UserService):
+    
     if request.method == 'GET':
         return render_template('auth/login.html')
 
-    # login code goes here
-    email = request.form.get('email')
-    password = request.form.get('password')
-
-    user = user_service.get_user_by_email(email)
-    redirect_endpoint = 'home_app.home' # Assume successful login
+    user = user_service.get_user_by_email(request.form.get('email'))
     
-    if not user or not check_password_hash(user.password, password):
-        # Failed login
-        message = 'Invalid login credentials.'
-
-        if not user:
-            message = "User with such email doesn't exist"
-
-        flash(message, 'danger')
-        redirect_endpoint = 'auth_app.login'
-    else:
-        # Valid login
-        login_user(user)
+    if user and check_password_hash(user.password, request.form.get('password')):
+        return user_service.handle_successful_login(user)
     
-    return redirect(url_for(redirect_endpoint))
+    return user_service.handle_unsuccessful_login(user)
 
 
 @auth_app.route("/logout", methods=['GET'], endpoint="logout")

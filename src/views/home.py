@@ -4,5 +4,4 @@ home_app = Blueprint('home_app', __name__, template_folder='../templates')
 
 @home_app.route('/', methods=['GET'], endpoint="home")
 def home():
-    return 'xx' + url_for('home_app.home') + 'xx' + url_for('auth_app.register')
     return render_template('index.html')

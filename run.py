@@ -14,6 +14,7 @@ from src.views.home import home_app
 from src.views.cars import cars_app
 from src.views.auth import auth_app
 from src.initializers.login_manager import login_manager
+from src.extensions.url_for import url_for
 
 # flask run
 # 123456   common
