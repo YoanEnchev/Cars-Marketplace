@@ -4,39 +4,39 @@ import validateEmail from '../../helpers/validateEmail'
 export default function RegisterForm(props) {
 
     const [email, setEmail] = useState(props.email || '')
-    const [name, setName] = useState(props.name || '')
+    const [firstName, setFirstName] = useState(props.firstName || '')
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState(props.repeat_password || '')
     
     function onInputTyping(event) {
-        let elem = event.target
-        let value = elem.value
-        
-        switch(elem.name) {
-            case 'email':
-                setEmail(value)
-                break
-            case 'name':
-                setName(value)
-                break
-            case 'password':
-                setPassword(value)
-                break
-            case 'repeat_password':
-                setRepeatPassword(value)
-                break
-        }
+      let elem = event.target
+      let value = elem.value
+      
+      switch(elem.name) {
+          case 'email':
+              setEmail(value)
+              break
+          case 'first_name':
+              setFirstName(value)
+              break
+          case 'password':
+              setPassword(value)
+              break
+          case 'repeat_password':
+              setRepeatPassword(value)
+              break
+      }
     }
 
     let conditions = {
         email: validateEmail(email),
-        name: name.length >= 2,
+        firstName: firstName.length >= 2,
         password: password.length >= 6,
         repeatPassword: password === repeatPassword && repeatPassword.length > 0
     }
 
     let filledEmail = email !== ''
-    let filledName = name !== ''
+    let filledFirstName = firstName !== ''
     let filledPassword = password !== ''
     let filledRepeatPassword = repeatPassword !== ''
 
@@ -52,9 +52,9 @@ export default function RegisterForm(props) {
             {(filledEmail && !conditions.email) ? <small className="form-text text-danger">Email must be valid.</small> : ''}
           </div>
           <div className="form-group mb-3">
-            <label htmlFor="name" className='mb-2'>Име</label>
-            <input className={'form-control ' + (filledName ? (conditions.name ? 'is-valid' : 'is-invalid') : '')} id="name" name="name" onChange={onInputTyping} value={name} />
-            {(filledName && !conditions.name) ? <small className="form-text text-danger">Name must be at least 2 symbols long.</small> : ''}
+            <label htmlFor="first_name" className='mb-2'>Име</label>
+            <input className={'form-control ' + (filledFirstName ? (conditions.firstName ? 'is-valid' : 'is-invalid') : '')} id="first_name" name="first_name" onChange={onInputTyping} value={firstName} />
+            {(filledFirstName && !conditions.firstName) ? <small className="form-text text-danger">First name must be at least 2 symbols long.</small> : ''}
           </div>
           <div className="form-group mb-3">
             <label htmlFor="password" className='mb-2'>Парола</label>

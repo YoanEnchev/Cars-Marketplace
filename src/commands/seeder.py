@@ -1,4 +1,5 @@
 from flask.cli import with_appcontext
+from injector import inject
 
 from src.models.User import User
 from src.models.Make import Make
@@ -22,23 +23,27 @@ from src.commands.data.fuels import fuels
 from src.commands.data.gearboxes import gearboxes
 from src.commands.data.regions_and_settlements import regions_and_settlements
 
+from src.services.UserService import UserService
+
 from faker import Faker
 from run import db, main_app
 
 @main_app.cli.command('seed')
 @with_appcontext
-def seed():
+@inject
+def seed(user_service: UserService):
 
     db.create_all() # Create tables.
     fake = Faker()
     
     # Users seeding:
     for i in range(1, 4):
-        user = User(email=fake.email(), first_name=fake.name(), password='123456')
-        db.session.add(user)
+        user_service.create(data={'email': fake.email(), 'first_name': fake.name(), 'password': '123456'}, commit=(i == 3))
+        #user = User({'email': fake.email(), 'first_name': fake.name(), 'password': '123456'})
+        #db.session.add(user)
     
-    db.session.commit()
-
+    #db.session.commit()
+    return ''
 
     # Makes & models seeding:
     for make_title, models_arr in makes_models.items():

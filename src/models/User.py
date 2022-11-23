@@ -11,8 +11,8 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(80), nullable=False)
     password = db.Column(db.String(100))
 
-    def __init__(self, email, first_name, password):
-        self.email = email
-        self.first_name = first_name
-        self.password = generate_password_hash(password, method = 'sha256')
+    def __init__(self, props: dict):
+        self.email = props['email']
+        self.first_name = props['first_name']
+        self.password = generate_password_hash(props['password'], method = 'sha256')
         
