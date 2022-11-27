@@ -31,28 +31,26 @@ from run import db, main_app
 @main_app.cli.command('seed')
 @with_appcontext
 @inject
-def seed(user_service: UserService):
+def seed():
 
     db.create_all() # Create tables.
     fake = Faker()
     
     # Users seeding:
     for i in range(1, 4):
-        user_service.create(data={'email': fake.email(), 'first_name': fake.name(), 'password': '123456'}, commit=(i == 3))
-        #user = User({'email': fake.email(), 'first_name': fake.name(), 'password': '123456'})
-        #db.session.add(user)
+        user = User({'email': fake.email(), 'first_name': fake.name(), 'password': '123456'})
+        db.session.add(user)
     
     #db.session.commit()
-    return ''
 
     # Makes & models seeding:
     for make_title, models_arr in makes_models.items():
-        make_obj = Make(make_title)
+        make_obj = Make({'title': make_title})
         db.session.add(make_obj)
         db.session.commit()
 
         for model_title in models_arr:
-            model_obj = Model(model_title, make_obj.id)
+            model_obj = Model({'title': model_title, 'make_id': make_obj.id})
             db.session.add(model_obj)
 
         db.session.commit()
@@ -60,12 +58,12 @@ def seed(user_service: UserService):
 
     # Extras seeding:
     for extra_category_title, extras_arr in extras_and_categories.items():
-        extra_category_obj = ExtraCategory(extra_category_title)
+        extra_category_obj = ExtraCategory({'title': extra_category_title})
         db.session.add(extra_category_obj)
         db.session.commit()
 
         for extra_title in extras_arr:
-            extra_obj = Extra(extra_title, extra_category_obj.id)
+            extra_obj = Extra({'title': extra_title, 'category_id': extra_category_obj.id})
             db.session.add(extra_obj)
 
         db.session.commit()
@@ -73,7 +71,7 @@ def seed(user_service: UserService):
 
     # Colors seeding:
     for color_title in colors:
-        color_obj = Color(color_title)
+        color_obj = Color({'title': color_title})
         db.session.add(color_obj)
 
     db.session.commit()
@@ -81,7 +79,7 @@ def seed(user_service: UserService):
 
     # Car body configurations seeding:
     for body_title in car_body_configurations:
-        car_body_obj = CarBodyConfiguration(body_title)
+        car_body_obj = CarBodyConfiguration({'title': body_title})
         db.session.add(car_body_obj)
     
     db.session.commit()
@@ -89,7 +87,7 @@ def seed(user_service: UserService):
 
     # Eco standarts seeding:
     for standart_title in eco_standarts:
-        eco_standart_obj = EcoStandart(standart_title)
+        eco_standart_obj = EcoStandart({'title': standart_title})
         db.session.add(eco_standart_obj)
 
     db.session.commit()
@@ -97,7 +95,7 @@ def seed(user_service: UserService):
 
     # Fuels seeding:
     for fuel_title in fuels:
-        fuel_obj = FuelType(fuel_title)
+        fuel_obj = FuelType({'title': fuel_title})
         db.session.add(fuel_obj)
     
     db.session.commit()
@@ -105,7 +103,7 @@ def seed(user_service: UserService):
 
     # Gearboxes seeding:
     for gearbox_title in gearboxes:
-        gearbox_obj = Gearbox(gearbox_title)
+        gearbox_obj = Gearbox({'title': gearbox_title})
         db.session.add(gearbox_obj)
     
     db.session.commit()
@@ -113,12 +111,12 @@ def seed(user_service: UserService):
 
     # Regions and Settlements seeding
     for region_title, settlements_arr in regions_and_settlements.items():
-        region_obj = Region(region_title)
+        region_obj = Region({'title': region_title})
         db.session.add(region_obj)
         db.session.commit()
 
         for settlement_title in settlements_arr:
-            settlement_obj = Settlement(settlement_title, region_obj.id)
+            settlement_obj = Settlement({'title': settlement_title, 'region_id': region_obj.id})
             db.session.add(settlement_obj)
 
         db.session.commit()

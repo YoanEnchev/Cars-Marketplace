@@ -8,7 +8,14 @@ class Extra(db.Model):
     title = db.Column(db.String(80), nullable=False)
     extra_category_id = db.Column(db.Integer, db.ForeignKey('extras_categories.id'))
 
-    def __init__(self, title, category_id):
-        self.title = title
-        self.extra_category_id = category_id
+    def __init__(self, data):
+        self.title = data['title']
+        self.extra_category_id = data['category_id']
+
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+        }
         

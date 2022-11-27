@@ -3,5 +3,4 @@ from src.models.Settlement import Settlement
 
 class SettlementRepository(BaseRepository):
     
-    def __init__(self): 
-        super().__init__(Settlement)
+    entity:object = Settlement

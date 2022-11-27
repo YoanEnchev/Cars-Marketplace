@@ -8,7 +8,14 @@ class Settlement(db.Model):
     title = db.Column(db.String(80), nullable=False)
     region_id = db.Column(db.Integer, db.ForeignKey('regions.id'))
 
-    def __init__(self, title, region_id):
-        self.title = title
-        self.region_id = region_id
+    def __init__(self, data):
+        self.title = data['title']
+        self.region_id = data['region_id']
+
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+        }
         

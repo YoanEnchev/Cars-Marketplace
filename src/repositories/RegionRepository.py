@@ -3,5 +3,4 @@ from src.models.Region import Region
 
 class RegionRepository(BaseRepository):
     
-    def __init__(self): 
-        super().__init__(Region)
+    entity:object = Region

@@ -8,7 +8,14 @@ class Model(db.Model):
     title = db.Column(db.String(80), nullable=False)
     make_id = db.Column(db.Integer, db.ForeignKey('makes.id'))
 
-    def __init__(self, title, make_id):
-        self.title = title
-        self.make_id = make_id
-        
+    def __init__(self, data):
+        self.title = data['title']
+        self.make_id = data['make_id']
+
+    
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+        }

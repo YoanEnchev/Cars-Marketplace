@@ -1,14 +1,12 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request, session
+from flask import Blueprint, render_template, redirect, url_for, request, session
 from flask_login import login_user, login_required, logout_user
 from flask_injector import FlaskInjector
 from injector import inject
 from werkzeug.security import check_password_hash
-from run import db
 
 from src.forms.RegistrationForm import RegistrationForm
 from src.services.AuthService import AuthService
 from src.services.UserService import UserService
-from src.models.User import User
 
 auth_app = Blueprint('auth_app', __name__, template_folder='templates')
 

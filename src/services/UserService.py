@@ -5,9 +5,7 @@ from src.repositories.UserRepository import UserRepository
 from src.services.BaseModelService import BaseModelService
 
 class UserService(BaseModelService):
-
-    model = User
-
+    
     @inject
     def __init__(self, user_repo: UserRepository):
         self.model_repository = user_repo

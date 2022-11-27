@@ -3,5 +3,4 @@ from src.models.VehicleAd import VehicleAd
 
 class VehicleAdRepository(BaseRepository):
     
-    def __init__(self): 
-        super().__init__(VehicleAd)
+    entity:object = VehicleAd

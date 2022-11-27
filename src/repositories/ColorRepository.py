@@ -3,5 +3,4 @@ from src.models.Color import Color
 
 class ColorRepository(BaseRepository):
     
-    def __init__(self): 
-        super().__init__(Color)
+    entity:object = Color

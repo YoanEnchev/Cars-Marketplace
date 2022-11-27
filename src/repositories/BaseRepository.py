@@ -2,17 +2,17 @@ from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
 from run import db
+from src.services.helpers.serialize_model_list import serialize_model_list
 
 class BaseRepository:
 
     entity:object = NotImplementedError
 
-    def __init__(self, entity:object):
-        self.entity = entity
-        self.db = db
+    def __init__(self):
+        self.db = db # Makes it accessible by class children.
 
     # CREATE:
-    def create(self, entity, commit = False) -> object:
+    def create(self, entity, commit:bool = False) -> object:
         self.db.session.add(entity)
 
         if commit:
@@ -21,12 +21,17 @@ class BaseRepository:
         return entity
 
     # READ:
-    def get_all(self):
-        return self.db.query(self.entity)
+    def get_all(self, serialization: bool):
+        records = self.entity.query.all()
+
+        if (serialization):
+            return serialize_model_list(records)
+        
+        return records
            
     def get_by_id(self, id:int):
         return self.db.query(self.entity).filter(self.entity.id==id).one()
 
     # DELETE:
-    def permanent_delete(self, entity):
-        self.db.delete(entity) 
+    def permanent_delete(self, entity_object):
+        self.db.delete(entity_object) 
