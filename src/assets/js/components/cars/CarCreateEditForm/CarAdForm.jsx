@@ -14,10 +14,12 @@ export default function CarAdForm(props) {
     const [showExtraModal, setShowExtraModal] = useState(false)
 
     const [makesAndModels, setMakesAndModels] = useState([])
-    const [selectedMakeId, setSelectedMake] = useState('')
+    const [selectedMakeId, setSelectedMakeId] = useState('')
+    const [selectedModelId, setSelectedModelId] = useState('')
 
     const [regionsAndSettlements, setRegionsAndSettlements] = useState([])
     const [selectedRegionId, setSelectedRegionId] = useState('')
+    const [selectedSettlementId, setSelectedSettlementId] = useState('')
 
     const [carBodyConfigurations, setCarBodyConfigurations] = useState([])
     const [colors, setColors] = useState([])
@@ -25,7 +27,7 @@ export default function CarAdForm(props) {
     const [fuels, setFuels] = useState([])
     const [gearboxes, setGearboxes] = useState([])
 
-    const [carExtras, setCarExtras] = useState({})
+    const [carExtras, setCarExtras] = useState([])
     const [openedCategoryId, setOpenedCategoryId] = useState('')
 
     function handleExtraModalClose() {
@@ -38,12 +40,19 @@ export default function CarAdForm(props) {
         setOpenedCategoryId(categoryId)
     }
 
+    function getActiveExtraCategory() {
+        return carExtras.filter(carExtra => carExtra.id === openedCategoryId)[0];
+    }
+
     function handleExtraModalSave(selectedIds) {
         setShowExtraModal(false)
 
-        carExtras[openedCategoryId].items = carExtras[openedCategoryId].items.map((extra => {
-            extra.selected = selectedIds.includes(extra.id + '')
+        // Modifying carExtrasResult changes properties of carExtras since objects are passed by reference.
+        let carExtrasResult = getActiveExtraCategory();
 
+        carExtrasResult.items = carExtrasResult.items.map((extra => {
+            extra.selected = selectedIds.includes(extra.id + '')
+            
             return extra
         }))
 
@@ -70,149 +79,46 @@ export default function CarAdForm(props) {
 
                 let makesAndModelsData = data.makes_and_models
                 setMakesAndModels(makesAndModelsData)
-                setSelectedMake(makesAndModelsData[0].id)
+                setSelectedMakeId(makesAndModelsData[0].id)
 
                 let regionsAndSettlementsData = data.regions_and_settlements
                 setRegionsAndSettlements(regionsAndSettlementsData)
                 setSelectedRegionId(regionsAndSettlementsData[0].id)
                 
-                
-                setCarExtras({
-                    'extra_1': {
-                        name: 'Безопастост',
-                        items: [
-                            {id: 1, name: '4х4', selected: false},
-                            {id: 2, name: 'Автоматичен контрол на стабилността', selected: false},
-                            {id: 3, name: 'Антиблокираща система (ABS)', selected: false},
-                            {id: 4, name: 'Въздушни възглавници', selected: false},
-                            {id: 5, name: 'Система ISOFIX', selected: false},
-                            {id: 6, name: 'Система за динамична устойчивост', selected: false},
-                            {id: 7, name: 'Система за защита от пробуксуване', selected: false},
-                            {id: 8, name: 'Distronic', selected: false},
-                            {id: 9, name: 'Система за контрол на спускането', selected: false},
-                            {id: 10, name: 'Система за подпомагане на спирането', selected: false},
-                            {id: 11, name: 'Контрол на налягането на гумите', selected: false},
-                            {id: 12, name: 'Парктроник', selected: false}
-                        ]
-                    },
-                    'extra_2': {
-                        name: 'Комфорт',
-                        items: [
-                            {id: 1, name: 'Старт Стоп система', selected: false},
-                            {id: 2, name: 'DVD, TV', selected: false},
-                            {id: 3, name: 'Steptronic, Tiptronic', selected: false},
-                            {id: 4, name: 'Адаптивно въздушно окачване', selected: false},
-                            {id: 5, name: 'Безключово палене', selected: false},
-                            {id: 6, name: 'Блокаж на диференциала', selected: false},
-                            {id: 7, name: 'Бордкомпютър', selected: false},
-                            {id: 8, name: 'Ел. Огледала', selected: false},
-                            {id: 9, name: 'Ел. Стъкла', selected: false},
-                            {id: 10, name: 'Ел. регулиране на окачването', selected: false},
-                            {id: 11, name: 'Ел. регулиране на седалките', selected: false},
-                            {id: 12, name: 'Ел. усилвател на волана', selected: false},
-                            {id: 13, name: 'Климатик', selected: false},
-                            {id: 14, name: 'Климатроник', selected: false},
-                            {id: 15, name: 'Мултифункционален волан', selected: false},
-                            {id: 16, name: 'Навигация', selected: false},
-                            {id: 17, name: 'Отопление на волана', selected: false},
-                            {id: 18, name: 'Печка', selected: false},
-                            {id: 19, name: 'Подгряване на предното стъкло', selected: false},
-                            {id: 20, name: 'Подгряване на седалките', selected: false},
-                            {id: 21, name: 'Регулиране на волана', selected: false},
-                            {id: 22, name: 'Сензор за дъжд', selected: false},
-                            {id: 23, name: 'Серво усилвател на волана', selected: false},
-                            {id: 24, name: 'Система за измиване на фаровете', selected: false},
-                            {id: 25, name: 'Круиз Контрол', selected: false},
-                            {id: 26, name: 'Автопилот', selected: false},
-                            {id: 27, name: 'Стерео уредба', selected: false},
-                            {id: 28, name: 'Филтър за твърди частици', selected: false},
-                            {id: 29, name: 'Хладилна жабка', selected: false}
-                        ]
-                    },
-                    'extra_3': {
-                        name: 'Безопастост',
-                        items: [
-                            {id: 30, name: '2(3) Врати', selected: false},
-                            {id: 31, name: '4(5) Врати', selected: false},
-                            {id: 32, name: 'LED фарове', selected: false},
-                            {id: 33, name: 'Ксенонови фарове', selected: false},
-                            {id: 34, name: 'Лети джанти', selected: false},
-                            {id: 35, name: 'Металик', selected: false},
-                            {id: 36, name: 'Панорамен люк', selected: false},
-                            {id: 37, name: 'Спойлери', selected: false},
-                            {id: 38, name: 'Теглич', selected: false},
-                            {id: 39, name: 'Халогенни фарове', selected: false},
-                            {id: 40, name: 'Шибедах', selected: false},
-                            
-                        ]
-                    },
-                    'extra_4': {
-                        name: 'Защита',
-                        items: [
-                            {id: 32, name: 'OFFROAD пакет', selected: false},
-                            {id: 33, name: 'Аларма', selected: false},
-                            {id: 34, name: 'Брониран', selected: false},
-                            {id: 35, name: 'Имобилайзер', selected: false},
-                            {id: 36, name: 'Каско', selected: false},
-                            {id: 37, name: 'Подсилени стъкла', selected: false},
-                            {id: 38, name: 'Централно заключване', selected: false},
-                            
-                        ]
-                    },
-                    'extra_5': {
-                        name: 'Интериор',
-                        items: [
-                            {id: 39, name: 'Велурен салон', selected: false},
-                            {id: 40, name: 'Десен волан', selected: false},
-                            {id: 41, name: 'Кожен салон', selected: false},
-                        ]
-                    },
-                    'extra_6': {
-                        name: 'Специализирани',
-                        items: [
-                            {id: 42, name: 'TAXI', selected: false},
-                            {id: 43, name: 'За хора с увреждания', selected: false},
-                            {id: 44, name: 'Катафалка', selected: false},
-                            {id: 45, name: 'Линейка', selected: false},
-                            {id: 46, name: 'Учебен', selected: false},
-                            {id: 47, name: 'Хладилен', selected: false},
-                        ]
-                    },
-                    'extra_7': {
-                        name: 'Други',
-                        items: [
-                            {id: 48, name: '7 места', selected: false},
-                            {id: 49, name: 'Бартер', selected: false},
-                            {id: 50, name: 'Дълга база', selected: false},
-                            {id: 51, name: 'Катастрофирал', selected: false},
-                            {id: 52, name: 'Къса база', selected: false},
-                            {id: 53, name: 'Лизинг', selected: false},
-                            {id: 54, name: 'На части', selected: false},
-                            {id: 55, name: 'Напълно обслужен', selected: false},
-                            {id: 56, name: 'Нов внос', selected: false},
-                            {id: 57, name: 'С регистрация', selected: false},
-                            {id: 58, name: 'Сервизна книжка', selected: false},
-                            {id: 59, name: 'Тунинг', selected: false},
-                        ]
-                    }  
-                })
+                // Attach selected attribute.
+                setCarExtras(data.extras.map(extraCategory => {
+                    extraCategory.items = extraCategory.items.map(extra => {
+                        extra.selected = false;
+                        return extra;
+                    })
+                    return extraCategory
+                }))
             })
     }, [])
-console.log(makesAndModels.filter(make => make.id === selectedMakeId))
+
     const formFields = [
         {
             label: 'Марка',
             name: 'make',
             type: 'dropdown',
-            options: formatAsOptionData(makesAndModels, 'id', 'title')
+            options: formatAsOptionData(makesAndModels, 'id', 'title'),
+            value: selectedMakeId,
+            onChange: (e) => {
+                setSelectedMakeId(e.target.value)
+                setSelectedModelId('')
+            }
         },
         {
             label: 'Модел',
             name: 'model',
             type: 'dropdown',
-            options: selectedMakeId === '' ? [] : formatAsOptionData(makesAndModels.filter(make => make.id === selectedMakeId).models, 'id', 'title'),
-            addDisabledOption: 'Избери марка',
-            startWithEmptyValue: true
+            options: selectedMakeId === '' ? [] : formatAsOptionData(makesAndModels.filter(make => make.id == selectedMakeId)[0].models, 'id', 'title'),
+            //addDisabledOption: 'Избери марка',
+            startWithEmptyValue: true,
+            value: selectedModelId,
+            onChange: (e) => {
+                setSelectedModelId(e.target.value)
+            }
         },
         {
             label: 'Модификация',
@@ -226,12 +132,6 @@ console.log(makesAndModels.filter(make => make.id === selectedMakeId))
             name: 'fuel',
             type: 'dropdown',
             options: formatAsOptionData(fuels, 'id', 'title')
-        },
-        {
-            label: 'Мощност (к.с.)',
-            name: 'hp',
-            type: 'input', 
-            inputType: 'number'
         },
         {
             label: 'Евростандарт',
@@ -252,8 +152,20 @@ console.log(makesAndModels.filter(make => make.id === selectedMakeId))
             options: formatAsOptionData(carBodyConfigurations, 'id', 'title')
         },
         {
+            label: 'Цвят',
+            name: 'type',
+            type: 'dropdown',
+            options: formatAsOptionData(colors, 'id', 'title')
+        },
+        {
             label: 'Цена (в лева)',
             name: 'price',
+            type: 'input', 
+            inputType: 'number'
+        },
+        {
+            label: 'Мощност (к.с.)',
+            name: 'hp',
             type: 'input', 
             inputType: 'number'
         },
@@ -280,24 +192,27 @@ console.log(makesAndModels.filter(make => make.id === selectedMakeId))
             inputType: 'number'
         },
         {
-            label: 'Цвят',
-            name: 'type',
-            type: 'dropdown',
-            options: formatAsOptionData(colors, 'id', 'title')
-        },
-        {
             label: 'Област',
             name: 'region',
             type: 'dropdown',
-            options: formatAsOptionData(regionsAndSettlements, 'id', 'title')
+            options: formatAsOptionData(regionsAndSettlements, 'id', 'title'),
+            value: selectedRegionId,
+            onChange: (e) => {
+                setSelectedRegionId(e.target.value)
+                setSelectedSettlementId('') // Reset choice.
+            }
         },
         {
             label: 'Населено място',
-            name: 'region',
+            name: 'settlement',
             type: 'dropdown',
-            options: [],
-            addDisabledOption: 'Избери област',
-            startWithEmptyValue: true
+            options: selectedRegionId === '' ? [] : formatAsOptionData(regionsAndSettlements.filter(region => region.id == selectedRegionId)[0].settlements, 'id', 'title'),
+            //addDisabledOption: 'Избери област',
+            startWithEmptyValue: true,
+            value: selectedSettlementId,
+            onChange: (e) => {
+                setSelectedSettlementId(e.target.value)
+            }
         },
         {
             label: 'Описание',
@@ -333,7 +248,9 @@ console.log(makesAndModels.filter(make => make.id === selectedMakeId))
                             placeholder: field.placeholder,
                             style: {
                                 minHeight: field.minHeight
-                            }
+                            },
+                            onChange: field.onChange,
+                            value: field.value
                         }
 
                         return (
@@ -360,17 +277,17 @@ console.log(makesAndModels.filter(make => make.id === selectedMakeId))
                 <div id="cars-extras-container" className='mt-4'>
                     <p className='h5 mb-3'>Избери екстри</p>
                     <ul className="list-group">
-                        {Object.entries(carExtras).map(([categoryId, categoryData], groupIndex) => {
+                        {carExtras.map((categoryData, groupIndex) => {
                             
                             let selectedExtras = categoryData.items.filter(item => item.selected)
 
-                            return <li className="list-group-item" key={groupIndex} onClick={() => handleExtraModalShow(categoryId)}>
+                            return <li className="list-group-item" key={groupIndex} onClick={() => handleExtraModalShow(categoryData.id)}>
                                 <div className='d-flex'>
                                     <div className='w-100'>
                                         <p className='me-2'>
-                                            {categoryData.name + ` (${selectedExtras.length} избрани)`}
+                                            {categoryData.title + ` (${selectedExtras.length} избрани)`}
                                             <small className='d-block text-gray mt-2'>
-                                                {selectedExtras.map(item => item.name).join(', ')}
+                                                {selectedExtras.map(item => item.title).join(', ')}
                                             </small>
                                         </p>
                                     </div>
@@ -389,7 +306,7 @@ console.log(makesAndModels.filter(make => make.id === selectedMakeId))
             </form>
 
             <CarExtraSelectionModal show={showExtraModal}
-                extras={carExtras.hasOwnProperty(openedCategoryId) ? carExtras[openedCategoryId].items : []}
+                extras={openedCategoryId === '' ? [] : getActiveExtraCategory().items}
                 onHide={handleExtraModalClose}
                 onSave={handleExtraModalSave}
             />

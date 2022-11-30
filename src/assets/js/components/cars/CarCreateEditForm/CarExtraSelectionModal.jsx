@@ -22,7 +22,7 @@ export default function CarExtraSelectionModal(props) {
           {props.extras.map((extra, index) => <div className="form-check mb-2" key={index}>
             <label className="form-check-label w-100">
               <input type="checkbox" name="car_extras[]" className="form-check-input" value={extra.id} defaultChecked={extra.selected} />
-              {extra.name}
+              {extra.title}
             </label>
           </div>)}
         </form>

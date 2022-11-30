@@ -19,6 +19,6 @@ class ExtraCategory(db.Model):
         return {
             'id': self.id,
             'title': self.title,
-            'extras': serialize_model_list(self.extras)
+            'items': serialize_model_list(self.extras)
         }
         
