@@ -3,10 +3,10 @@ from werkzeug.wrappers import Response
 from flask import redirect, url_for, flash, session
 from flask_login import login_user
 from injector import inject
-from src.services.get_err_msg_for_form import get_err_msg_for_form
 
 from src.models.User import User
 from src.services.UserService import UserService
+from src.services.FormService import FormService
 from src.forms.RegistrationForm import RegistrationForm
 
 class AuthService:
@@ -14,8 +14,9 @@ class AuthService:
     regisration_session_key = 'registration_data'
 
     @inject
-    def __init__(self, user_service: UserService):
+    def __init__(self, user_service: UserService, form_service: FormService):
         self.user_service = user_service
+        self.form_service = form_service
     
     # Registration:
     def handle_user_registration(self, form_data: dict) -> Response:
@@ -31,7 +32,7 @@ class AuthService:
     def handle_unsuccessful_registration(self, form_data: dict, form: RegistrationForm) -> Response:
         session[self.regisration_session_key] = form_data # Set form field values so they are restored for form.
 
-        flash(get_err_msg_for_form(form), 'danger')
+        flash(self.form_service.get_error_message(form), 'danger')
         return redirect(url_for('auth_app.register'))
 
 

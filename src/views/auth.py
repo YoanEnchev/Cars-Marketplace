@@ -22,9 +22,7 @@ def register(auth_service: AuthService):
     req_params = request.form
     form = RegistrationForm(req_params)
     
-    is_valid_Form = form.validate() # Make sure validate() is called before using auth_service.
-    
-    if is_valid_Form:
+    if form.validate():
         return auth_service.handle_user_registration(req_params)
 
     return auth_service.handle_unsuccessful_registration(req_params, form)

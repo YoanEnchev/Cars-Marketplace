@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify
+from flask import Blueprint, render_template, request
 from injector import inject
 
 from src.services.ColorService import ColorService
@@ -9,12 +9,28 @@ from src.services.GearboxService import GearboxService
 from src.services.EcoStandartService import EcoStandartService
 from src.services.CarBodyConfigurationService import CarBodyConfigurationService
 from src.services.ExtraCategoryService import ExtraCategoryService
+from src.services.FormService import FormService
+
+from src.forms.CarAdForm import CarAdForm
 
 cars_app = Blueprint('cars_app', __name__, template_folder='../templates')
 
-@cars_app.route('/cars/new/', methods=['GET'], endpoint='create')
-def create():
-    return render_template('cars/create.html')
+@inject
+@cars_app.route('/cars/new/', methods=['GET', 'POST'], endpoint='create')
+def create(form_service: FormService):
+    if request.method == 'GET':
+        return render_template('cars/create.html')
+    
+    # POST request for car creation
+    req_params = request.form
+    form = CarAdForm(req_params)
+    print('####################')
+    print(req_params.extras)
+    if form.validate():
+        return 'valid'
+    
+    return 'invalid: ' + form_service.get_error_message(form)
+    
 
 @cars_app.route('/cars', methods=['GET'], endpoint='list')
 def list():

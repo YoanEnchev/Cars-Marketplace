@@ -99,7 +99,7 @@ export default function CarAdForm(props) {
     const formFields = [
         {
             label: 'Марка',
-            name: 'make',
+            name: 'make_id',
             type: 'dropdown',
             options: formatAsOptionData(makesAndModels, 'id', 'title'),
             value: selectedMakeId,
@@ -110,10 +110,9 @@ export default function CarAdForm(props) {
         },
         {
             label: 'Модел',
-            name: 'model',
+            name: 'model_id',
             type: 'dropdown',
             options: selectedMakeId === '' ? [] : formatAsOptionData(makesAndModels.filter(make => make.id == selectedMakeId)[0].models, 'id', 'title'),
-            //addDisabledOption: 'Избери марка',
             startWithEmptyValue: true,
             value: selectedModelId,
             onChange: (e) => {
@@ -122,38 +121,38 @@ export default function CarAdForm(props) {
         },
         {
             label: 'Модификация',
-            name: 'Modification',
+            name: 'modification',
             type: 'input', 
             inputType: 'text',
             placeholder: 'Например: 1.6 CDI'
         },
         {
             label: 'Гориво',
-            name: 'fuel',
+            name: 'fuel_id',
             type: 'dropdown',
             options: formatAsOptionData(fuels, 'id', 'title')
         },
         {
             label: 'Евростандарт',
-            name: 'eurostandart',
+            name: 'eurostandart_id',
             type: 'dropdown',
             options: formatAsOptionData(ecoStandarts, 'id', 'title'),
         },
         {
             label: 'Скоростна Кутия',
-            name: 'gearbox',
+            name: 'gearbox_id',
             type: 'dropdown',
             options: formatAsOptionData(gearboxes, 'id', 'title'),
         },
         {
             label: 'Тип',
-            name: 'type',
+            name: 'car_body_configuration_id',
             type: 'dropdown',
             options: formatAsOptionData(carBodyConfigurations, 'id', 'title')
         },
         {
             label: 'Цвят',
-            name: 'type',
+            name: 'color_id',
             type: 'dropdown',
             options: formatAsOptionData(colors, 'id', 'title')
         },
@@ -169,16 +168,6 @@ export default function CarAdForm(props) {
             type: 'input', 
             inputType: 'number'
         },
-        /*{
-            label: 'Валута',
-            name: 'currency',
-            type: 'dropdown',
-            options: {
-                '1': 'лв.',
-                '2': 'USD',
-                '3': 'EURO'
-            },
-        },*/
         {
             label: 'Година на производство',
             name: 'manufacture_year',
@@ -193,7 +182,7 @@ export default function CarAdForm(props) {
         },
         {
             label: 'Област',
-            name: 'region',
+            name: 'region_id',
             type: 'dropdown',
             options: formatAsOptionData(regionsAndSettlements, 'id', 'title'),
             value: selectedRegionId,
@@ -204,10 +193,9 @@ export default function CarAdForm(props) {
         },
         {
             label: 'Населено място',
-            name: 'settlement',
+            name: 'settlement_id',
             type: 'dropdown',
             options: selectedRegionId === '' ? [] : formatAsOptionData(regionsAndSettlements.filter(region => region.id == selectedRegionId)[0].settlements, 'id', 'title'),
-            //addDisabledOption: 'Избери област',
             startWithEmptyValue: true,
             value: selectedSettlementId,
             onChange: (e) => {
@@ -226,7 +214,9 @@ export default function CarAdForm(props) {
     
     return (
         <>
-            <form method='POST' action='' className='car-ad-form'>
+            <form method='POST' 
+                action={props.actionUrl} 
+                className='car-ad-form' >
                 <div className="row gy-3">
                     {formFields.map((field, index) => {
 
@@ -261,7 +251,6 @@ export default function CarAdForm(props) {
                                             <input {...propsObj} /> :
                                         fieldType === 'dropdown' ?
                                             <select {...propsObj} >
-                                                {field.addDisabledOption ? <option>{field.addDisabledOption}</option> : ''}
                                                 {field.options.map((optionData, index) => <option value={optionData.value} key={index}>{optionData.label}</option>)}
                                             </select> :
                                         fieldType === 'textarea' ? 
@@ -302,6 +291,13 @@ export default function CarAdForm(props) {
                 <div className='mt-4'>
                     <ImageUpload />
                 </div>
+                {/* Render selected extras as hidden input so their value is sent to server on form submit. */}
+                {carExtras.map(extraCategory => extraCategory.items
+                    .filter(item => item.selected)
+                    .map((extra, index) => <input type='hidden' name={`extras[${extraCategory.id}[]]`} value={extra.id} key={index} />))
+                }
+
+
                 <button className='btn btn-primary my-3'>Публикувай</button>
             </form>
 
