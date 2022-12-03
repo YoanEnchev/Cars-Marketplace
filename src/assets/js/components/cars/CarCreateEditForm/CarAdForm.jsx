@@ -28,6 +28,7 @@ export default function CarAdForm(props) {
     const [gearboxes, setGearboxes] = useState([])
 
     const [carExtras, setCarExtras] = useState([])
+    const [carExtrasSerialized, setCarExtrasSerialized] = useState({}) // It's value is set in hidden input when form is submited.
     const [openedCategoryId, setOpenedCategoryId] = useState('')
 
     function handleExtraModalClose() {
@@ -41,14 +42,14 @@ export default function CarAdForm(props) {
     }
 
     function getActiveExtraCategory() {
-        return carExtras.filter(carExtra => carExtra.id === openedCategoryId)[0];
+        return carExtras.filter(carExtra => carExtra.id === openedCategoryId)[0]
     }
 
     function handleExtraModalSave(selectedIds) {
         setShowExtraModal(false)
 
         // Modifying carExtrasResult changes properties of carExtras since objects are passed by reference.
-        let carExtrasResult = getActiveExtraCategory();
+        let carExtrasResult = getActiveExtraCategory()
 
         carExtrasResult.items = carExtrasResult.items.map((extra => {
             extra.selected = selectedIds.includes(extra.id + '')
@@ -56,13 +57,29 @@ export default function CarAdForm(props) {
             return extra
         }))
 
-        setCarExtras(carExtras)
+        saveExtras(carExtras)
         resetCategory()
     }
 
     function resetCategory() {
         // Reset opened category with delay, so content of extras modal remains the same while transiting to closed state.
         setTimeout(() => setOpenedCategoryId(''), 250)
+    }
+
+    function saveExtras(carExtras) {
+        setCarExtras(carExtras)
+
+        let serializationExtras = {}
+
+        carExtras.forEach(extraCategory => {
+            let selectedExtras = extraCategory.items.filter(item => item.selected)
+
+            if (selectedExtras.length > 0) {
+                serializationExtras[extraCategory.id] = selectedExtras.map(extra => extra.id)
+            }
+        })
+
+        setCarExtrasSerialized(serializationExtras)
     }
 
     useEffect(() => {
@@ -86,10 +103,10 @@ export default function CarAdForm(props) {
                 setSelectedRegionId(regionsAndSettlementsData[0].id)
                 
                 // Attach selected attribute.
-                setCarExtras(data.extras.map(extraCategory => {
+                saveExtras(data.extras.map(extraCategory => {
                     extraCategory.items = extraCategory.items.map(extra => {
-                        extra.selected = false;
-                        return extra;
+                        extra.selected = false
+                        return extra
                     })
                     return extraCategory
                 }))
@@ -259,7 +276,7 @@ export default function CarAdForm(props) {
                                     }
                                 </label>
                             </div>
-                        );
+                        )
                     })}
                 </div>
         
@@ -294,9 +311,10 @@ export default function CarAdForm(props) {
                 {/* Render selected extras as hidden input so their value is sent to server on form submit. */}
                 {carExtras.map(extraCategory => extraCategory.items
                     .filter(item => item.selected)
-                    .map((extra, index) => <input type='hidden' name={`extras[${extraCategory.id}[]]`} value={extra.id} key={index} />))
+                    .map((extra, index) => <input type='hidden' name={`extras[${extraCategory.id}]`} value={extra.id} key={index} />))
                 }
 
+                <input type='hidden' name='extras' value={JSON.stringify(carExtrasSerialized)} />
 
                 <button className='btn btn-primary my-3'>Публикувай</button>
             </form>

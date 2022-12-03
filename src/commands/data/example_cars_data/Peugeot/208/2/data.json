@@ -1,0 +1,12 @@
+{
+    "fuel_type_id": 3,
+    "eco_standart_id": 6,
+    "gearbox_id": 2,
+    "color_id": 4,
+    "hp": 75,
+    "year": 2020,
+    "price": 23000,
+    "mileage": 20000,
+    "modification": "1.4 HDI",
+    "description": ""
+}

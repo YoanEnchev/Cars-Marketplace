@@ -1,4 +1,5 @@
 from run import db
+from src.models.tables.VehicleExtra import VehicleExtra
 
 class VehicleAd(db.Model):
 
@@ -19,6 +20,8 @@ class VehicleAd(db.Model):
     region_id = db.Column(db.Integer, db.ForeignKey('regions.id'))
     settlement_id = db.Column(db.Integer, db.ForeignKey('settlements.id'))
 
+    extras = db.relationship('Extra', secondary=VehicleExtra, backref='vehicle_ads')
+
     hp = db.Column(db.Integer)
     price = db.Column(db.Float(precision=2), nullable=False)
     mileage = db.Column(db.Integer)
@@ -28,27 +31,26 @@ class VehicleAd(db.Model):
     views = db.Column(db.Integer)
 
 
-    def __init__(self, make_id, model_id, fuel_type_id, eco_standart_id, gearbox_id, car_body_configuration_id, color_id,
-        region_id, settlement_id, hp, price, mileage, modification, description, views):
+    def __init__(self, data):
         
-        self.make_id = make_id
-        self.model_id = model_id
+        self.make_id = data['make_id']
+        self.model_id = data['model_id']
 
-        self.fuel_type_id = fuel_type_id
-        self.eco_standart_id = eco_standart_id
+        self.fuel_type_id = data['fuel_type_id']
+        self.eco_standart_id = data['eco_standart_id']
 
-        self.gearbox_id = gearbox_id
-        self.car_body_configuration_id = car_body_configuration_id
-        self.color_id = color_id
+        self.gearbox_id = data['gearbox_id']
+        self.car_body_configuration_id = data['car_body_configuration_id']
+        self.color_id = data['color_id']
 
-        self.region_id = region_id
-        self.settlement_id = settlement_id
+        self.region_id = data['region_id']
+        self.settlement_id = data['settlement_id']
 
-        self.hp = hp
-        self.price = price
-        self.mileage = mileage
+        self.hp = data['hp']
+        self.price = data['price']
+        self.mileage = data['mileage']
 
-        self.modification = modification
-        self.description = description
-        self.views = views
+        self.modification = data['modification'] or ''
+        self.description = data['description'] or ''
+        self.views = 0
         

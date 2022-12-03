@@ -24,8 +24,13 @@ def create(form_service: FormService):
     # POST request for car creation
     req_params = request.form
     form = CarAdForm(req_params)
-    print('####################')
-    print(req_params.extras)
+    print('############################')
+    print(req_params['extras'][1])
+    print('--------------------------')
+    print(req_params['extras'])
+    print('.............................')
+    print(type(req_params['extras']))
+    print('^^^^^^^^^^^^^^')
     if form.validate():
         return 'valid'
     

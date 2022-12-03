@@ -59,6 +59,11 @@ def validate_settlement(self, field):
     if settlement.region_id != self.region_id.data:
          raise ValidationError('Settlement does not match region.')
 
+def validate_extras(self, field):
+    pass
+    
+
+
 class CarAdForm(Form):
     make_id = IntegerField('Make', [DataRequired(), validate_make])
     model_id = IntegerField('Model', [DataRequired(), validate_model])
@@ -79,3 +84,4 @@ class CarAdForm(Form):
     settlement_id = IntegerField('Settlement', [DataRequired(), validate_settlement])
 
     description = StringField('Description', [Length(max=500)])
+    extras = StringField('Extras', [Length(max=1000), validate_extras])

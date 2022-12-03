@@ -1,5 +1,6 @@
 from flask.cli import with_appcontext
 from injector import inject
+import os, json
 
 from src.models.User import User
 from src.models.Make import Make
@@ -10,6 +11,7 @@ from src.models.FuelType import FuelType
 from src.models.Gearbox import Gearbox
 from src.models.Region import Region
 from src.models.Settlement import Settlement
+from src.models.VehicleAd import VehicleAd
 from src.models.Model import Model
 from src.models.extras.ExtraCategory import ExtraCategory
 from src.models.extras.Extra import Extra
@@ -120,3 +122,25 @@ def seed():
             db.session.add(settlement_obj)
 
         db.session.commit()
+
+    # Car Vehicles
+    return
+    base_cars_path = './src/commands/data/example_cars_data'
+
+    for make in os.listdir(base_cars_path):
+        make_path = base_cars_path + '/' + make
+
+        for model in os.listdir(make_path):
+            
+            for i in range(1, 3):
+                car_path = make_path + '/' + model + '/' + str(i)
+                
+                if os.path.exists(car_path):
+                    
+                    if os.path.exists(car_path + '/data.json'):
+                        fd = os.open(car_path + '/data.json', os.O_RDWR)
+                        content = os.read(fd, 1000)
+                        print(json.loads(content))
+                        #with os.open(car_path + '/data.json', 'r') as file:
+                        #    print(file.read())
+
