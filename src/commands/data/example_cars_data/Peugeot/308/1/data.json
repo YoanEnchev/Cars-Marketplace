@@ -2,6 +2,7 @@
     "fuel_type_id": 3,
     "eco_standart_id": 6,
     "gearbox_id": 3,
+    "car_body_configuration_id": 1,
     "color_id": 12,
     "hp": 170,
     "year": 2020,

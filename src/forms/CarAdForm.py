@@ -1,6 +1,7 @@
 from wtforms import Form, IntegerField, StringField, DecimalField
 from wtforms.validators import DataRequired, Length, NumberRange, ValidationError
 from datetime import date
+import json
 
 from src.repositories.MakeRepository import MakeRepository
 from src.repositories.ModelRepository import ModelRepository
@@ -60,8 +61,23 @@ def validate_settlement(self, field):
          raise ValidationError('Settlement does not match region.')
 
 def validate_extras(self, field):
-    pass
     
+    extras = []
+    
+    try:
+        extras = json.loads(field.data)
+    except ValueError as e:
+        raise ValidationError('Extras parameter is not a valid JSON.')
+    
+    if type(extras) is not list:
+        raise ValidationError("Extras need to be array.")
+
+    for extraID in extras:
+        if type(extraID) is not int:
+            raise ValidationError('Not all elements of the extras array are numeric.')
+
+    # Don't validate here if the extras ids correspond to real record.
+    # This is done in other service which sets records.
 
 
 class CarAdForm(Form):

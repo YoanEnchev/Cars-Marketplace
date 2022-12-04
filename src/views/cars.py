@@ -12,26 +12,22 @@ from src.services.ExtraCategoryService import ExtraCategoryService
 from src.services.FormService import FormService
 
 from src.forms.CarAdForm import CarAdForm
+from src.services.VehicleAdService import VehicleAdService
 
 cars_app = Blueprint('cars_app', __name__, template_folder='../templates')
 
 @inject
 @cars_app.route('/cars/new/', methods=['GET', 'POST'], endpoint='create')
-def create(form_service: FormService):
+def create(form_service: FormService, vehicle_ad_service: VehicleAdService):
     if request.method == 'GET':
         return render_template('cars/create.html')
     
     # POST request for car creation
     req_params = request.form
     form = CarAdForm(req_params)
-    print('############################')
-    print(req_params['extras'][1])
-    print('--------------------------')
-    print(req_params['extras'])
-    print('.............................')
-    print(type(req_params['extras']))
-    print('^^^^^^^^^^^^^^')
+
     if form.validate():
+        vehicle_ad_service.handle_ad_action(req_params)
         return 'valid'
     
     return 'invalid: ' + form_service.get_error_message(form)

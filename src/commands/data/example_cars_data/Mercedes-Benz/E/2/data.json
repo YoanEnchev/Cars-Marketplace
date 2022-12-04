@@ -1,0 +1,13 @@
+{
+    "fuel_type_id": 3,
+    "eco_standart_id": 6,
+    "gearbox_id": 2,
+    "car_body_configuration_id": 8,
+    "color_id": 15,
+    "hp": 220,
+    "year": 2019,
+    "price": 32000,
+    "mileage": 50000,
+    "modification": "2.7 CDI",
+    "description": ""
+}

@@ -1,0 +1,13 @@
+{
+    "fuel_type_id": 3,
+    "eco_standart_id": 5,
+    "gearbox_id": 1,
+    "car_body_configuration_id": 8,
+    "color_id": 1,
+    "hp": 140,
+    "year": 2011,
+    "price": 12000,
+    "mileage": 160000,
+    "modification": "2.0 HDI",
+    "description": ""
+}

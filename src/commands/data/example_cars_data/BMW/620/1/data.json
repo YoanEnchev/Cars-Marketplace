@@ -1,0 +1,13 @@
+{
+    "fuel_type_id": 1,
+    "eco_standart_id": 5,
+    "gearbox_id": 2,
+    "car_body_configuration_id": 8,
+    "color_id": 4,
+    "hp": 170,
+    "year": 2013,
+    "price": 15000,
+    "mileage": 99000,
+    "modification": "2.0 I",
+    "description": ""
+}

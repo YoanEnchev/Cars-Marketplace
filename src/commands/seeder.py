@@ -1,6 +1,9 @@
 from flask.cli import with_appcontext
 from injector import inject
+from faker import Faker
+from run import db, main_app
 import os, json
+import random
 
 from src.models.User import User
 from src.models.Make import Make
@@ -25,10 +28,9 @@ from src.commands.data.fuels import fuels
 from src.commands.data.gearboxes import gearboxes
 from src.commands.data.regions_and_settlements import regions_and_settlements
 
-from src.services.UserService import UserService
-
-from faker import Faker
-from run import db, main_app
+from src.repositories.ModelRepository import ModelRepository
+from src.repositories.MakeRepository import MakeRepository
+from src.repositories.extras.ExtraRepository import ExtraRepository
 
 @main_app.cli.command('seed')
 @with_appcontext
@@ -123,15 +125,25 @@ def seed():
 
         db.session.commit()
 
-    # Car Vehicles
-    return
+    # Insert vehicle records based on the data.json file in each vehicle folder.
     base_cars_path = './src/commands/data/example_cars_data'
 
     for make in os.listdir(base_cars_path):
         make_path = base_cars_path + '/' + make
+        make_obj = (MakeRepository()).get_by_make(make)
+
+        if make_obj is None:
+            raise Exception('The make ' + make + " doesn't exist.")
 
         for model in os.listdir(make_path):
+            model_obj = (ModelRepository()).get_by_make_and_model(make_id=make_obj.id, model_title=model)
             
+            if model_obj is None:
+                raise Exception('The model ' + model + " doesn't exist.")
+            
+            if model_obj.make_id is not make_obj.id:
+                raise Exception('The model is not matched by make: make=' + make + ", model=" +  model)
+
             for i in range(1, 3):
                 car_path = make_path + '/' + model + '/' + str(i)
                 
@@ -139,8 +151,27 @@ def seed():
                     
                     if os.path.exists(car_path + '/data.json'):
                         fd = os.open(car_path + '/data.json', os.O_RDWR)
-                        content = os.read(fd, 1000)
-                        print(json.loads(content))
-                        #with os.open(car_path + '/data.json', 'r') as file:
-                        #    print(file.read())
+                        file_data_dict = json.loads(os.read(fd, 1000))
+                        
+                        vehicle_ad_obj = VehicleAd({
+                            **file_data_dict,
+                            **{
+                                'model_id': model_obj.id,
+                                'settlement_id': random.randint(1, 1000)
+                            }
+                        })
+                        vehicle_ad_obj.is_approved = True
+                        db.session.add(vehicle_ad_obj)
+                        db.session.commit()
+
+                        # Pick random extras.
+                        vehicle_ad_obj.extras = (ExtraRepository()).get_by_id_list([random.randint(1 + i * 3, 1 + i * 5) for i in range(10)])
+                        db.session.add(vehicle_ad_obj)
+                        db.session.commit()
+
+                    else:
+                        raise Exception('Missing data.json file for ' +  car_path)
+
+
+
 

@@ -1,0 +1,13 @@
+{
+    "fuel_type_id": 3,
+    "eco_standart_id": 6,
+    "gearbox_id": 2,
+    "car_body_configuration_id": 4,
+    "color_id": 8,
+    "hp": 190,
+    "year": 2022,
+    "price": 65000,
+    "mileage": 25000,
+    "modification": "1.9 TDI",
+    "description": ""
+}

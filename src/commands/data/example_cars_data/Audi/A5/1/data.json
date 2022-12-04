@@ -1,0 +1,13 @@
+{
+    "fuel_type_id": 4,
+    "eco_standart_id": 5,
+    "gearbox_id": 2,
+    "car_body_configuration_id": 8,
+    "color_id": 12,
+    "hp": 210,
+    "year": 2015,
+    "price": 19000,
+    "mileage": 85000,
+    "modification": "1.8 I",
+    "description": ""
+}

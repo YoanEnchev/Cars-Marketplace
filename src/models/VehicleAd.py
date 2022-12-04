@@ -7,9 +7,7 @@ class VehicleAd(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     
-    make_id = db.Column(db.Integer, db.ForeignKey('makes.id'))
     model_id = db.Column(db.Integer, db.ForeignKey('models.id'))
-
     fuel_type_id = db.Column(db.Integer, db.ForeignKey('fuel_types.id'))
     eco_standart_id = db.Column(db.Integer, db.ForeignKey('eco_standarts.id'))
 
@@ -17,9 +15,7 @@ class VehicleAd(db.Model):
     car_body_configuration_id = db.Column(db.Integer, db.ForeignKey('car_body_configurations.id'), nullable = True)
     color_id = db.Column(db.Integer, db.ForeignKey('colors.id'))
 
-    region_id = db.Column(db.Integer, db.ForeignKey('regions.id'))
     settlement_id = db.Column(db.Integer, db.ForeignKey('settlements.id'))
-
     extras = db.relationship('Extra', secondary=VehicleExtra, backref='vehicle_ads')
 
     hp = db.Column(db.Integer)
@@ -30,10 +26,10 @@ class VehicleAd(db.Model):
     description = db.Column(db.Text)
     views = db.Column(db.Integer)
 
+    is_approved = db.Column(db.Boolean, default=False)
 
     def __init__(self, data):
-        
-        self.make_id = data['make_id']
+
         self.model_id = data['model_id']
 
         self.fuel_type_id = data['fuel_type_id']
@@ -42,15 +38,16 @@ class VehicleAd(db.Model):
         self.gearbox_id = data['gearbox_id']
         self.car_body_configuration_id = data['car_body_configuration_id']
         self.color_id = data['color_id']
-
-        self.region_id = data['region_id']
+        
         self.settlement_id = data['settlement_id']
 
         self.hp = data['hp']
         self.price = data['price']
         self.mileage = data['mileage']
 
-        self.modification = data['modification'] or ''
-        self.description = data['description'] or ''
+        self.modification = data['modification']
+        self.description = data['description']
         self.views = 0
+
+        self.is_approved = False
         

@@ -1,0 +1,13 @@
+{
+    "fuel_type_id": 1,
+    "eco_standart_id": 6,
+    "gearbox_id": 2,
+    "car_body_configuration_id": 3,
+    "color_id": 12,
+    "hp": 425,
+    "year": 2020,
+    "price": 70000,
+    "mileage": 35000,
+    "modification": "CLA 45 AMG",
+    "description": ""
+}

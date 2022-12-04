@@ -28,7 +28,7 @@ export default function CarAdForm(props) {
     const [gearboxes, setGearboxes] = useState([])
 
     const [carExtras, setCarExtras] = useState([])
-    const [carExtrasSerialized, setCarExtrasSerialized] = useState({}) // It's value is set in hidden input when form is submited.
+    const [carExtrasSerialized, setCarExtrasSerialized] = useState([]) // It's value is set in hidden input when form is submited.
     const [openedCategoryId, setOpenedCategoryId] = useState('')
 
     function handleExtraModalClose() {
@@ -69,15 +69,11 @@ export default function CarAdForm(props) {
     function saveExtras(carExtras) {
         setCarExtras(carExtras)
 
-        let serializationExtras = {}
+        let serializationExtras = []
 
-        carExtras.forEach(extraCategory => {
-            let selectedExtras = extraCategory.items.filter(item => item.selected)
-
-            if (selectedExtras.length > 0) {
-                serializationExtras[extraCategory.id] = selectedExtras.map(extra => extra.id)
-            }
-        })
+        carExtras.forEach(extraCategory => serializationExtras.push(...extraCategory.items
+                .filter(item => item.selected)
+                .map(extra => extra.id)))
 
         setCarExtrasSerialized(serializationExtras)
     }
@@ -308,11 +304,6 @@ export default function CarAdForm(props) {
                 <div className='mt-4'>
                     <ImageUpload />
                 </div>
-                {/* Render selected extras as hidden input so their value is sent to server on form submit. */}
-                {carExtras.map(extraCategory => extraCategory.items
-                    .filter(item => item.selected)
-                    .map((extra, index) => <input type='hidden' name={`extras[${extraCategory.id}]`} value={extra.id} key={index} />))
-                }
 
                 <input type='hidden' name='extras' value={JSON.stringify(carExtrasSerialized)} />
 
