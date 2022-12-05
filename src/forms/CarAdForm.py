@@ -1,7 +1,9 @@
 from wtforms import Form, IntegerField, StringField, DecimalField
 from wtforms.validators import DataRequired, Length, NumberRange, ValidationError
 from datetime import date
-import json
+from PIL import Image
+import json, base64, io
+
 
 from src.repositories.MakeRepository import MakeRepository
 from src.repositories.ModelRepository import ModelRepository
@@ -79,6 +81,33 @@ def validate_extras(self, field):
     # Don't validate here if the extras ids correspond to real record.
     # This is done in other service which sets records.
 
+def validate_image_urls(self, field):
+    
+    image_urls = []
+    
+    try:
+        image_urls = json.loads(field.data)
+    except ValueError as e:
+        raise ValidationError('Image urls parameter is not a valid JSON.')
+    
+    if type(image_urls) is not list:
+        raise ValidationError('Image urls need to be array.')
+    
+    for image_url in image_urls:
+        if type(image_url) is not str:
+            raise ValidationError('Not all elements of the image urls array are numeric.')
+        
+        try:
+            image = base64.b64decode(image_url)
+            opened_image = Image.open(io.BytesIO(image))
+
+            if opened_image.format.lower() not in ['jpg', 'jpeg', 'png', 'bmp', 'giff', 'tiff', 'webp']:
+                raise Exception # not a valid extension
+
+
+        except Exception:
+            raise ValidationError('Not a valid base 64 url.')
+
 
 class CarAdForm(Form):
     make_id = IntegerField('Make', [DataRequired(), validate_make])
@@ -100,4 +129,6 @@ class CarAdForm(Form):
     settlement_id = IntegerField('Settlement', [DataRequired(), validate_settlement])
 
     description = StringField('Description', [Length(max=500)])
-    extras = StringField('Extras', [Length(max=1000), validate_extras])
+    extras = StringField('Extras', [DataRequired(), Length(max=1000), validate_extras])
+
+    image_urls = StringField('Image Urls', [DataRequired(), validate_image_urls])

@@ -9,5 +9,5 @@ class VehicleAdService(BaseModelService):
     def __init__(self, vehicle_ad_repo: VehicleAdRepository):
         self.model_repository = vehicle_ad_repo
         
-    def handle_ad_action(form_data: dict):
+    def handle_ad_action(self, form_data: dict):
         pass
