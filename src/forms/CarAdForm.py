@@ -1,8 +1,7 @@
 from wtforms import Form, IntegerField, StringField, DecimalField
 from wtforms.validators import DataRequired, Length, NumberRange, ValidationError
 from datetime import date
-from PIL import Image
-import json, base64, io
+import json
 
 
 from src.repositories.MakeRepository import MakeRepository
@@ -96,17 +95,6 @@ def validate_image_urls(self, field):
     for image_url in image_urls:
         if type(image_url) is not str:
             raise ValidationError('Not all elements of the image urls array are numeric.')
-        
-        try:
-            image = base64.b64decode(image_url)
-            opened_image = Image.open(io.BytesIO(image))
-
-            if opened_image.format.lower() not in ['jpg', 'jpeg', 'png', 'bmp', 'giff', 'tiff', 'webp']:
-                raise Exception # not a valid extension
-
-
-        except Exception:
-            raise ValidationError('Not a valid base 64 url.')
 
 
 class CarAdForm(Form):

@@ -1,5 +1,5 @@
 FLASK_APP="run.py"
-FLASK_DEBUG=1
+FLASK_DEBUG=True
 
 DB="postgresql"
 DB_USER="postgres"
