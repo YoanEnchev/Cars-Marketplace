@@ -141,13 +141,13 @@ export default function CarAdForm(props) {
         },
         {
             label: 'Гориво',
-            name: 'fuel_id',
+            name: 'fuel_type_id',
             type: 'dropdown',
             options: formatAsOptionData(fuels, 'id', 'title')
         },
         {
             label: 'Евростандарт',
-            name: 'eurostandart_id',
+            name: 'eco_standart_id',
             type: 'dropdown',
             options: formatAsOptionData(ecoStandarts, 'id', 'title'),
         },

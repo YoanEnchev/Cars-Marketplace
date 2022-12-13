@@ -1,0 +1,18 @@
+{% set body_id = 'car-ad-creation' %}
+{% extends 'layouts/app.html' %}
+
+{% block title %}
+    Редактиране на обява
+{% endblock %}
+
+{% block content %}
+    <h1 class="h3 text-center mt-4 mb-3">Редактиране на обява</h1>
+    <div id="car-edit-form" class="container"></div>
+{% endblock %}
+
+{% block js_vars %}
+    var fromPHP = {
+        carEditUrl: "{{ url_for('cars_app.update') }}",
+        formParams: {{formParams}}
+    }
+{% endblock %}

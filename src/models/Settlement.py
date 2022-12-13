@@ -12,8 +12,7 @@ class Settlement(db.Model):
         self.title = data['title']
         self.region_id = data['region_id']
 
-    @property
-    def serialize(self):
+    def serialize(self, relations=[]):
         return {
             'id': self.id,
             'title': self.title,

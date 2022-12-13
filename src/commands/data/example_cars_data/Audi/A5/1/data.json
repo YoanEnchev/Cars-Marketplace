@@ -5,7 +5,7 @@
     "car_body_configuration_id": 8,
     "color_id": 12,
     "hp": 210,
-    "year": 2015,
+    "manufacture_year": 2015,
     "price": 19000,
     "mileage": 85000,
     "modification": "1.8 I",

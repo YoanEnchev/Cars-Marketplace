@@ -5,7 +5,7 @@
     "car_body_configuration_id": 1,
     "color_id": 4,
     "hp": 75,
-    "year": 2020,
+    "manufacture_year": 2020,
     "price": 23000,
     "mileage": 20000,
     "modification": "1.4 HDI",

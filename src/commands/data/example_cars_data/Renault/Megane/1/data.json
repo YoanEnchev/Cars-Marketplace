@@ -5,7 +5,7 @@
     "car_body_configuration_id": 1,
     "color_id": 8,
     "hp": 360,
-    "year": 2021,
+    "manufacture_year": 2021,
     "price": 50000,
     "mileage": 25000,
     "modification": "2.0 I RS",

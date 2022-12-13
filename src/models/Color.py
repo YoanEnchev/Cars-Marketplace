@@ -10,8 +10,7 @@ class Color(db.Model):
     def __init__(self, data):
         self.title = data['title']
 
-    @property
-    def serialize(self):
+    def serialize(self, relations=[]):
         return {
             'id': self.id,
             'title': self.title,

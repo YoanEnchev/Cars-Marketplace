@@ -5,7 +5,7 @@
     "car_body_configuration_id": 8,
     "color_id": 15,
     "hp": 160,
-    "year": 2015,
+    "manufacture_year": 2015,
     "price": 22000,
     "mileage": 180000,
     "modification": "2.2 CDI",

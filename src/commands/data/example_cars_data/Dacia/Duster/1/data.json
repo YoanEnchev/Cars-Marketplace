@@ -5,7 +5,7 @@
     "car_body_configuration_id": 2,
     "color_id": 15,
     "hp": 90,
-    "year": 2021,
+    "manufacture_year": 2021,
     "price": 19000,
     "mileage": 30000,
     "modification": "1.5 DCI",

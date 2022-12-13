@@ -5,7 +5,7 @@
     "car_body_configuration_id": 8,
     "color_id": 15,
     "hp": 220,
-    "year": 2019,
+    "manufacture_year": 2019,
     "price": 32000,
     "mileage": 50000,
     "modification": "2.7 CDI",

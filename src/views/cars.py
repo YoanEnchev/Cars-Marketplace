@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, abort
 from injector import inject
 
 from src.services.ColorService import ColorService
@@ -9,7 +9,6 @@ from src.services.GearboxService import GearboxService
 from src.services.EcoStandartService import EcoStandartService
 from src.services.CarBodyConfigurationService import CarBodyConfigurationService
 from src.services.ExtraCategoryService import ExtraCategoryService
-from src.services.FormService import FormService
 
 from src.forms.CarAdForm import CarAdForm
 from src.services.VehicleAdService import VehicleAdService
@@ -18,7 +17,7 @@ cars_app = Blueprint('cars_app', __name__, template_folder='../templates')
 
 @inject
 @cars_app.route('/cars/new/', methods=['GET', 'POST'], endpoint='create')
-def create(form_service: FormService, vehicle_ad_service: VehicleAdService):
+def create(vehicle_ad_service: VehicleAdService):
     if request.method == 'GET':
         return render_template('cars/create.html')
     
@@ -27,19 +26,55 @@ def create(form_service: FormService, vehicle_ad_service: VehicleAdService):
     form = CarAdForm(req_params)
 
     if form.validate():
-        vehicle_ad_service.handle_ad_action(req_params)
-        return 'valid'
+        vehicle_ad_service.handle_ad_creation(req_params)
+        return vehicle_ad_service.handle_successful_ad_creation()
     
-    return 'invalid: ' + form_service.get_error_message(form)
+    return vehicle_ad_service.handle_unsuccessful_ad_creation(req_params, form)
     
 
-@cars_app.route('/cars', methods=['GET'], endpoint='list')
-def list():
+@cars_app.route('/cars/', methods=['GET'], endpoint='list_page')
+def list_page():
     return render_template('cars/list.html')
 
-@cars_app.route('/cars/<id>', methods=['GET'], endpoint='detail')
-def detail(id):
-    return render_template('cars/detail.html')
+
+@cars_app.route('/cars/data', methods=['GET'], endpoint='list_data')
+def list_page(vehicle_ad_service: VehicleAdService):
+    return vehicle_ad_service.get_all(serialization=True)
+
+
+
+@cars_app.route('/cars/<int:id>', methods=['GET'], endpoint='detail')
+def detail(id, vehicle_ad_service: VehicleAdService):
+    
+    vehicle_ad = vehicle_ad_service.get_by_id(id=id)
+    
+    if vehicle_ad is None:
+        return abort(404)
+
+    return render_template('cars/detail.html', vehicle_ad=vehicle_ad)
+
+
+@inject
+@cars_app.route('/cars/<id>/update', methods=['POST'], endpoint='update')
+def update(id, vehicle_ad_service: VehicleAdService):
+    
+    vehicle_ad = vehicle_ad_service.get_by_id(id=id)
+    
+    if vehicle_ad is None:
+        abort(404)
+
+    if request.method == 'GET':
+        return render_template('cars/edit.html', form_params=vehicle_ad)
+
+    req_params = request.form
+    form = CarAdForm(req_params)
+
+    if form.validate():
+        vehicle_ad_service.handle_ad_update(req_params)
+        return vehicle_ad_service.handle_successful_ad_update()
+    
+    return vehicle_ad_service.handle_unsuccessful_ad_update()
+
 
 # Data is fetched by ajax and used for car search and create/edit form.
 @inject
@@ -50,7 +85,7 @@ def car_forms_static_data(color_service: ColorService, make_service: MakeService
 
     return {
         'colors': color_service.get_all(serialization=True),
-        'makes_and_models': make_service.get_all(serialization=True),
+        'makes_and_models': make_service.get_all(serialization=True, relations=['models']),
         'regions_and_settlements': region_service.get_all(serialization=True),
         'fuels': fuel_service.get_all(serialization=True),
         'gearboxes': gearbox_service.get_all(serialization=True),

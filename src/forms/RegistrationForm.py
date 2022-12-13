@@ -10,6 +10,7 @@ def validate_email(self, field):
 class RegistrationForm(Form):
     email = StringField('Email', [DataRequired(), Length(min=6, max=100), validate_email])
     first_name = StringField('First Name', [DataRequired(), Length(min=2, max=100)])
+    phone = StringField('Phone', [DataRequired(), Length(min=10, max=20)])
     password = PasswordField('Password', [
         DataRequired(),
         EqualTo('repeat_password', message='Passwords must match.'),

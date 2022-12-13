@@ -9,38 +9,24 @@
     <div class="container mt-3">
         <div class="d-flex justify-content-between">
             <div>
-                <p>Днес, 2003</p>
-            </div>
-            <div>
-                <p class="mb-3">Разглеждания: 150</p>
+                <p class="mb-3">Разглеждания: {{vehicle_ad.views}}</p>
                 <div class="offer-price-badge ms-auto">
-                    <span>11,000 лв.</span>
+                    <span>{{vehicle_ad.price}} лв.</span>
                 </div>
             </div>
         </div>
 
         <div class="mb-4">
-            <h1 class="h2 mt-3">Hyundai i30 1.6i Автоматик</h1>
+            <h1 class="h2 mt-3">{{vehicle_ad.make.title}} {{vehicle_ad.model.title}} {{vehicle_ad.modification}} {{vehicle_ad.gearbox.title}}</h1>
             <p>
-                Август 2007, Бензин, Хечбек, 150 000км, Автоматични скорости, 124 к.с., EURO 4, 4/5 врати, Тъмно сив металик
+                {{vehicle_ad.manufacture_year}} година, {{vehicle_ad.fuel_type.title}}, {{vehicle_ad.car_body_configuration.title}}, {{vehicle_ad.mileage}} км, {{vehicle_ad.gearbox.title}} скорост, {{vehicle_ad.hp}} к.с., {{vehicle_ad.eco_standart.title}}, {{vehicle_ad.color.title}}
             </p>
         </div>
 
         <div class="row">
             <div class="col-12 col-md-5">
                 <h3 class="h5 mb-4">Описание:</h3>
-                <p>Оглед след предварителна уговорка по телефона !
-                _
-                Готов за моментална употреба . Всички документи платени. Без грешки, или технически проблеми . Напълно обслужен Сменено масло и филтри на мотор и скорости, ревизирано окачване . Перфектен интериор . 2 ключа . Дребни външни забележки видими на снимките.
-                _
-                Възможен коментар !
-                Възможен бартер ! Лизинг !
-                Възможност за разплащане и в криптовалути !
-                _
-                Работно време
-                Понеделник Петък 09: 00 18 : 00 часа
-                Събота 10: 00- 14: 00 часа
-                Неделя - С предварителна уговорка</p>
+                <p>{{vehicle_ad.description}}</p>
                 <hr>
 
                 <h3 class="h5 mb-4">Особености и екстри:</h3>
@@ -53,17 +39,17 @@
                     {% endfor %}
                 </div>
                 <hr>
-                <a class="btn btn-primary mb-2" href="tel:+359874848455">
+                <a class="btn btn-primary mb-2" href="tel:{{vehicle_ad.publisher.phone}}">
                     <span class="text-white d-inline-block me-1"
                         style="width: 17px; position: relative; top: -2px; fill: white;">
                         {% with icon='phone-solid' %}
                             {% include 'partials/icons.html' %}
                         {% endwith %}
                     </span>
-                    <span>+359874848455</span>
+                    <span>{{vehicle_ad.publisher.phone}}</span>
                 </a>
-                <p class="mb-1">Кристиян Вълчев</p>
-                <b class="d-block mb-3">Варна</b>
+                <p class="mb-1">{{vehicle_ad.publisher.first_name}}</p>
+                <b class="d-block mb-3">{{vehicle_ad.settlement.title}}</b>
 
             </div>
             <div class="col-12 col-md-7">

@@ -5,7 +5,7 @@
     "car_body_configuration_id": 1,
     "color_id": 12,
     "hp": 136,
-    "year": 2005,
+    "manufacture_year": 2005,
     "price": 4500,
     "mileage": 200000,
     "modification": "2.0 HDI",

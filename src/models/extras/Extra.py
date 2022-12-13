@@ -14,8 +14,7 @@ class Extra(db.Model):
         self.title = data['title']
         self.extra_category_id = data['category_id']
 
-    @property
-    def serialize(self):
+    def serialize(self, relations=[]):
         return {
             'id': self.id,
             'title': self.title,

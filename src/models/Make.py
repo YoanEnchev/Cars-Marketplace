@@ -14,10 +14,14 @@ class Make(db.Model):
     def __init__(self, data):
         self.title = data['title']
         
-    @property
-    def serialize(self):
-        return {
+    def serialize(self, relations = []):
+
+        result = {
             'id': self.id,
             'title': self.title,
-            'models': serialize_model_list(self.models)
         }
+
+        if 'models' in relations:
+            result['models'] = serialize_model_list(self.models)
+
+        return result

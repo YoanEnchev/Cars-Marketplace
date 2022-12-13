@@ -5,7 +5,7 @@
     "car_body_configuration_id": 2,
     "color_id": 1,
     "hp": 390,
-    "year": 2022,
+    "manufacture_year": 2022,
     "price": 95000,
     "mileage": 20000,
     "modification": "3.0 TDI",

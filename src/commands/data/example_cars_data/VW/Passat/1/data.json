@@ -5,7 +5,7 @@
     "car_body_configuration_id": 4,
     "color_id": 13,
     "hp": 110,
-    "year": 2005,
+    "manufacture_year": 2005,
     "price": 5000,
     "mileage": 240000,
     "modification": "1.9 TDI",

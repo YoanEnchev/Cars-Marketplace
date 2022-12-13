@@ -5,7 +5,7 @@
     "car_body_configuration_id": 1,
     "color_id": 12,
     "hp": 170,
-    "year": 2020,
+    "manufacture_year": 2020,
     "price": 21000,
     "mileage": 30000,
     "modification": "2.0 HDI",
