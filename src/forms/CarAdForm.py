@@ -19,7 +19,7 @@ def validate_model(self, field):
     if model == None:
         raise ValidationError('Invalid model.')
 
-    if model.make_id is not self.make_id:
+    if model.make_id is not self.make_id.data:
         raise ValidationError('Model not matching make.')
 
 def validate_fuel(self, field):

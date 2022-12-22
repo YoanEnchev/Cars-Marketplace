@@ -26,3 +26,11 @@
         <div id="car-ads-listing"></div>
     </div>
 {% endblock %}
+
+{% block js_vars %}
+    var fromPHP = {
+        currentYear: {{current_year}},
+        vehicleListUrl: "{{url_for('cars_app.list_page')}}",
+        vehicleListDataUrl: "{{request.url_root[:-1] + url_for('cars_app.list_data')}}"
+    }
+{% endblock %}

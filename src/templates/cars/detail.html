@@ -10,9 +10,9 @@
         <div class="d-flex justify-content-between">
             <div>
                 <p class="mb-3">Разглеждания: {{vehicle_ad.views}}</p>
-                <div class="offer-price-badge ms-auto">
-                    <span>{{vehicle_ad.price}} лв.</span>
-                </div>
+            </div>
+            <div class="offer-price-badge ms-auto">
+                <span>{{vehicle_ad.format_price}} лв.</span>
             </div>
         </div>
 
@@ -30,14 +30,11 @@
                 <hr>
 
                 <h3 class="h5 mb-4">Особености и екстри:</h3>
-                <div>
-                    {% for result in ['Безопастност', 'Комфорт'] %}
-                        <p>
-                            <strong>{{ result }}</strong>:
-                            Екстра 1, Екстра 2, Екстра 3, Екстра 1, Екстра 2, Екстра 3, Екстра 1, Екстра 2, Екстра 3
-                        </p>
-                    {% endfor %}
-                </div>
+                {% for extra_category_title, exras_str in vehicle_ad.extra_categories_data.items() %}
+                    <p>
+                        <strong>{{ extra_category_title }}</strong>: {{ exras_str }}
+                    </p>
+                {% endfor %}
                 <hr>
                 <a class="btn btn-primary mb-2" href="tel:{{vehicle_ad.publisher.phone}}">
                     <span class="text-white d-inline-block me-1"
@@ -48,8 +45,8 @@
                     </span>
                     <span>{{vehicle_ad.publisher.phone}}</span>
                 </a>
-                <p class="mb-1">{{vehicle_ad.publisher.first_name}}</p>
-                <b class="d-block mb-3">{{vehicle_ad.settlement.title}}</b>
+                <p class="mb-1">Продавач: {{vehicle_ad.publisher.first_name}}</p>
+                <b class="d-block mb-3">{{vehicle_ad.settlement.title}}, област: {{vehicle_ad.settlement.region.title}}</b>
 
             </div>
             <div class="col-12 col-md-7">
@@ -57,4 +54,10 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block js_vars %}
+    var fromPHP = {
+        imagesUrls: {{vehicle_ad.images_urls|tojson}}
+    }
 {% endblock %}

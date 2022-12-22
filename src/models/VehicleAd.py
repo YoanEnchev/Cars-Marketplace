@@ -1,6 +1,6 @@
 import os
-from flask import url_for
-
+from flask import url_for, request
+from flask_login import current_user
 from run import db
 
 from src.services.helpers.serialize_model_list import serialize_model_list
@@ -21,7 +21,7 @@ from src.models.tables.VehicleExtra import VehicleExtra
 class VehicleAd(db.Model):
 
     __tablename__ = 'vehicle_ads'
-    base_image_folder = 'static' + os.sep + 'imgs' + os.sep + 'cars'
+    base_image_folder = 'static/imgs/cars'
 
     id = db.Column(db.Integer, primary_key = True)
     
@@ -47,10 +47,10 @@ class VehicleAd(db.Model):
     eco_standart = db.relationship(EcoStandart, lazy="joined") # Eager load.
 
     gearbox_id = db.Column(db.Integer, db.ForeignKey('gearboxes.id'))
-    gearbox =db.relationship(Gearbox, lazy="joined") # Eager load.
+    gearbox = db.relationship(Gearbox, lazy="joined") # Eager load.
     
     color_id = db.Column(db.Integer, db.ForeignKey('colors.id'))
-    color = gearbox =db.relationship(Color, lazy="joined") # Eager load.
+    color = db.relationship(Color, lazy="joined") # Eager load.
 
     extras = db.relationship('Extra', secondary=VehicleExtra, backref='vehicle_ads')
 
@@ -65,6 +65,9 @@ class VehicleAd(db.Model):
 
     views = db.Column(db.Integer)
     is_approved = db.Column(db.Boolean, default=False)
+
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, server_default=db.func.now(), onupdate=db.func.current_timestamp())
 
     def __init__(self, data):
 
@@ -99,11 +102,35 @@ class VehicleAd(db.Model):
     @property
     def img_folder(self):
         return self.base_image_folder + '/' + str(self.id)
+
+    @property
+    def format_price(self):
+        return format(self.price, ',.2f')
+
+    @property
+    def images_urls(self):
+        return [(request.url_root + self.img_folder + '/' + name) for name in self.image_names]
         
+    @property
+    def extra_categories_data(self) -> dict:
+
+        extras = {} # Stores data om format: {extra category id : [extra title 1, extra title 2]}  
+        
+        for extra in self.extras:
+            extra_category_title = extra.extra_category.title
+            
+            if extra_category_title not in extras:
+                extras[extra_category_title] = []
+            
+            extras[extra_category_title].append(extra.title)
+        
+        # Changes value format - from array to string joined by comma.
+        return {category_title: ', '.join(extras_title) for category_title, extras_title in extras.items()}
+
     def serialize(self, relations=[]):
 
         image_names = self.image_names
-        thumbnail_url = url_for('home_app.home') + '/xxxxx'
+        thumbnail_url = request.url_root
         
         if len(image_names) == 0:
             # if no images are uploaded, assume a default pic thumbnail. 
@@ -114,17 +141,26 @@ class VehicleAd(db.Model):
 
 
         return {
+            'id': self.id,
             'make': self.make.serialize(),
             'model': self.model.serialize(),
             'fuel_type': self.fuel_type.serialize(),
             'settelment': self.settlement.serialize(),
+            'publisher': self.publisher.serialize(),
 
             'modification': self.modification,
             'description': self.description,
             'manufacture_year': self.manufacture_year,
             'mileage': self.mileage,
+            'price': self.format_price,
 
-            'detail_page': url_for('cars_app.detail', id=self.id),
-            'thumbnail_url': thumbnail_url
+            # :-1 removes last symbol. This way we avoid double slash ('//').
+            'detail_page': request.url_root[:-1] + url_for('cars_app.detail', id=self.id),
+            'edit_page': request.url_root[:-1] + url_for('cars_app.update', id=self.id),
+            
+            'thumbnail_url': thumbnail_url,
+
+            'is_in_wishlist': False,
+            'is_editable': (int(current_user.get_id()) == self.publisher_id)
         }
         

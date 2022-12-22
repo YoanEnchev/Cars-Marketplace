@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, abort
+from flask import Blueprint, render_template, request, url_for, abort
+from flask_login import login_required
 from injector import inject
 
 from src.services.ColorService import ColorService
@@ -17,6 +18,7 @@ cars_app = Blueprint('cars_app', __name__, template_folder='../templates')
 
 @inject
 @cars_app.route('/cars/new/', methods=['GET', 'POST'], endpoint='create')
+@login_required
 def create(vehicle_ad_service: VehicleAdService):
     if request.method == 'GET':
         return render_template('cars/create.html')
@@ -38,8 +40,15 @@ def list_page():
 
 
 @cars_app.route('/cars/data', methods=['GET'], endpoint='list_data')
-def list_page(vehicle_ad_service: VehicleAdService):
-    return vehicle_ad_service.get_all(serialization=True)
+def list_data(vehicle_ad_service: VehicleAdService):
+    
+    page = request.args.get(key='page', default=1, type=int)
+    sort = request.args.get(key='sort', default='created_at_asc', type=str)
+
+    if not vehicle_ad_service.is_valid_sort(sort):
+        return {'message':'Invalid data'}, 400
+    
+    return vehicle_ad_service.paginated_extraction(page=page, per_page=12, filters={}, sort=sort), 200
 
 
 
@@ -51,11 +60,13 @@ def detail(id, vehicle_ad_service: VehicleAdService):
     if vehicle_ad is None:
         return abort(404)
 
+    vehicle_ad_service.increment_views(vehicle_ad)
+
     return render_template('cars/detail.html', vehicle_ad=vehicle_ad)
 
 
 @inject
-@cars_app.route('/cars/<id>/update', methods=['POST'], endpoint='update')
+@cars_app.route('/cars/<id>/update', methods=['GET', 'POST'], endpoint='update')
 def update(id, vehicle_ad_service: VehicleAdService):
     
     vehicle_ad = vehicle_ad_service.get_by_id(id=id)
@@ -64,7 +75,9 @@ def update(id, vehicle_ad_service: VehicleAdService):
         abort(404)
 
     if request.method == 'GET':
-        return render_template('cars/edit.html', form_params=vehicle_ad)
+        return render_template('cars/edit.html', 
+            vehicle_serialization=vehicle_ad.serialize(),
+            car_edit_url=url_for('cars_app.update', id=vehicle_ad.id))
 
     req_params = request.form
     form = CarAdForm(req_params)

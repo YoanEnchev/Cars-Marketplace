@@ -50,7 +50,7 @@ export default function ImageUpload(props) {
   function onExpandThumbnailClick(index) {
     window.open(files[index].preview);
   }
-  console.log('render')
+
   if (base64Urls.length === 0 && files.length > 0) {
     // if statement prevents infinite render.
 
@@ -85,7 +85,7 @@ export default function ImageUpload(props) {
         <input {...getInputProps()} />
         <p className='mb-0'>Качване на снимки</p>
       </div>
-      {console.log(JSON.stringify(base64Urls))}
+      
       <input name="image_urls" type='hidden' value={JSON.stringify(base64Urls)} />
     </section>
   )

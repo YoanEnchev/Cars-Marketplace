@@ -26,3 +26,10 @@ class User(db.Model, UserMixin):
 
     def is_admin(self):
         return self.role.is_admin_role()
+
+    def serialize(self, relations=[]):
+        
+        return {
+            'id': self.id,
+            'first_name': self.first_name
+        }

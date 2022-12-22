@@ -15,7 +15,10 @@ let Home = {
         
             ReactDOM
                 .createRoot(document.getElementById('car-ads-listing'))
-                .render(<CarsList />)
+                .render(<CarsList showPaginator={false}
+                    apiUrl={fromPHP.vehicleListDataUrl}
+                    page={1}
+                    />)
         ] : ''
     }
 }

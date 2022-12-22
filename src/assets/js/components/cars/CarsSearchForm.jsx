@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 export default function CarsSearchForm() {
 
-    
+    const [makesAndModels, setMakesAndModels] = useState([])
+    const [selectedMakeId, setSelectedMakeId] = useState('')
+    const [selectedModelId, setSelectedModelId] = useState('')
 
     return (
         <form method='GET' action='/cars'>

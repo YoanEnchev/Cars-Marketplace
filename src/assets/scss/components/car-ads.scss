@@ -40,4 +40,20 @@
             color: white;
         }
     }
+
+    .offer-price-badge {
+        position: relative;
+        right: 12px;
+        bottom: 15px;
+    }
+
+    .description {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        // Addition lines for 2 line or multiline ellipsis: ;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        white-space: normal;
+    }
 }

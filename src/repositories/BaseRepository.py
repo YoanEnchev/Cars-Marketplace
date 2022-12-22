@@ -26,7 +26,7 @@ class BaseRepository:
         
         return records
            
-    def get_by_id(self, id: int, serialization: bool) -> object|None:
+    def get_by_id(self, id: int, serialization: bool=False) -> object|None:
         return self.entity.query.get(id)
 
     def get_by_id_list(self, ids:list):
