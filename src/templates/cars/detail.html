@@ -9,44 +9,45 @@
     <div class="container mt-3">
         <div class="d-flex justify-content-between">
             <div>
-                <p class="mb-3">Разглеждания: {{vehicle_ad.views}}</p>
+                {# + 1 since passed vehicle object does not contain the incremented views value. #}
+                <p class="mb-3">Разглеждания: {{vehicle_ad_obj.views + 1}}</p>
             </div>
             <div class="offer-price-badge ms-auto">
-                <span>{{vehicle_ad.format_price}} лв.</span>
+                <span>{{vehicle_ad_obj.format_price}} лв.</span>
             </div>
         </div>
 
         <div class="mb-4">
-            <h1 class="h2 mt-3">{{vehicle_ad.make.title}} {{vehicle_ad.model.title}} {{vehicle_ad.modification}} {{vehicle_ad.gearbox.title}}</h1>
+            <h1 class="h2 mt-3">{{vehicle_ad_obj.make.title}} {{vehicle_ad_obj.model.title}} {{vehicle_ad_obj.modification}} {{vehicle_ad_obj.gearbox.title}}</h1>
             <p>
-                {{vehicle_ad.manufacture_year}} година, {{vehicle_ad.fuel_type.title}}, {{vehicle_ad.car_body_configuration.title}}, {{vehicle_ad.mileage}} км, {{vehicle_ad.gearbox.title}} скорост, {{vehicle_ad.hp}} к.с., {{vehicle_ad.eco_standart.title}}, {{vehicle_ad.color.title}}
+                {{vehicle_ad_obj.manufacture_year}} година, {{vehicle_ad_obj.fuel_type.title}}, {{vehicle_ad_obj.car_body_configuration.title}}, {{vehicle_ad_obj.mileage}} км, {{vehicle_ad_obj.gearbox.title}} скорост, {{vehicle_ad_obj.hp}} к.с., {{vehicle_ad_obj.eco_standart.title}}, {{vehicle_ad_obj.color.title}}
             </p>
         </div>
 
         <div class="row">
             <div class="col-12 col-md-5">
                 <h3 class="h5 mb-4">Описание:</h3>
-                <p>{{vehicle_ad.description}}</p>
+                <p>{{vehicle_ad_obj.description}}</p>
                 <hr>
 
                 <h3 class="h5 mb-4">Особености и екстри:</h3>
-                {% for extra_category_title, exras_str in vehicle_ad.extra_categories_data.items() %}
+                {% for extra_category_title, exras_str in vehicle_ad_obj.extra_categories_data.items() %}
                     <p>
                         <strong>{{ extra_category_title }}</strong>: {{ exras_str }}
                     </p>
                 {% endfor %}
                 <hr>
-                <a class="btn btn-primary mb-2" href="tel:{{vehicle_ad.publisher.phone}}">
+                <a class="btn btn-primary mb-2" href="tel:{{vehicle_ad_obj.publisher.phone}}">
                     <span class="text-white d-inline-block me-1"
                         style="width: 17px; position: relative; top: -2px; fill: white;">
                         {% with icon='phone-solid' %}
                             {% include 'partials/icons.html' %}
                         {% endwith %}
                     </span>
-                    <span>{{vehicle_ad.publisher.phone}}</span>
+                    <span>{{vehicle_ad_obj.publisher.phone}}</span>
                 </a>
-                <p class="mb-1">Продавач: {{vehicle_ad.publisher.first_name}}</p>
-                <b class="d-block mb-3">{{vehicle_ad.settlement.title}}, област: {{vehicle_ad.settlement.region.title}}</b>
+                <p class="mb-1">Продавач: {{vehicle_ad_obj.publisher.first_name}}</p>
+                <b class="d-block mb-3">{{vehicle_ad_obj.settlement.title}}, област: {{vehicle_ad_obj.settlement.region.title}}</b>
 
             </div>
             <div class="col-12 col-md-7">
@@ -58,6 +59,6 @@
 
 {% block js_vars %}
     var fromPHP = {
-        imagesUrls: {{vehicle_ad.images_urls|tojson}}
+        imagesUrls: {{vehicle_ad_obj.images_urls|tojson}}
     }
 {% endblock %}

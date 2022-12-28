@@ -19,6 +19,7 @@ class Settlement(db.Model):
     def serialize(self, relations=[]):
         return {
             'id': self.id,
-            'title': self.title,
+            'region_id': self.region_id,
+            'title': self.title
         }
         

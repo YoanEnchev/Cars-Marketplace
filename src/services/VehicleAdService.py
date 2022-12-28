@@ -37,7 +37,7 @@ class VehicleAdService(BaseModelService):
         # Example 'created_at_asc' splits into ['created_at', 'asc']
         [column, sort] = sort.rsplit('_', 1)
 
-        if column not in ['created_at', 'price']:
+        if column not in ['created_at', 'price', 'manufacture_year']:
             return False
 
         return sort in ['asc', 'desc']
@@ -100,6 +100,8 @@ class VehicleAdService(BaseModelService):
 
         db.session.add(vehicle_ad)
         db.session.commit()
+
+        db.session.expire(vehicle_ad)
 
     def handle_successful_ad_creation(self) -> Response:
 

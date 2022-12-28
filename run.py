@@ -8,7 +8,7 @@ from flask_login import LoginManager # Enable authentification.
 envData = os.environ
 main_app = Flask(__name__)
 main_app.config['SQLALCHEMY_DATABASE_URI'] = envData['DB_URL']
-main_app.config['SQLALCHEMY_ECHO'] = envData['FLASK_DEBUG'] # prints made SQL queries.
+main_app.config['SQLALCHEMY_ECHO'] = envData['FLASK_DEBUG'] # prints what SQL queries are made if debug is enabled.
 
 db = SQLAlchemy(main_app)
 
@@ -16,9 +16,7 @@ from src.views.home import home_app
 from src.views.cars import cars_app
 from src.views.auth import auth_app
 from src.initializers.login_manager import login_manager
-
 import src.views.status_codes # Register status codes.
-
 
 # flask run
 # 123456   common

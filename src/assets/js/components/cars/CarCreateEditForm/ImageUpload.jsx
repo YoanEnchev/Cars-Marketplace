@@ -21,9 +21,9 @@ const getColor = (props) => {
   return '#eeeeee';
 }
 
-export default function ImageUpload(props) {
+export default function ImageUpload({imgUrls}) {
   const [files, setFiles] = useState([])
-  const [base64Urls, setBase64Urls] = useState([])
+  const [base64Urls, setBase64Urls] = useState(imgUrls) // Helps with setting data in hidden field.
 
   const {getRootProps, getInputProps, isFocused, isDragAccept, isDragReject} = useDropzone({
     accept: {

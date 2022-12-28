@@ -1,6 +1,7 @@
 from src.repositories.BaseRepository import BaseRepository
 from src.models.VehicleAd import VehicleAd
 from src.services.helpers.serialize_model_list import serialize_model_list
+from sqlalchemy import desc, asc
 
 import math
 
@@ -9,11 +10,48 @@ class VehicleAdRepository(BaseRepository):
     entity:object = VehicleAd
 
     def paginated_extraction(self, per_page: int, page: int, filters: dict, sort: str) -> dict:
-        #.filter_by()
 
-        # Notice if 
-        pagination = self.entity.query \
-            .paginate(page=page, error_out=False, per_page=per_page)
+        filterList = []
+
+        if filters['make_id'] is not 0:
+            filterList.append(VehicleAd.make_id == filters['make_id'])
+
+        if filters['model_id'] is not 0:
+            filterList.append(VehicleAd.model_id == filters['model_id'])
+
+        if filters['settlement_id'] is not 0:
+            filterList.append(VehicleAd.settlement_id == filters['settlement_id'])
+
+        if filters['max_price'] is not 0:
+            filterList.append(VehicleAd.price <= filters['max_price'])
+
+        if filters['min_year'] is not 0:
+            filterList.append(VehicleAd.manufacture_year >= filters['min_year'])
+
+        if filters['fuel_type_id'] is not 0:
+            filterList.append(VehicleAd.fuel_type_id == filters['fuel_type_id'])
+
+        if filters['gearbox_id'] is not 0:
+            filterList.append(VehicleAd.gearbox_id == filters['gearbox_id'])
+
+
+        query = self.entity.query \
+            .filter(*filterList)
+        
+        if filters['region_id'] is not 0:
+            query = query.filter(VehicleAd.settlement.has(region_id=filters['region_id']))
+
+        # Splits by last occurance of the character.
+        # Example 'created_at_asc' splits into ['created_at', 'asc']
+        [column, sort_direction] = sort.rsplit('_', 1)
+        attribute = getattr(VehicleAd, column)
+
+        order_by = asc(attribute)
+        if sort_direction == 'desc': 
+            order_by = desc(attribute)
+
+        query = query.order_by(order_by)
+        pagination = query.paginate(page=page, error_out=False, per_page=per_page)
 
         current_page = pagination.page
 

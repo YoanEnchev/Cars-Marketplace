@@ -11,7 +11,8 @@ let Home = {
         [
             ReactDOM
                 .createRoot(document.getElementById('cars-search-container'))
-                .render(<CarsSearchForm />),
+                .render(<CarsSearchForm staticFormDataUrl={fromPHP.staticFormDataUrl}
+                    currentYear={fromPHP.currentYear} />),
         
             ReactDOM
                 .createRoot(document.getElementById('car-ads-listing'))

@@ -41,10 +41,10 @@ class VehicleAd(db.Model):
     publisher = db.relationship(User, lazy="joined") # Eager load.
 
     car_body_configuration_id = db.Column(db.Integer, db.ForeignKey('car_body_configurations.id'))
-    car_body_configuration = db.relationship(CarBodyConfiguration, lazy="joined") # Eager load.
+    car_body_configuration = db.relationship(CarBodyConfiguration)
 
     eco_standart_id = db.Column(db.Integer, db.ForeignKey('eco_standarts.id'))
-    eco_standart = db.relationship(EcoStandart, lazy="joined") # Eager load.
+    eco_standart = db.relationship(EcoStandart)
 
     gearbox_id = db.Column(db.Integer, db.ForeignKey('gearboxes.id'))
     gearbox = db.relationship(Gearbox, lazy="joined") # Eager load.
@@ -139,28 +139,49 @@ class VehicleAd(db.Model):
             # If images are uploaded assume thumbnail is the first one.
             thumbnail_url += self.img_folder + '/' + image_names[0]
 
-
-        return {
+        result = {
             'id': self.id,
             'make': self.make.serialize(),
             'model': self.model.serialize(),
             'fuel_type': self.fuel_type.serialize(),
             'settelment': self.settlement.serialize(),
             'publisher': self.publisher.serialize(),
-
+            
             'modification': self.modification,
             'description': self.description,
             'manufacture_year': self.manufacture_year,
             'mileage': self.mileage,
             'price': self.format_price,
+            'price_raw': self.price,
+            'hp': self.hp,
 
             # :-1 removes last symbol. This way we avoid double slash ('//').
             'detail_page': request.url_root[:-1] + url_for('cars_app.detail', id=self.id),
             'edit_page': request.url_root[:-1] + url_for('cars_app.update', id=self.id),
             
             'thumbnail_url': thumbnail_url,
+            'imsge_urls': [request.url_root + self.img_folder + '/' + name for name in image_names],
 
             'is_in_wishlist': False,
-            'is_editable': (int(current_user.get_id()) == self.publisher_id)
+            
+            # User has logged in and is the publisher of the ad
+            'is_editable': current_user.get_id() is not None and (int(current_user.get_id()) == self.publisher_id)
         }
+
+        if 'eco_standart' in relations:
+            result['eco_standart'] = self.eco_standart.serialize()
+
+        if 'extras' in relations:
+            result['extras'] = serialize_model_list(self.extras)
+
+        if 'car_body_configuration' in relations:
+            result['car_body_configuration'] = self.car_body_configuration.serialize()
+
+        if 'gearbox' in relations:
+            result['gearbox'] = self.gearbox.serialize()
+
+        if 'color' in relations:
+            result['color'] = self.color.serialize()
+
+        return result
         

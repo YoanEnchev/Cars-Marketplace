@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     first_name = db.Column(db.String(80), nullable=False)
     phone = db.Column(db.String(30), nullable=False)
-    password = db.Column(db.String(100))
+    password = db.Column(db.String(100), nullable=False)
 
     def __init__(self, props: dict):
         self.email = props['email']

@@ -8,18 +8,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
 import formatAsOptionData from '../../../helpers/formatAsOptionData'
+import renderColumnFields from '../../../helpers/renderColumnFields'
 
-export default function CarAdForm(props) {
+export default function CarAdForm({staticFormDataUrl, vehicleParams = null, actionUrl}) {
     
     const [showExtraModal, setShowExtraModal] = useState(false)
 
     const [makesAndModels, setMakesAndModels] = useState([])
-    const [selectedMakeId, setSelectedMakeId] = useState('')
-    const [selectedModelId, setSelectedModelId] = useState('')
-
+    const [selectedMakeId, setSelectedMakeId] = useState(vehicleParams ? vehicleParams.make.id : '')
+    const [selectedModelId, setSelectedModelId] = useState(vehicleParams ? vehicleParams.model.id : '')
+    
     const [regionsAndSettlements, setRegionsAndSettlements] = useState([])
-    const [selectedRegionId, setSelectedRegionId] = useState('')
-    const [selectedSettlementId, setSelectedSettlementId] = useState('')
+    const [selectedRegionId, setSelectedRegionId] = useState(vehicleParams ? vehicleParams.settelment.region_id : '')
+    const [selectedSettlementId, setSelectedSettlementId] = useState(vehicleParams ? vehicleParams.settelment.id : '')
 
     const [carBodyConfigurations, setCarBodyConfigurations] = useState([])
     const [colors, setColors] = useState([])
@@ -80,7 +81,7 @@ export default function CarAdForm(props) {
 
     useEffect(() => {
 
-        fetch('/cars/static-form-data')
+        fetch(staticFormDataUrl)
             .then((response) => response.json())
             .then((data) => {
    
@@ -97,11 +98,14 @@ export default function CarAdForm(props) {
                 let regionsAndSettlementsData = data.regions_and_settlements
                 setRegionsAndSettlements(regionsAndSettlementsData)
                 setSelectedRegionId(regionsAndSettlementsData[0].id)
-                
+
+                let filledExtrasIds = [] // ids from prefilled edit page.
+                if (vehicleParams) filledExtrasIds = vehicleParams.extras.map(extraData => extraData.id)
+
                 // Attach selected attribute.
                 saveExtras(data.extras.map(extraCategory => {
                     extraCategory.items = extraCategory.items.map(extra => {
-                        extra.selected = false
+                        extra.selected = filledExtrasIds.includes(extra.id)
                         return extra
                     })
                     return extraCategory
@@ -125,8 +129,7 @@ export default function CarAdForm(props) {
             label: 'Модел',
             name: 'model_id',
             type: 'dropdown',
-            options: selectedMakeId === '' ? [] : formatAsOptionData(makesAndModels.filter(make => make.id == selectedMakeId)[0].models, 'id', 'title'),
-            startWithEmptyValue: true,
+            options: (selectedMakeId === '' || makesAndModels.length === 0) ? [] : formatAsOptionData(makesAndModels.filter(make => make.id == selectedMakeId)[0].models, 'id', 'title'),
             value: selectedModelId,
             onChange: (e) => {
                 setSelectedModelId(e.target.value)
@@ -134,6 +137,7 @@ export default function CarAdForm(props) {
         },
         {
             label: 'Модификация',
+            defaultValue: vehicleParams ? vehicleParams.modification : '',
             name: 'modification',
             type: 'input', 
             inputType: 'text',
@@ -141,54 +145,63 @@ export default function CarAdForm(props) {
         },
         {
             label: 'Гориво',
+            defaultValue: vehicleParams ? vehicleParams.fuel_type.id : '',
             name: 'fuel_type_id',
             type: 'dropdown',
-            options: formatAsOptionData(fuels, 'id', 'title')
+            options: formatAsOptionData(fuels, 'id', 'title'),
         },
         {
             label: 'Евростандарт',
+            defaultValue: vehicleParams ? vehicleParams.eco_standart.id : '',
             name: 'eco_standart_id',
             type: 'dropdown',
-            options: formatAsOptionData(ecoStandarts, 'id', 'title'),
+            options: formatAsOptionData(ecoStandarts, 'id', 'title')
         },
         {
             label: 'Скоростна Кутия',
+            defaultValue: vehicleParams ? vehicleParams.gearbox.id: '',
             name: 'gearbox_id',
             type: 'dropdown',
             options: formatAsOptionData(gearboxes, 'id', 'title'),
         },
         {
             label: 'Тип',
+            defaultValue: vehicleParams ? vehicleParams.car_body_configuration.id : '',
             name: 'car_body_configuration_id',
             type: 'dropdown',
             options: formatAsOptionData(carBodyConfigurations, 'id', 'title')
         },
         {
             label: 'Цвят',
+            defaultValue: vehicleParams ? vehicleParams.color.id : '',
             name: 'color_id',
             type: 'dropdown',
             options: formatAsOptionData(colors, 'id', 'title')
         },
         {
             label: 'Цена (в лева)',
+            defaultValue: vehicleParams ? vehicleParams.price_raw : '',
             name: 'price',
             type: 'input', 
             inputType: 'number'
         },
         {
             label: 'Мощност (к.с.)',
+            defaultValue: vehicleParams ? vehicleParams.hp : '',
             name: 'hp',
             type: 'input', 
             inputType: 'number'
         },
         {
             label: 'Година на производство',
+            defaultValue: vehicleParams ? vehicleParams.manufacture_year : '',
             name: 'manufacture_year',
             type: 'input', 
             inputType: 'number'
         },
         {
             label: 'Пробег',
+            defaultValue: vehicleParams ? vehicleParams.mileage : '',
             name: 'mileage',
             type: 'input', 
             inputType: 'number'
@@ -208,8 +221,7 @@ export default function CarAdForm(props) {
             label: 'Населено място',
             name: 'settlement_id',
             type: 'dropdown',
-            options: selectedRegionId === '' ? [] : formatAsOptionData(regionsAndSettlements.filter(region => region.id == selectedRegionId)[0].settlements, 'id', 'title'),
-            startWithEmptyValue: true,
+            options: (selectedRegionId === '' || regionsAndSettlements.length === 0) ? [] : formatAsOptionData(regionsAndSettlements.filter(region => region.id == selectedRegionId)[0].settlements, 'id', 'title'),
             value: selectedSettlementId,
             onChange: (e) => {
                 setSelectedSettlementId(e.target.value)
@@ -217,9 +229,10 @@ export default function CarAdForm(props) {
         },
         {
             label: 'Описание',
+            defaultValue: vehicleParams ? vehicleParams.description : '',
             name: 'description',
             type: 'textarea',
-            size: 'entire-row',
+            sizeClasses: 'col-12',
             maxLength: 500,
             minHeight: '128px'
         },
@@ -228,52 +241,10 @@ export default function CarAdForm(props) {
     return (
         <>
             <form method='POST' 
-                action={props.actionUrl} 
+                action={actionUrl} 
                 className='car-ad-form' >
                 <div className="row gy-3">
-                    {formFields.map((field, index) => {
-
-                        let fieldType = field.type
-
-                        let sizeClasses = 'col-6 col-md-3'
-                        
-                        if (field.size === 'entire-row') {
-                            sizeClasses = 'col-12'
-                        }
-
-                        let fieldClasses = 'mt-2 ' + (fieldType === 'dropdown' ? 'form-select' : 'form-control')
-
-                        let propsObj = {
-                            className: fieldClasses,
-                            placeholder: field.placeholder,
-                            name: field.name,
-                            maxLength: field.maxLength,
-                            placeholder: field.placeholder,
-                            style: {
-                                minHeight: field.minHeight
-                            },
-                            onChange: field.onChange,
-                            value: field.value
-                        }
-
-                        return (
-                            <div className={`field-wrapper ${sizeClasses}`} key={index}>
-                                <label className='p-1'>{field.label}
-                                    {
-                                        fieldType === 'input' ?
-                                            <input {...propsObj} /> :
-                                        fieldType === 'dropdown' ?
-                                            <select {...propsObj} >
-                                                {field.options.map((optionData, index) => <option value={optionData.value} key={index}>{optionData.label}</option>)}
-                                            </select> :
-                                        fieldType === 'textarea' ? 
-                                            <textarea rows="5" {...propsObj}></textarea>
-                                        : ''
-                                    }
-                                </label>
-                            </div>
-                        )
-                    })}
+                    {renderColumnFields(formFields)}
                 </div>
         
                 <div id="cars-extras-container" className='mt-4'>
@@ -302,7 +273,7 @@ export default function CarAdForm(props) {
                     </ul>
                 </div>
                 <div className='mt-4'>
-                    <ImageUpload />
+                    <ImageUpload imgUrls={vehicleParams ? vehicleParams.imsge_urls : []}/>
                 </div>
 
                 <input type='hidden' name='extras' value={JSON.stringify(carExtrasSerialized)} />

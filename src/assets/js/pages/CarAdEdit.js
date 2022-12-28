@@ -7,7 +7,10 @@ let CarAdEdit = {
         document.body.getAttribute('id') === 'car-ad-edit' ?
             ReactDOM
                 .createRoot(document.getElementById('car-ad-form'))
-                .render(<CarAdForm actionUrl={fromPHP.carEditUrl}/>) : ''
+                .render(<CarAdForm
+                        staticFormDataUrl={fromPHP.staticFormDataUrl} 
+                        actionUrl={fromPHP.carEditUrl}
+                        vehicleParams={fromPHP.vehicleParams}/>) : ''
     }
 }
 

@@ -9,6 +9,7 @@ login_manager.init_app(main_app)
 
 @login_manager.user_loader
 def load_user(user_id):
+    print('User loading.')
     return db.session.query(User).get(user_id)
 
 @login_manager.unauthorized_handler

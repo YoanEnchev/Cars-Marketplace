@@ -1,5 +1,6 @@
 from run import db
 from src.services.helpers.serialize_model_list import serialize_model_list
+from sqlalchemy.orm import joinedload
 
 class BaseRepository:
 
@@ -26,8 +27,10 @@ class BaseRepository:
         
         return records
            
-    def get_by_id(self, id: int, serialization: bool=False) -> object|None:
-        return self.entity.query.get(id)
+    def get_by_id(self, id: int, serialization: bool=False, relations: list=[]) -> object|None:
+        return self.entity.query \
+        .options(joinedload(relation) for relation in relations)\
+        .get(id)
 
     def get_by_id_list(self, ids:list):
         return self.entity.query.filter(self.entity.id.in_(ids)).all()
