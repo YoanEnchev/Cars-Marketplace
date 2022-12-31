@@ -12,6 +12,8 @@ import CarAdCreation from './pages/CarAdCreation'
 import CarDetails from './pages/CarDetails'
 import CarListing from './pages/CarListing'
 import CarAdEdit from './pages/CarAdEdit'
+import MyAdsListing from './pages/MyAdsListing'
+import PendingApprovalAdsListing from './pages/PendingApprovalAdsListing'
 
 
 // Initialize JS pages
@@ -22,3 +24,5 @@ CarAdCreation.init()
 CarDetails.init()
 CarListing.init()
 CarAdEdit.init()
+MyAdsListing.init()
+PendingApprovalAdsListing.init()

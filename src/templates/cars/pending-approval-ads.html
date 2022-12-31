@@ -1,0 +1,19 @@
+{% set body_id = 'pending-approval-ads' %}
+{% extends 'layouts/app.html' %}
+
+{% block title %}
+    Обяви, изчакващи одобрение 
+{% endblock %}
+
+{% block content %}
+<div class="container mb-3">
+    <p class="h2 mt-5 mb-4 text-center">Обяви за одобрение </p>
+    <div id="pending-approval-ads-list"></div>
+</div>
+{% endblock %}
+
+{% block js_vars %}
+    var fromPHP = {
+        vehicleListDataUrl: "{{request.url_root[:-1] + url_for('cars_app.list_data')}}"
+    }
+{% endblock %}

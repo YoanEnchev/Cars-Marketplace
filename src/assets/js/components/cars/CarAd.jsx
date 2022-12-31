@@ -9,6 +9,7 @@ import "../../../scss/components/car-ads.scss"
 export default function CarAd(props) {
 
     const car = props.car
+    const status = car.status
     const makeTitle = car.make.title;
     const modelTitle = car.model.title;
     const [isInWishlist, setIsInWishlist] = useState(car.isInWishlist)
@@ -26,7 +27,7 @@ export default function CarAd(props) {
     }
 
     return (
-        <a className="card car-ad shadow-sm" href={car.detail_page}>
+        <a className={"card car-ad shadow-sm " + status} href={car.detail_page}>
             <div className='actions'>
                 {car.is_in_wishlist ?
                 <div className='wishlist-action' key='wishlist' onClick={onClickWishlistAction}>
@@ -45,11 +46,16 @@ export default function CarAd(props) {
             </div>
             
             <div className='card-body pt-0'>
-                <p className='card-title h5 text-black'>{makeTitle + ' ' + modelTitle + ' ' + car.modification}</p>
-                <div className="divider"></div>
-                <p className='card-text text-black'>{`${car.manufacture_year} ${car.fuel_type.title} ${car.mileage} ${props.mileageUnit}`}</p>
-                <p className='text-muted description'>{car.description}</p>
-                <p className='mt-2 text-black'>{car.publisher.first_name}, {car.settelment.title}</p>
+                {status === 'pending' ? <p>Обявата изчаква одобрение.</p> : 
+                    status === 'declined' ? <p>Обявата не беше одобрена поради неправилно съдържание в нея. Редактирайте обявата и премахнете неподходящото съдържание или се свържете с администратора на сайта за повече детайли.</p> :
+                    <>
+                        <p className='card-title h5 text-black'>{makeTitle + ' ' + modelTitle + ' ' + car.modification}</p>
+                        <div className="divider"></div>
+                        <p className='card-text text-black'>{`${car.manufacture_year} ${car.fuel_type.title} ${car.mileage} ${props.mileageUnit}`}</p>
+                        <p className='text-muted description'>{car.description}</p>
+                        <p className='mt-2 text-black'>{car.publisher.first_name}, {car.settelment.title}</p>
+                    </>
+                }
             </div>
         </a>
     )

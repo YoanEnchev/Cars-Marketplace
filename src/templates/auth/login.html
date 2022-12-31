@@ -8,4 +8,9 @@
 {% block content %}
     <h1 class="h3 text-center mt-4 mb-3">Вход</h1>
     <div id="login-form" class="container"></div>
+
+    <p class="text-center">
+        <span class="mt-3 d-inline-block">Нямате акаунт?</span>
+        <a href="{{url_for('auth_app.register')}}">Регистрирайте се</a>
+    </p>
 {% endblock %}

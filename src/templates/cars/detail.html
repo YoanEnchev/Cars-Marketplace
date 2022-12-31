@@ -48,7 +48,10 @@
                 </a>
                 <p class="mb-1">Продавач: {{vehicle_ad_obj.publisher.first_name}}</p>
                 <b class="d-block mb-3">{{vehicle_ad_obj.settlement.title}}, област: {{vehicle_ad_obj.settlement.region.title}}</b>
-
+                
+                {% if current_user.is_authenticated and current_user.is_admin() %}
+                    <div class="admin-actions-container"></div>
+                {% endif %}
             </div>
             <div class="col-12 col-md-7">
                 <div id="car-thumbnail-slider" class="mb-3"></div>
@@ -59,6 +62,9 @@
 
 {% block js_vars %}
     var fromPHP = {
-        imagesUrls: {{vehicle_ad_obj.images_urls|tojson}}
+        imagesUrls: {{vehicle_ad_obj.images_urls|tojson}},
+        vehicleStatus: "{{vehicle_ad_obj.status}}",
+        acceptUrl: "{{url_for('admin_app.approve_ad', id=vehicle_ad_obj.id)}}",
+        declinetUrl: "{{url_for('admin_app.decline_ad', id=vehicle_ad_obj.id)}}"
     }
 {% endblock %}

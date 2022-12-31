@@ -26,7 +26,7 @@ export default function CarsList({showPaginator, apiUrl, page}) {
 
     return <>
         <div className='row cars-list'>
-            {
+            {cars.length === 0 ? <p className='h3 mt-5 text-center'>Няма обяви</p> :
                 cars.map((car, index) => <div key={index} className='col-12 col-sm-6 col-md-4 col-lg-3 p-3'>
                     <CarAd car={car} mileageUnit='км' />
                 </div>)
@@ -34,7 +34,7 @@ export default function CarsList({showPaginator, apiUrl, page}) {
         </div>
         
         
-        {showPaginator ? <Paginator totalPages={totalPages}
+        {(showPaginator && totalPages > 1) ? <Paginator totalPages={totalPages}
             currentPage={currentPage}
             onPageChange={setCurrentPage}
         /> : ''}

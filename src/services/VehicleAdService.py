@@ -47,6 +47,7 @@ class VehicleAdService(BaseModelService):
 
         data = dict(form_data) # Make dict mutable.
         data['publisher_id'] = current_user.id
+        data['is_approved'] = None
 
         vehicle_ad = VehicleAd(data)
         vehicle_ad.extras = (ExtraRepository()).get_by_id_list(json.loads(form_data['extras']))
@@ -59,13 +60,17 @@ class VehicleAdService(BaseModelService):
         db.session.commit()
 
 
-    def handle_ad_update(self, vehicle_ad: VehicleAd, form_data: dict):
+    def handle_ad_update(self, vehicle_ad: VehicleAd, form_data: ImmutableMultiDict):
 
         shutil.rmtree(vehicle_ad.img_folder) # Delete all image files.
         vehicle_ad.image_names = self.save_images_on_disk(form_data['image_urls'], vehicle_ad)
 
-        vehicle_ad.update_with_form_data(form_data)
-        vehicle_ad.extras = (ExtraRepository()).get_by_id_list(form_data['extras'])
+        data = dict(form_data) # Make dict mutable.
+        data['publisher_id'] = current_user.id
+        data['is_approved'] = None
+
+        vehicle_ad.update_with_form_data(data)
+        vehicle_ad.extras = (ExtraRepository()).get_by_id_list(json.loads(data['extras']))
         
         db.session.add(vehicle_ad)
         db.session.commit()
@@ -74,12 +79,21 @@ class VehicleAdService(BaseModelService):
     def save_images_on_disk(self, image_urls: list, vehicle_ad: VehicleAd) -> list:
 
         image_names = []
+        img_folder = vehicle_ad.img_folder
+
+        if not os.path.exists(img_folder):
+            os.makedirs(img_folder)
         
         for index, image_url in enumerate(json.loads(image_urls)):
             
             image_extension = guess_extension(guess_type(image_url)[0]) # value like .jpg and .png
+          
+            # Invalid specification for image extension in data url.
+            if image_extension is None:
+                continue
+
             img_name = str(index + 1) + image_extension
-            img_path = vehicle_ad.img_folder + '/' + img_name
+            img_path = img_folder + '/' + img_name
 
             image_names.append(img_name)
 
@@ -101,7 +115,22 @@ class VehicleAdService(BaseModelService):
         db.session.add(vehicle_ad)
         db.session.commit()
 
-        db.session.expire(vehicle_ad)
+    def approve_ad(self, vehicle_ad: VehicleAd):
+        vehicle_ad.is_approved = True
+
+        db.session.add(vehicle_ad)
+        db.session.commit()
+
+        flash('Успешно одобряване на обява.', 'primary')
+
+
+    def decline_ad(self, vehicle_ad: VehicleAd):
+        vehicle_ad.is_approved = False
+
+        db.session.add(vehicle_ad)
+        db.session.commit()
+
+        flash('Успешно отказване на обява.', 'primary')
 
     def handle_successful_ad_creation(self) -> Response:
 
@@ -109,7 +138,7 @@ class VehicleAdService(BaseModelService):
              session.pop(self.vehicle_creation_session_key) # No need to store form values if form is valid and operation succeeds.
 
         flash('Успешно създаване на обява.', 'primary')
-        return redirect(url_for('home_app.home'))
+        return redirect(url_for('cars_app.list_my_ads'))
 
 
     def handle_unsuccessful_ad_creation(self, form_data: dict, form: CarAdForm) -> Response:
@@ -123,7 +152,7 @@ class VehicleAdService(BaseModelService):
     def handle_successful_ad_update(self) -> Response:
         
         flash('Успешно редактиране на обява.', 'primary')
-        return redirect(url_for('home_app.home'))
+        return redirect(url_for('cars_app.list_my_ads'))
 
 
     def handle_unsuccessful_ad_update(self, form: CarAdForm) -> Response:

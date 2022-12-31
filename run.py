@@ -1,5 +1,5 @@
 import os
-
+print('>>>>>>>>>>>>>>>>>>>>>>>>>RUN')
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_injector import FlaskInjector
@@ -15,7 +15,9 @@ db = SQLAlchemy(main_app)
 from src.views.home import home_app
 from src.views.cars import cars_app
 from src.views.auth import auth_app
+from src.views.admin import admin_app
 from src.initializers.login_manager import login_manager
+
 import src.views.status_codes # Register status codes.
 
 # flask run
@@ -38,6 +40,7 @@ main_app.cli.add_command(drop_tables)
 main_app.register_blueprint(home_app)
 main_app.register_blueprint(cars_app)
 main_app.register_blueprint(auth_app)
+main_app.register_blueprint(admin_app)
 
 # Needed for session.
 main_app.secret_key = envData['SECRET_KEY']

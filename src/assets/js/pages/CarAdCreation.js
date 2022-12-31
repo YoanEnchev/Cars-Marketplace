@@ -8,8 +8,9 @@ let CarAdCreation = {
             ReactDOM
                 .createRoot(document.getElementById('car-ad-form'))
                 .render(<CarAdForm
-                        staticFormDataUrl={fromPHP.staticFormDataUrl}
-                        actionUrl={fromPHP.carCreationUrl}/>) : ''
+                    staticFormDataUrl={fromPHP.staticFormDataUrl}
+                    actionUrl={fromPHP.carCreationUrl}
+                    buttonText='Публикувай' />) : ''
     }
 }
 

@@ -2,6 +2,7 @@ from src.repositories.BaseRepository import BaseRepository
 from src.models.VehicleAd import VehicleAd
 from src.services.helpers.serialize_model_list import serialize_model_list
 from sqlalchemy import desc, asc
+from flask_login import current_user
 
 import math
 
@@ -33,6 +34,22 @@ class VehicleAdRepository(BaseRepository):
 
         if filters['gearbox_id'] is not 0:
             filterList.append(VehicleAd.gearbox_id == filters['gearbox_id'])
+
+        if filters['publisher_id'] is not 0:
+            filterList.append(VehicleAd.publisher_id == filters['publisher_id'])
+
+
+        context = filters['context']
+        
+        # Determine the is_approved filter value.
+        # Only admins are supposed to view pending approvement ads.
+        if context == 'pending_approval' and current_user.is_admin():
+            filterList.append(VehicleAd.is_approved == None)
+        elif context == 'my_ads':
+            # Don't filter ads by approved status in my ads
+            pass
+        else:
+            filterList.append(VehicleAd.is_approved == True)
 
 
         query = self.entity.query \

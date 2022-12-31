@@ -4,6 +4,14 @@
     text-decoration: none;
     height: 100%; /* Makes all ads in one row have the same height (the same as the highest one). */
 
+    &.pending {
+        background-color: #eaeaff;
+    }
+
+    &.declined {
+        background-color: #f5cbcc;
+    }
+
     img {
         aspect-ratio: 4 / 3;
         object-fit: cover;
@@ -55,5 +63,9 @@
         -webkit-line-clamp: 5;
         -webkit-box-orient: vertical;
         white-space: normal;
+    }
+
+    p {
+        color: black;
     }
 }

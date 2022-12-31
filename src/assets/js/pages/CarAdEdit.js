@@ -10,7 +10,8 @@ let CarAdEdit = {
                 .render(<CarAdForm
                         staticFormDataUrl={fromPHP.staticFormDataUrl} 
                         actionUrl={fromPHP.carEditUrl}
-                        vehicleParams={fromPHP.vehicleParams}/>) : ''
+                        vehicleParams={fromPHP.vehicleParams} 
+                        buttonText='Редактирай' />) : ''
     }
 }
 

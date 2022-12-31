@@ -10,22 +10,31 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import formatAsOptionData from '../../../helpers/formatAsOptionData'
 import renderColumnFields from '../../../helpers/renderColumnFields'
 
-export default function CarAdForm({staticFormDataUrl, vehicleParams = null, actionUrl}) {
+export default function CarAdForm({staticFormDataUrl, vehicleParams = null, actionUrl, buttonText}) {
     
     const [showExtraModal, setShowExtraModal] = useState(false)
 
     const [makesAndModels, setMakesAndModels] = useState([])
-    const [selectedMakeId, setSelectedMakeId] = useState(vehicleParams ? vehicleParams.make.id : '')
+    const [selectedMakeId, setSelectedMakeId] = useState('')
     const [selectedModelId, setSelectedModelId] = useState(vehicleParams ? vehicleParams.model.id : '')
     
+    const [selectedFuelId, setSelectedFuelId] = useState('')
+    const [fuels, setFuels] = useState([])
+    
+    const [selectedEcoStandartId, setSelectedEcoStandartId] = useState('')
+    const [ecoStandarts, setEcoStandarts] = useState([])
+
     const [regionsAndSettlements, setRegionsAndSettlements] = useState([])
-    const [selectedRegionId, setSelectedRegionId] = useState(vehicleParams ? vehicleParams.settelment.region_id : '')
+    const [selectedRegionId, setSelectedRegionId] = useState('')
     const [selectedSettlementId, setSelectedSettlementId] = useState(vehicleParams ? vehicleParams.settelment.id : '')
 
     const [carBodyConfigurations, setCarBodyConfigurations] = useState([])
+    const [selectedCarBodyConfiguration, setSelectedCarBodyConfiguration] = useState('')
+    
+    const [selectedColorId, setSelectedColorId] = useState('')
     const [colors, setColors] = useState([])
-    const [ecoStandarts, setEcoStandarts] = useState([])
-    const [fuels, setFuels] = useState([])
+
+    const [selectedGearboxId, setSelectedGearboxId] = useState('')
     const [gearboxes, setGearboxes] = useState([])
 
     const [carExtras, setCarExtras] = useState([])
@@ -85,19 +94,33 @@ export default function CarAdForm({staticFormDataUrl, vehicleParams = null, acti
             .then((response) => response.json())
             .then((data) => {
    
-                setCarBodyConfigurations(data.car_body_configuration)
-                setColors(data.colors)
-                setEcoStandarts(data.eco_standarts)
-                setFuels(data.fuels)
-                setGearboxes(data.gearboxes)
+                const carBodyConfigurations = data.car_body_configuration
+                setCarBodyConfigurations(carBodyConfigurations)
+                setSelectedCarBodyConfiguration(vehicleParams ? vehicleParams.car_body_configuration.id : carBodyConfigurations[0].id)
+
+                const colors = data.colors
+                setColors(colors)
+                setSelectedColorId(vehicleParams ? vehicleParams.color.id : colors[0])
+
+                const fuels = data.fuels;
+                setFuels(fuels)
+                setSelectedFuelId(vehicleParams ? vehicleParams.fuel_type.id : fuels[0])
+
+                const ecoStandarts = data.eco_standarts
+                setEcoStandarts(ecoStandarts)
+                setSelectedEcoStandartId(vehicleParams ? vehicleParams.eco_standart.id : ecoStandarts[0])
+
+                const gearboxes = data.gearboxes;
+                setSelectedGearboxId(vehicleParams ? vehicleParams.gearbox.id: gearboxes[0])
+                setGearboxes(gearboxes)
 
                 let makesAndModelsData = data.makes_and_models
                 setMakesAndModels(makesAndModelsData)
-                setSelectedMakeId(makesAndModelsData[0].id)
+                setSelectedMakeId(vehicleParams ? vehicleParams.make.id : makesAndModelsData[0].id)
 
                 let regionsAndSettlementsData = data.regions_and_settlements
                 setRegionsAndSettlements(regionsAndSettlementsData)
-                setSelectedRegionId(regionsAndSettlementsData[0].id)
+                setSelectedRegionId(vehicleParams ? vehicleParams.settelment.region_id : regionsAndSettlementsData[0].id)
 
                 let filledExtrasIds = [] // ids from prefilled edit page.
                 if (vehicleParams) filledExtrasIds = vehicleParams.extras.map(extraData => extraData.id)
@@ -131,9 +154,7 @@ export default function CarAdForm({staticFormDataUrl, vehicleParams = null, acti
             type: 'dropdown',
             options: (selectedMakeId === '' || makesAndModels.length === 0) ? [] : formatAsOptionData(makesAndModels.filter(make => make.id == selectedMakeId)[0].models, 'id', 'title'),
             value: selectedModelId,
-            onChange: (e) => {
-                setSelectedModelId(e.target.value)
-            }
+            onChange: (e) => setSelectedModelId(e.target.value)
         },
         {
             label: 'Модификация',
@@ -145,38 +166,45 @@ export default function CarAdForm({staticFormDataUrl, vehicleParams = null, acti
         },
         {
             label: 'Гориво',
-            defaultValue: vehicleParams ? vehicleParams.fuel_type.id : '',
+            // defaultValue property is not working.
+            // That's why we use value and onChange props instead.
+            value: selectedFuelId,
             name: 'fuel_type_id',
             type: 'dropdown',
             options: formatAsOptionData(fuels, 'id', 'title'),
+            onChange: (e) => setSelectedFuelId(e.target.value)
         },
         {
             label: 'Евростандарт',
-            defaultValue: vehicleParams ? vehicleParams.eco_standart.id : '',
+            value: selectedEcoStandartId,
             name: 'eco_standart_id',
             type: 'dropdown',
-            options: formatAsOptionData(ecoStandarts, 'id', 'title')
+            options: formatAsOptionData(ecoStandarts, 'id', 'title'),
+            onChange: (e) => setSelectedEcoStandartId(e.target.value)
         },
         {
             label: 'Скоростна Кутия',
-            defaultValue: vehicleParams ? vehicleParams.gearbox.id: '',
+            value: selectedGearboxId,
             name: 'gearbox_id',
             type: 'dropdown',
             options: formatAsOptionData(gearboxes, 'id', 'title'),
+            onChange: (e) => setSelectedGearboxId(e.target.value)
         },
         {
             label: 'Тип',
-            defaultValue: vehicleParams ? vehicleParams.car_body_configuration.id : '',
+            value: selectedCarBodyConfiguration,
             name: 'car_body_configuration_id',
             type: 'dropdown',
-            options: formatAsOptionData(carBodyConfigurations, 'id', 'title')
+            options: formatAsOptionData(carBodyConfigurations, 'id', 'title'),
+            onChange: (e) => setSelectedCarBodyConfiguration(e.target.value)
         },
         {
             label: 'Цвят',
-            defaultValue: vehicleParams ? vehicleParams.color.id : '',
+            value: selectedColorId,
             name: 'color_id',
             type: 'dropdown',
-            options: formatAsOptionData(colors, 'id', 'title')
+            options: formatAsOptionData(colors, 'id', 'title'),
+            onChange: (e) => setSelectedColorId(e.target.value)
         },
         {
             label: 'Цена (в лева)',
@@ -278,7 +306,7 @@ export default function CarAdForm({staticFormDataUrl, vehicleParams = null, acti
 
                 <input type='hidden' name='extras' value={JSON.stringify(carExtrasSerialized)} />
 
-                <button className='btn btn-primary my-3'>Публикувай</button>
+                <button className='btn btn-primary my-3'>{buttonText}</button>
             </form>
 
             <CarExtraSelectionModal show={showExtraModal}

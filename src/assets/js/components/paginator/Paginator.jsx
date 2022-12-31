@@ -16,6 +16,8 @@ export default function Paginator({totalPages, currentPage, onPageChange}) {
     if (currentPage + 1 <= totalPages) rightPages.push(currentPage + 1)
     if (currentPage + 2 <= totalPages) rightPages.push(currentPage + 2)
 
+    console.log(leftPages, rightPages)
+
     return <nav aria-label="Page navigation example">
         <ul className="pagination">
             { currentPage > 1 ?

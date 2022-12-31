@@ -64,7 +64,7 @@ class VehicleAd(db.Model):
     image_names = db.Column(db.JSON())
 
     views = db.Column(db.Integer)
-    is_approved = db.Column(db.Boolean, default=False)
+    is_approved = db.Column(db.Boolean)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), onupdate=db.func.current_timestamp())
@@ -74,7 +74,6 @@ class VehicleAd(db.Model):
         self.update_with_form_data(data)
         
         self.views = 0
-        self.is_approved = False
 
     def update_with_form_data(self, data):
         self.model_id = data['model_id']
@@ -97,6 +96,7 @@ class VehicleAd(db.Model):
 
         self.modification = data['modification']
         self.description = data['description']
+        self.is_approved = data['is_approved']
 
 
     @property
@@ -111,6 +111,18 @@ class VehicleAd(db.Model):
     def images_urls(self):
         return [(request.url_root + self.img_folder + '/' + name) for name in self.image_names]
         
+    @property
+    def status(self):
+
+        is_approved = self.is_approved
+
+        if is_approved:
+            return 'approved'
+        elif is_approved == None:
+            return 'pending'
+        
+        return 'declined'
+
     @property
     def extra_categories_data(self) -> dict:
 
@@ -154,6 +166,7 @@ class VehicleAd(db.Model):
             'price': self.format_price,
             'price_raw': self.price,
             'hp': self.hp,
+            'status': self.status,
 
             # :-1 removes last symbol. This way we avoid double slash ('//').
             'detail_page': request.url_root[:-1] + url_for('cars_app.detail', id=self.id),

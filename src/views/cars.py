@@ -14,6 +14,7 @@ from src.services.ExtraCategoryService import ExtraCategoryService
 
 from src.forms.CarAdForm import CarAdForm
 from src.services.VehicleAdService import VehicleAdService
+from src.decorators.must_be_admin import must_be_admin
 
 cars_app = Blueprint('cars_app', __name__, template_folder='../templates')
 vehicle_additional_relations = ['eco_standart', 'extras', 'car_body_configuration', 'gearbox', 'color']
@@ -42,6 +43,18 @@ def list_page():
     return render_template('cars/list.html')
 
 
+@cars_app.route('/cars/my-ads', methods=['GET'], endpoint='list_my_ads')
+@login_required
+def list_my_ads():
+    return render_template('cars/my-ads-list.html')
+
+
+@cars_app.route('/cars/pending-approval', methods=['GET'], endpoint='list_pending_approval_ads')
+@must_be_admin
+def list_pending_approval_ads():
+    return render_template('cars/pending-approval-ads.html')
+
+
 @cars_app.route('/cars/data', methods=['GET'], endpoint='list_data')
 def list_data(vehicle_ad_service: VehicleAdService):
     
@@ -60,6 +73,8 @@ def list_data(vehicle_ad_service: VehicleAdService):
         'min_year': request.args.get(key='min_year', default=0, type=int),
         'fuel_type_id': request.args.get(key='fuel_type_id', default=0, type=int),
         'gearbox_id': request.args.get(key='gearbox_id', default=0, type=int),
+        'publisher_id': request.args.get(key='publisher_id', default=0, type=int),
+        'context': request.args.get(key='context', default='', type=str)
     }, sort=sort), 200
 
 
@@ -99,7 +114,7 @@ def update(id, vehicle_ad_service: VehicleAdService):
     form = CarAdForm(req_params)
 
     if form.validate():
-        vehicle_ad_service.handle_ad_update(req_params)
+        vehicle_ad_service.handle_ad_update(vehicle_ad=vehicle_ad, form_data=req_params)
         return vehicle_ad_service.handle_successful_ad_update()
     
     return vehicle_ad_service.handle_unsuccessful_ad_update()
