@@ -1,13 +1,18 @@
 import os
-print('>>>>>>>>>>>>>>>>>>>>>>>>>RUN')
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_injector import FlaskInjector
 from flask_login import LoginManager # Enable authentification.
+from dotenv import load_dotenv
 
+called_from_test = "PYTEST_CURRENT_TEST" in os.environ # Make sure it's checked before load_dotenv is called.
+load_dotenv('.flaskenv') # Loads env so it's visibly by pytest
 envData = os.environ
+
 main_app = Flask(__name__)
-main_app.config['SQLALCHEMY_DATABASE_URI'] = envData['DB_URL']
+
+main_app.config['SQLALCHEMY_DATABASE_URI'] = envData['DB_URL'] #if called_from_test else envData['DB_URL_TEST']
 main_app.config['SQLALCHEMY_ECHO'] = envData['FLASK_DEBUG'] # prints what SQL queries are made if debug is enabled.
 
 db = SQLAlchemy(main_app)

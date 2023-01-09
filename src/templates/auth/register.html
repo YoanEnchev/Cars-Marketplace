@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block js_vars %}
-    var fromPHP = {
+    var fromPython = {
         registrationData: {{ form_values == None and '{}' or form_values|tojson }}
     }
 {% endblock %}

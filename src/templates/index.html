@@ -28,7 +28,7 @@
 {% endblock %}
 
 {% block js_vars %}
-    var fromPHP = {
+    var fromPython = {
         staticFormDataUrl: "{{url_for('cars_app.static-data')}}",
         currentYear: {{current_year}},
         vehicleListUrl: "{{url_for('cars_app.list_page')}}",

@@ -8,9 +8,9 @@ let CarAdEdit = {
             ReactDOM
                 .createRoot(document.getElementById('car-ad-form'))
                 .render(<CarAdForm
-                        staticFormDataUrl={fromPHP.staticFormDataUrl} 
-                        actionUrl={fromPHP.carEditUrl}
-                        vehicleParams={fromPHP.vehicleParams} 
+                        staticFormDataUrl={fromPython.staticFormDataUrl} 
+                        actionUrl={fromPython.carEditUrl}
+                        vehicleParams={fromPython.vehicleParams} 
                         buttonText='Редактирай' />) : ''
     }
 }

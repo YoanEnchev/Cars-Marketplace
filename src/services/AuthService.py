@@ -26,7 +26,7 @@ class AuthService:
         if session.get(self.regisration_session_key):
              session.pop(self.regisration_session_key) # No need to store form values if form is valid and operation succeeds.
 
-        flash('Successful registration.', 'primary')
+        flash('Успешна регистрация.', 'primary')
         return redirect(url_for('home_app.home'))
 
     def handle_unsuccessful_registration(self, form_data: dict, form: RegistrationForm) -> Response:
@@ -43,10 +43,10 @@ class AuthService:
         return redirect(url_for('home_app.home'))
 
     def handle_unsuccessful_login(self, user: User|None) -> Response:
-        message = 'Invalid login credentials.'
+        message = 'Невалидна парола.'
 
         if not user:
-            message = "User with such email doesn't exist"
+            message = "Потребител с такъв имейл не съществува"
 
         flash(message, 'danger')
 

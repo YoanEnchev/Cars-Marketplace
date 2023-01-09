@@ -12,7 +12,7 @@ let CarListing = {
             ReactDOM
                 .createRoot(document.getElementById('car-ads-listing'))
                 .render(<CarsList showPaginator={true} 
-                    apiUrl={fromPHP.vehicleListDataUrl + (paramsArr.length > 0 ? '?' + paramsArr.join('&') : '')}
+                    apiUrl={fromPython.vehicleListDataUrl + (paramsArr.length > 0 ? '?' + paramsArr.join('&') : '')}
                     page={(new URL(window.location.href)).searchParams.get('page') || 1}
                     />)
         }

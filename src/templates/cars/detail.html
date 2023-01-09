@@ -61,7 +61,7 @@
 {% endblock %}
 
 {% block js_vars %}
-    var fromPHP = {
+    var fromPython = {
         imagesUrls: {{vehicle_ad_obj.images_urls|tojson}},
         vehicleStatus: "{{vehicle_ad_obj.status}}",
         acceptUrl: "{{url_for('admin_app.approve_ad', id=vehicle_ad_obj.id)}}",

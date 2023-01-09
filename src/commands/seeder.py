@@ -5,32 +5,14 @@ from run import db, main_app
 import os, json, random, shutil
 
 from src.models.User import User
-from src.models.Make import Make
-from src.models.Color import Color
-from src.models.CarBodyConfiguration import CarBodyConfiguration
-from src.models.EcoStandart import EcoStandart
-from src.models.FuelType import FuelType
-from src.models.Gearbox import Gearbox
-from src.models.Region import Region
-from src.models.Settlement import Settlement
 from src.models.VehicleAd import VehicleAd
-from src.models.Model import Model
 from src.models.Role import Role
-from src.models.extras.ExtraCategory import ExtraCategory
-from src.models.extras.Extra import Extra
-
-from src.commands.data.makes_models import makes_models
-from src.commands.data.extras_and_categories import extras_and_categories
-from src.commands.data.colors import colors
-from src.commands.data.car_body_configurations import car_body_configurations
-from src.commands.data.eco_standarts import eco_standarts
-from src.commands.data.fuels import fuels
-from src.commands.data.gearboxes import gearboxes
-from src.commands.data.regions_and_settlements import regions_and_settlements
 
 from src.repositories.ModelRepository import ModelRepository
 from src.repositories.MakeRepository import MakeRepository
 from src.repositories.extras.ExtraRepository import ExtraRepository
+
+from src.seeders.static_data import init_static_data
 
 @main_app.cli.command('seed')
 @with_appcontext
@@ -59,83 +41,7 @@ def seed():
     
     db.session.commit()
 
-    # Makes & models seeding:
-    for make_title, models_arr in makes_models.items():
-        make_obj = Make({'title': make_title})
-        db.session.add(make_obj)
-        db.session.commit()
-
-        for model_title in models_arr:
-            model_obj = Model({'title': model_title, 'make_id': make_obj.id})
-            db.session.add(model_obj)
-
-        db.session.commit()
-
-
-    # Extras seeding:
-    for extra_category_title, extras_arr in extras_and_categories.items():
-        extra_category_obj = ExtraCategory({'title': extra_category_title})
-        db.session.add(extra_category_obj)
-        db.session.commit()
-
-        for extra_title in extras_arr:
-            extra_obj = Extra({'title': extra_title, 'category_id': extra_category_obj.id})
-            db.session.add(extra_obj)
-
-        db.session.commit()
-
-
-    # Colors seeding:
-    for color_title in colors:
-        color_obj = Color({'title': color_title})
-        db.session.add(color_obj)
-
-    db.session.commit()
-
-
-    # Car body configurations seeding:
-    for body_title in car_body_configurations:
-        car_body_obj = CarBodyConfiguration({'title': body_title})
-        db.session.add(car_body_obj)
-    
-    db.session.commit()
-
-
-    # Eco standarts seeding:
-    for standart_title in eco_standarts:
-        eco_standart_obj = EcoStandart({'title': standart_title})
-        db.session.add(eco_standart_obj)
-
-    db.session.commit()
-
-
-    # Fuels seeding:
-    for fuel_title in fuels:
-        fuel_obj = FuelType({'title': fuel_title})
-        db.session.add(fuel_obj)
-    
-    db.session.commit()
-
-
-    # Gearboxes seeding:
-    for gearbox_title in gearboxes:
-        gearbox_obj = Gearbox({'title': gearbox_title})
-        db.session.add(gearbox_obj)
-    
-    db.session.commit()
-
-
-    # Regions and Settlements seeding
-    for region_title, settlements_arr in regions_and_settlements.items():
-        region_obj = Region({'title': region_title})
-        db.session.add(region_obj)
-        db.session.commit()
-
-        for settlement_title in settlements_arr:
-            settlement_obj = Settlement({'title': settlement_title, 'region_id': region_obj.id})
-            db.session.add(settlement_obj)
-
-        db.session.commit()
+    init_static_data()
 
     # Insert vehicle records based on the data.json file in each vehicle folder.
     base_cars_path = './src/commands/data/example_cars_data'
@@ -182,7 +88,8 @@ def seed():
                                 'make_id': model_obj.make_id,
                                 'settlement_id': random.randint(1, 1000),
                                 'publisher_id': random.randint(2, 8),
-                                'description': 'Lorem ipsum dolor sit amet.' * 10
+                                'description': 'Lorem ipsum dolor sit amet.' * 10,
+                                'is_approved': None
                             }
                         })
                         vehicle_ad_obj.is_approved = True

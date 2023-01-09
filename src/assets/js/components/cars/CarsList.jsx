@@ -6,7 +6,6 @@ import Paginator from '../paginator/Paginator';
 
 export default function CarsList({showPaginator, apiUrl, page}) {
     
-    
     const [cars, setCars] = useState([])
     const [totalPages, setTotalPages] = useState(1)
     const [currentPage, setCurrentPage] = useState(page)

@@ -9,16 +9,16 @@ let CarDetails = {
         if (document.body.getAttribute('id') === 'car-ad-details') {
             ReactDOM
                 .createRoot(document.getElementById('car-thumbnail-slider'))
-                .render(<CarImageSlider thumbnails={fromPHP.imagesUrls} />)
+                .render(<CarImageSlider thumbnails={fromPython.imagesUrls} />)
         
             const adminActionsContainer = document.querySelector('.admin-actions-container')
             if (adminActionsContainer) {
                 // If admin has opened the page.
                 ReactDOM
                     .createRoot(adminActionsContainer)
-                    .render(<CarDetailsButtonActions vehicleStatus={fromPHP.vehicleStatus}
-                        acceptUrl={fromPHP.acceptUrl}
-                        declinetUrl={fromPHP.declinetUrl} />)
+                    .render(<CarDetailsButtonActions vehicleStatus={fromPython.vehicleStatus}
+                        acceptUrl={fromPython.acceptUrl}
+                        declinetUrl={fromPython.declinetUrl} />)
             }
         }
     }

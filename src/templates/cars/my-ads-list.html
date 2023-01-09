@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block js_vars %}
-    var fromPHP = {
+    var fromPython = {
         vehicleListDataUrl: "{{request.url_root[:-1] + url_for('cars_app.list_data')}}",
         userID: {{current_user.id}}
     }

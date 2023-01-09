@@ -14,3 +14,4 @@ main_app.jinja_env.globals.update(
     url_for=url_for_route,
     asset_url=asset_url
 )
+

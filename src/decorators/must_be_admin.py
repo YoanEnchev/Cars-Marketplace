@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import request, redirect, url_for, flash
+from flask import redirect, url_for, flash
 from flask_login import current_user
 
 def must_be_admin(f):
@@ -10,3 +10,5 @@ def must_be_admin(f):
             return redirect(url_for('home_app.home'))
         return f(*args, **kwargs)
     return decorated_function
+
+

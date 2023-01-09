@@ -7,3 +7,4 @@ class UserRepository(BaseRepository):
 
     def find_by_email(self, email: str):
         return self.entity.query.filter_by(email=email).first()
+

@@ -10,7 +10,7 @@ let MyAdsListing = {
             ReactDOM
                 .createRoot(document.getElementById('my-ads-listing'))
                 .render(<CarsList showPaginator={true} 
-                    apiUrl={fromPHP.vehicleListDataUrl + `?context=my_ads&publisher_id=${fromPHP.userID}`}
+                    apiUrl={fromPython.vehicleListDataUrl + `?context=my_ads&publisher_id=${fromPython.userID}`}
                     page={(new URL(window.location.href)).searchParams.get('page') || 1}
                     />)
         }

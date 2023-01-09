@@ -7,8 +7,10 @@ let Registration = {
         document.body.getAttribute('id') === 'registration' ?
             ReactDOM
                 .createRoot(document.getElementById('register-form'))
-                .render(<RegisterForm {...fromPHP.registrationData} />) : ''
+                .render(<RegisterForm {...fromPython.registrationData} />) : ''
     }
 }
 
 export default Registration
+
+

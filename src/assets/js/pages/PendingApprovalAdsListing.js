@@ -10,7 +10,7 @@ let PendingApprovalAdsListing = {
             ReactDOM
                 .createRoot(document.getElementById('pending-approval-ads-list'))
                 .render(<CarsList showPaginator={true} 
-                    apiUrl={fromPHP.vehicleListDataUrl + '?context=pending_approval'}
+                    apiUrl={fromPython.vehicleListDataUrl + '?context=pending_approval'}
                     page={(new URL(window.location.href)).searchParams.get('page') || 1}
                     />)
         }

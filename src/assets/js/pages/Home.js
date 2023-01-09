@@ -11,13 +11,13 @@ let Home = {
         [
             ReactDOM
                 .createRoot(document.getElementById('cars-search-container'))
-                .render(<CarsSearchForm staticFormDataUrl={fromPHP.staticFormDataUrl}
-                    currentYear={fromPHP.currentYear} />),
+                .render(<CarsSearchForm staticFormDataUrl={fromPython.staticFormDataUrl}
+                    currentYear={fromPython.currentYear} />),
         
             ReactDOM
                 .createRoot(document.getElementById('car-ads-listing'))
                 .render(<CarsList showPaginator={false}
-                    apiUrl={fromPHP.vehicleListDataUrl}
+                    apiUrl={fromPython.vehicleListDataUrl}
                     page={1}
                     />)
         ] : ''

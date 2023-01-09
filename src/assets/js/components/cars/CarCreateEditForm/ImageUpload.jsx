@@ -43,22 +43,31 @@ function extractThumbnailUrl(fileList) {
 export default function ImageUpload({imgUrls}) {
   const [files, setFiles] = useState([])
   const [base64Urls, setBase64Urls] = useState([]) // Helps with setting data in hidden field.
-  const rendersCountRef = useRef(0);
+  const rendersCountRef = useRef(0)
   rendersCountRef.current += 1; // Increment on each render.
+  const maxImageSize = 7 * 1024 * 1000
 
   const {getRootProps, getInputProps, isFocused, isDragAccept, isDragReject} = useDropzone({
     accept: {
       'image/*': []
     },
+    maxSize: maxImageSize,
     onDrop: acceptedFiles => {
       let fileList = [...files, ...acceptedFiles]
 
       if (fileList.length > 16) {
-        alert('Max 16 images are allowed')
+        alert('Не се допускат повече от 16 изображения.')
         fileList = fileList.slice(0, 16)
       }
 
       setFiles(extractThumbnailUrl(fileList))
+    },
+    onDropRejected: rejections => {
+      rejections.forEach(rejection => {
+        if (rejection.file.size > maxImageSize) {
+          alert('Изображения с размер над 7 мегабайта не са позволени.')
+        }
+      })
     }
   })
 

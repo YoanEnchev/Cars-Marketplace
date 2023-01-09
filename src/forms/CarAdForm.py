@@ -89,6 +89,8 @@ def validate_image_urls(self, field):
     for image_url in image_urls:
         if type(image_url) is not str:
             raise ValidationError('Not all elements of the image urls array are numeric.')
+        
+        
 
 
 class CarAdForm(Form):
