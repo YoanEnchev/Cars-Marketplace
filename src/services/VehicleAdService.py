@@ -14,7 +14,7 @@ from src.services.FormService import FormService
 from src.models.VehicleAd import VehicleAd
 from src.forms.CarAdForm import CarAdForm
 
-import base64, json, os, shutil
+import base64, json, os, shutil, pathlib
 
 class VehicleAdService(BaseModelService):
 
@@ -54,7 +54,6 @@ class VehicleAdService(BaseModelService):
         db.session.add(vehicle_ad)
         db.session.commit() # Create vehicle now so it know what id will the object have to determine image folder path.
 
-        os.mkdir(vehicle_ad.img_folder)
         vehicle_ad.image_names = self.save_images_on_disk(data['image_urls'], vehicle_ad)
         db.session.add(vehicle_ad)
         db.session.commit()
@@ -77,12 +76,12 @@ class VehicleAdService(BaseModelService):
 
 
     def save_images_on_disk(self, image_urls: list, vehicle_ad: VehicleAd) -> list:
-
+        # Make sure function is called only when image folder doesn't exist.
+        
         image_names = []
         img_folder = vehicle_ad.img_folder
 
-        if not os.path.exists(img_folder):
-            os.makedirs(img_folder)
+        os.makedirs(img_folder)
         
         for index, image_url in enumerate(json.loads(image_urls)):
             
@@ -104,7 +103,14 @@ class VehicleAdService(BaseModelService):
                 image_data = bytes(image_data, encoding="ascii")
                 
                 im = Image.open(BytesIO(base64.b64decode(image_data)))
-                im.save(img_path)
+                [width, height] = im.size
+                max_dimension = 2000
+
+                if width > max_dimension or height > max_dimension:
+                    # Make sure to lower dimensions so image size is reduced.
+                    im = im.resize((int(max_dimension * width / height), max_dimension))
+
+                im.save(img_path, optimize=True, quality=75)
 
         return image_names
 

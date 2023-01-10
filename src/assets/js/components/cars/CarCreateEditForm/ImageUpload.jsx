@@ -45,7 +45,7 @@ export default function ImageUpload({imgUrls}) {
   const [base64Urls, setBase64Urls] = useState([]) // Helps with setting data in hidden field.
   const rendersCountRef = useRef(0)
   rendersCountRef.current += 1; // Increment on each render.
-  const maxImageSize = 7 * 1024 * 1000
+  const maxImageSize = 50 * 1024 * 1024 // It will be compressed in the backend but having max size will define the compressed image max size.
 
   const {getRootProps, getInputProps, isFocused, isDragAccept, isDragReject} = useDropzone({
     accept: {

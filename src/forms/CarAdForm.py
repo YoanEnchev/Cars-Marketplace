@@ -89,7 +89,10 @@ def validate_image_urls(self, field):
     for image_url in image_urls:
         if type(image_url) is not str:
             raise ValidationError('Not all elements of the image urls array are numeric.')
-        
+
+        # Upload image size must be below 50 MB.
+        if (len(image_url) * 3 / 4 - image_url.count('=', -2)) / (1024 * 1024) > 50 + 1: # +1 just to make sure size is not underestimated.
+            raise ValidationError('Images above 50 MB are not allowed.')
         
 
 

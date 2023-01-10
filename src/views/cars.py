@@ -117,7 +117,7 @@ def update(id, vehicle_ad_service: VehicleAdService):
         vehicle_ad_service.handle_ad_update(vehicle_ad=vehicle_ad, form_data=req_params)
         return vehicle_ad_service.handle_successful_ad_update()
     
-    return vehicle_ad_service.handle_unsuccessful_ad_update()
+    return vehicle_ad_service.handle_unsuccessful_ad_update(form)
 
 
 # Data is fetched by ajax and used for car search and create/edit form.
