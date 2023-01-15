@@ -10,7 +10,8 @@ let CarAdEdit = {
                 .render(<CarAdForm
                         staticFormDataUrl={fromPython.staticFormDataUrl} 
                         actionUrl={fromPython.carEditUrl}
-                        vehicleParams={fromPython.vehicleParams} 
+                        vehicleParams={fromPython.vehicleParams}
+                        currentYear={fromPython.currentYear}
                         buttonText='Редактирай' />) : ''
     }
 }

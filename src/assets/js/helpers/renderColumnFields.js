@@ -18,14 +18,18 @@ export default function renderColumnFields(formFields) {
             className: fieldClasses,
             placeholder: field.placeholder,
             name: field.name,
-            maxLength: field.maxLength,
             placeholder: field.placeholder,
             style: {
                 minHeight: field.minHeight
             },
             onChange: field.onChange,
             value: field.value,
-            defaultValue: field.defaultValue
+            defaultValue: field.defaultValue,
+            required: field.required,
+            min: field.min,
+            max: field.max,
+            minLength: field.minLength,
+            maxLength: field.maxLength,
         }
 
         return (

@@ -10,7 +10,7 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import formatAsOptionData from '../../../helpers/formatAsOptionData'
 import renderColumnFields from '../../../helpers/renderColumnFields'
 
-export default function CarAdForm({staticFormDataUrl, vehicleParams = null, actionUrl, buttonText}) {
+export default function CarAdForm({staticFormDataUrl, vehicleParams = null, actionUrl, buttonText, currentYear}) {
     
     const [showExtraModal, setShowExtraModal] = useState(false)
 
@@ -161,8 +161,11 @@ export default function CarAdForm({staticFormDataUrl, vehicleParams = null, acti
             defaultValue: vehicleParams ? vehicleParams.modification : '',
             name: 'modification',
             type: 'input', 
+            required: 'required',
             inputType: 'text',
-            placeholder: 'Например: 1.6 CDI'
+            placeholder: 'Например: 1.6 CDI',
+            minLength: 3,
+            maxLength: 20
         },
         {
             label: 'Гориво',
@@ -211,28 +214,40 @@ export default function CarAdForm({staticFormDataUrl, vehicleParams = null, acti
             defaultValue: vehicleParams ? vehicleParams.price_raw : '',
             name: 'price',
             type: 'input', 
-            inputType: 'number'
+            required: 'required',
+            inputType: 'number',
+            min: 1, 
+            max: Math.pow(10, 6)
         },
         {
             label: 'Мощност (к.с.)',
             defaultValue: vehicleParams ? vehicleParams.hp : '',
             name: 'hp',
             type: 'input', 
-            inputType: 'number'
+            required: 'required',
+            inputType: 'number',
+            min: 1,
+            max: 10000
         },
         {
             label: 'Година на производство',
             defaultValue: vehicleParams ? vehicleParams.manufacture_year : '',
             name: 'manufacture_year',
             type: 'input', 
-            inputType: 'number'
+            required: 'required',
+            inputType: 'number',
+            min: 1900,
+            max: currentYear
         },
         {
             label: 'Пробег',
             defaultValue: vehicleParams ? vehicleParams.mileage : '',
             name: 'mileage',
             type: 'input', 
-            inputType: 'number'
+            required: 'required',
+            inputType: 'number',
+            min: 0,
+            max: 5 * Math.pow(10, 7)
         },
         {
             label: 'Област',

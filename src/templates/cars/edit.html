@@ -15,6 +15,7 @@
         staticFormDataUrl: "{{url_for('cars_app.static-data')}}",
         vehicleId: {{vehicle_serialization['id']}},
         carEditUrl: "{{car_edit_url}}",
-        vehicleParams: {{vehicle_serialization|tojson}}
+        vehicleParams: {{vehicle_serialization|tojson}},
+        currentYear: {{current_year}},
     }
 {% endblock %}

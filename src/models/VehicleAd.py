@@ -112,6 +112,10 @@ class VehicleAd(db.Model):
         return [(request.url_root + self.img_folder + '/' + name) for name in self.image_names]
         
     @property
+    def current_user_is_publisher(self):
+        return current_user.is_authenticated and self.publisher_id == int(current_user.get_id())
+
+    @property
     def status(self):
 
         is_approved = self.is_approved

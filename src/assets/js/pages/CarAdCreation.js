@@ -10,6 +10,7 @@ let CarAdCreation = {
                 .render(<CarAdForm
                     staticFormDataUrl={fromPython.staticFormDataUrl}
                     actionUrl={fromPython.carCreationUrl}
+                    currentYear={fromPython.currentYear}
                     buttonText='Публикувай' />) : ''
     }
 }

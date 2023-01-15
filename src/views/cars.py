@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, request, url_for, abort
-from flask_login import login_required
+from flask import Blueprint, render_template, request, url_for, abort, flash
+from flask_login import login_required, current_user
 from injector import inject
+from datetime import datetime
 import copy
 
 from src.services.ColorService import ColorService
@@ -25,7 +26,7 @@ vehicle_additional_relations = ['eco_standart', 'extras', 'car_body_configuratio
 def create(vehicle_ad_service: VehicleAdService):
     
     if request.method == 'GET':
-        return render_template('cars/create.html')
+        return render_template('cars/create.html', current_year=datetime.utcnow().year)
     
     # POST request for car creation
     req_params = request.form
@@ -86,6 +87,16 @@ def detail(id, vehicle_ad_service: VehicleAdService):
     
     if vehicle_ad is None:
         return abort(404)
+    
+    if not vehicle_ad.is_approved:
+        if not current_user.is_authenticated:
+            flash("User must be authenticated in order to view the ad that's not approved.", 'danger')
+            return abort(403)
+
+        if not (current_user.is_admin() or vehicle_ad.current_user_is_publisher):
+            flash("User must be publisher or admin of the ad in order to view ad that's not approved.", 'danger')
+            return abort(403)
+        
 
     # Making clone and passing the clone into the template is used because if
     # any of the vehicle_ad properties are accessed after the update 
@@ -103,12 +114,19 @@ def update(id, vehicle_ad_service: VehicleAdService):
     vehicle_ad = vehicle_ad_service.get_by_id(id=id, relations=vehicle_additional_relations)
     
     if vehicle_ad is None:
-        abort(404)
+        return abort(404)
+
+    if not vehicle_ad.current_user_is_publisher:
+        flash('Only the publisher can edit the ad.', 'danger')
+        return abort(403)
 
     if request.method == 'GET':
+
         return render_template('cars/edit.html', 
             vehicle_serialization=vehicle_ad.serialize(relations=vehicle_additional_relations),
-            car_edit_url=url_for('cars_app.update', id=vehicle_ad.id))
+            car_edit_url=url_for('cars_app.update', id=vehicle_ad.id),
+            current_year=datetime.utcnow().year
+        )
 
     req_params = request.form
     form = CarAdForm(req_params)

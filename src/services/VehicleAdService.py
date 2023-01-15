@@ -165,3 +165,5 @@ class VehicleAdService(BaseModelService):
         
         flash(self.form_service.get_error_message(form), 'danger')
         return redirect(url_for('home_app.home'))
+
+    
