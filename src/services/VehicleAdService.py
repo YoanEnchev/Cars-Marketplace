@@ -85,16 +85,14 @@ class VehicleAdService(BaseModelService):
         
         for index, image_url in enumerate(json.loads(image_urls)):
             
-            image_extension = guess_extension(guess_type(image_url)[0]) # value like .jpg and .png
-          
-            # Invalid specification for image extension in data url.
-            if image_extension is None:
+            image_extension = guess_extension(guess_type(image_url)[0])[1:] # guess_extension returns value like .jpg and .png and afterwards we drop the first symbol - '.'. 
+
+            if image_extension not in ['jpg', 'jpeg', 'png', 'gif', 'webp', 'apng', 'avif', 'jfif', 'pjpeg', 'pjp', 'webp', 'tif', 'tiff']:
+                # Invalid specification for image extension in data url.
                 continue
 
-            img_name = str(index + 1) + image_extension
+            img_name = str(index + 1) + '.' + image_extension
             img_path = img_folder + '/' + img_name
-
-            image_names.append(img_name)
 
             with open(img_path, "wb") as fh:
                 starter = image_url.find(',')
@@ -102,7 +100,12 @@ class VehicleAdService(BaseModelService):
                 image_data = image_url[starter+1:]
                 image_data = bytes(image_data, encoding="ascii")
                 
-                im = Image.open(BytesIO(base64.b64decode(image_data)))
+                im = None
+                try:
+                    im = Image.open(BytesIO(base64.b64decode(image_data)))
+                except:
+                    continue
+
                 [width, height] = im.size
                 max_dimension = 2000
 
@@ -111,6 +114,7 @@ class VehicleAdService(BaseModelService):
                     im = im.resize((int(max_dimension * width / height), max_dimension))
 
                 im.save(img_path, optimize=True, quality=75)
+                image_names.append(img_name)
 
         return image_names
 

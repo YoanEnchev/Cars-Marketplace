@@ -13,10 +13,9 @@ auth_app = Blueprint('auth_app', __name__, template_folder='templates')
 @inject
 @auth_app.route('/register', methods=['GET', 'POST'], endpoint="register")
 def register(auth_service: AuthService):
-    session_form_key = 'registration_data'
     
     if request.method == 'GET':
-        return render_template('auth/register.html', form_values=session.get(session_form_key))
+        return render_template('auth/register.html', form_values=session.get('registration_data'))
 
     # On submitting registration form:
     req_params = request.form
