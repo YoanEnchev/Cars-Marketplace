@@ -1,4 +1,4 @@
-// SCSS/CSS (it's added to <style>)
+// SCSS/CSS (it's added as <style>)
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../scss/general.scss'
 
@@ -14,7 +14,7 @@ import CarListing from './pages/CarListing'
 import CarAdEdit from './pages/CarAdEdit'
 import MyAdsListing from './pages/MyAdsListing'
 import PendingApprovalAdsListing from './pages/PendingApprovalAdsListing'
-console.log('xx')
+
 // Initialize JS pages
 Home.init()
 Registration.init()

@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, url_for
 from datetime import datetime
+from flask import Blueprint, render_template, url_for
 
 home_app = Blueprint('home_app', __name__, template_folder='../templates')
 
