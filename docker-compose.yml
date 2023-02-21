@@ -28,3 +28,6 @@ services:
     ports:
       # Use the same as in the .flaskenv file.
       - '5532:5432'
+    volumes:
+      # What sql script to run when creating the container.
+      - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql

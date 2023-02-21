@@ -35,7 +35,7 @@ main_app.register_blueprint(home_app)
 main_app.register_blueprint(cars_app)
 main_app.register_blueprint(auth_app)
 main_app.register_blueprint(admin_app)
-print('<h2>Hello World! This is my first CGI program</h2>')
+
 # Setup Flask Injector, this has to happen AFTER views are added
 FlaskInjector(app=main_app, modules=[configure])
 

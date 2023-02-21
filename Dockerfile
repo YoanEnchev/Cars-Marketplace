@@ -27,19 +27,19 @@ RUN apt-get -y install libapache2-mod-wsgi-py3
 RUN a2enmod wsgi
 
 
-
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN apt-get update
 RUN apt-get -y install python3-pip
 RUN apt-get -y install nano
 
-
-
 # Necessary for postgreSQL.
 RUN apt-get update
 RUN apt-get -y install libpq-dev python3-dev
 
+# Install packages from requirements.txt:
+COPY ./web_app/requirements.txt .
+RUN pip3 install -r requirements.txt
 
 
 # Install NODE JS:
@@ -53,7 +53,10 @@ RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
 ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 
 # Avoids cross-env: not found when executing npm run watch.
-RUN npm install --global cross-env 
+RUN npm install --global cross-env
+
+# Create tables & insert fictive records
+# So files declaring commands and run.py are imported.
 
 CMD ["apache2ctl", "-D", "FOREGROUND"]
 
@@ -77,3 +80,6 @@ CMD ["apache2ctl", "-D", "FOREGROUND"]
 
 #psql --host=postgres --username=$POSTGRES_USER --dbname=$POSTGRES_DB
 # Password for user postgres:
+
+# Export sql:
+# pg_dump -U $POSTGRES_USER -h localhost $POSTGRES_DB >> /docker-entrypoint-initdb.d/create_tables.sql
