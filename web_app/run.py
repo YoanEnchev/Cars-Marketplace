@@ -1,10 +1,3 @@
-import sys
-
-print('**********************************************')
-print(sys.version)
-print(sys.executable)
-print('**********************************************')
-
 # Import libraries
 from flask_injector import FlaskInjector
 from dependencies import configure

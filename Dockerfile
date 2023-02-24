@@ -78,8 +78,16 @@ CMD ["apache2ctl", "-D", "FOREGROUND"]
 
 #['', '/usr/local/lib/python310.zip', '/usr/local/lib/python3.10', '/usr/local/lib/python3.10/lib-dynload', '/usr/local/lib/python3.10/site-packages']
 
-#psql --host=postgres --username=$POSTGRES_USER --dbname=$POSTGRES_DB
+# Open SQL container:
+# psql --host=postgres --username=$POSTGRES_USER --dbname=$POSTGRES_DB
 # Password for user postgres:
 
 # Export sql:
 # pg_dump -U $POSTGRES_USER -h localhost $POSTGRES_DB >> /docker-entrypoint-initdb.d/create_tables.sql
+
+# Open redis container
+# redis-cli
+# AUTH eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+
+# List all keys:
+# KEYS * 

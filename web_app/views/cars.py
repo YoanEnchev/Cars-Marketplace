@@ -4,17 +4,9 @@ from injector import inject
 from datetime import datetime
 import copy
 
-from services.ColorService import ColorService
-from services.MakeService import MakeService
-from services.RegionService import RegionService
-from services.FuelService import FuelService
-from services.GearboxService import GearboxService
-from services.EcoStandartService import EcoStandartService
-from services.CarBodyConfigurationService import CarBodyConfigurationService
-from services.ExtraCategoryService import ExtraCategoryService
+from services.VehicleAdService import VehicleAdService
 
 from forms.CarAdForm import CarAdForm
-from services.VehicleAdService import VehicleAdService
 from decorators.must_be_admin import must_be_admin
 
 cars_app = Blueprint('cars_app', __name__, template_folder='../templates')
@@ -141,17 +133,6 @@ def update(id, vehicle_ad_service: VehicleAdService):
 # Data is fetched by ajax and used for car search and create/edit form.
 @inject
 @cars_app.route('/cars/static-form-data', methods=['GET'], endpoint='static-data')
-def car_forms_static_data(color_service: ColorService, make_service: MakeService, region_service: RegionService, fuel_service: FuelService,
-    gearbox_service: GearboxService, eco_standart_service: EcoStandartService, car_body_configuration_service: CarBodyConfigurationService,
-    extra_category_service: ExtraCategoryService):
-
-    return {
-        'colors': color_service.get_all(serialization=True),
-        'makes_and_models': make_service.get_all(serialization=True, relations=['models']),
-        'regions_and_settlements': region_service.get_all(serialization=True),
-        'fuels': fuel_service.get_all(serialization=True),
-        'gearboxes': gearbox_service.get_all(serialization=True),
-        'eco_standarts': eco_standart_service.get_all(serialization=True),
-        'car_body_configuration': car_body_configuration_service.get_all(serialization=True),
-        'extras': extra_category_service.get_all(serialization=True)
-    }
+def car_forms_static_data(vehicle_ad_service: VehicleAdService):
+    
+    return vehicle_ad_service.get_static_form_data()

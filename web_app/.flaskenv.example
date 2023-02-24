@@ -3,7 +3,7 @@ FLASK_DEBUG=1
 
 DB="postgresql"
 DB_USER="my_user"
-DB_HOST="localhost"
+DB_HOST="host.docker.internal" # So docker accesses localhost of the pc machine.
 DB_POSTGRES_PORT=0
 DB_NAME="my_db_name"
 DB_TEST_NAME="my_db_name_test"
@@ -11,5 +11,11 @@ DB_PASSWORD="my_password"
 DB_ENCODING="utf8"
 DB_URL="${DB}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_POSTGRES_PORT}/${DB_NAME}?client_encoding=${DB_ENCODING}"
 DB_URL_TEST="${DB}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_POSTGRES_PORT}/${DB_TEST_NAME}?client_encoding=${DB_ENCODING}"
+
+REDIS_HOST="host.docker.internal" # So docker accesses localhost of the pc machine.
+REDIS_PORT=6379
+REDIS_PASSWORD='password'
+# Default redis db index is 0.
+
 
 SECRET_KEY="my secret key"

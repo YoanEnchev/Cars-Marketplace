@@ -10,22 +10,46 @@ from repositories.VehicleAdRepository import VehicleAdRepository
 from repositories.extras.ExtraRepository import ExtraRepository
 from services.BaseModelService import BaseModelService
 from services.FormService import FormService
+from services.ColorService import ColorService
+from services.MakeService import MakeService
+from services.RegionService import RegionService
+from services.FuelService import FuelService
+from services.GearboxService import GearboxService
+from services.EcoStandartService import EcoStandartService
+from services.CarBodyConfigurationService import CarBodyConfigurationService
+from services.ExtraCategoryService import ExtraCategoryService
+
+
 from initializers.db import db
+from initializers.redis_manager import redis_manager
 from models.VehicleAd import VehicleAd
 from forms.CarAdForm import CarAdForm
 
-import base64, json, os, shutil, pathlib
+import base64, json, os, shutil
 
 class VehicleAdService(BaseModelService):
 
     vehicle_creation_session_key = 'vehicle_creation'
+    static_form_data_key = 'cars_static_form_data'
+
     model_repository: VehicleAdRepository
 
     @inject
-    def __init__(self, vehicle_ad_repo: VehicleAdRepository, form_service: FormService):
+    def __init__(self, vehicle_ad_repo: VehicleAdRepository, form_service: FormService, color_service: ColorService, make_service: MakeService, region_service: RegionService, 
+                fuel_service: FuelService, gearbox_service: GearboxService, eco_standart_service: EcoStandartService, car_body_configuration_service: CarBodyConfigurationService,
+                extra_category_service: ExtraCategoryService):
         
         self.model_repository = vehicle_ad_repo
         self.form_service = form_service
+
+        self.color_service = color_service
+        self.make_service = make_service
+        self.region_service = region_service
+        self.fuel_service = fuel_service
+        self.gearbox_service = gearbox_service
+        self.eco_standart_service = eco_standart_service
+        self.car_body_configuration_service = car_body_configuration_service
+        self.extra_category_service = extra_category_service
 
     def paginated_extraction(self, page: int, per_page: int, filters: dict, sort: str):
 
@@ -117,6 +141,28 @@ class VehicleAdService(BaseModelService):
                 image_names.append(img_name)
 
         return image_names
+    
+    def get_static_form_data(self) -> dict:
+        
+        static_form_data = redis_manager.get(self.static_form_data_key)
+    
+        if static_form_data:
+            return static_form_data
+    
+        data_to_extract = {
+            'colors': self.color_service.get_all(serialization=True),
+            'makes_and_models': self.make_service.get_all(serialization=True, relations=['models']),
+            'regions_and_settlements': self.region_service.get_all(serialization=True),
+            'fuels': self.fuel_service.get_all(serialization=True),
+            'gearboxes': self.gearbox_service.get_all(serialization=True),
+            'eco_standarts': self.eco_standart_service.get_all(serialization=True),
+            'car_body_configuration': self.car_body_configuration_service.get_all(serialization=True),
+            'extras': self.extra_category_service.get_all(serialization=True)
+        }
+        
+        redis_manager.set(self.static_form_data_key, json.dumps(data_to_extract)) # Convert to string before saving
+        
+        return json.loads(data_to_extract)
 
     def increment_views(self, vehicle_ad: VehicleAd):
         
