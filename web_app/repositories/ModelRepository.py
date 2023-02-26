@@ -1,9 +1,9 @@
 from repositories.BaseRepository import BaseRepository
-from models.Model import Model
+from models import ModelDBModel
 
 class ModelRepository(BaseRepository):
     
-    entity:object = Model
+    entity:object = ModelDBModel
 
     def get_by_make_and_model(self, make_id: int, model_title:str) -> object|None:
         # Filter by both make id and model title because some model titles are common

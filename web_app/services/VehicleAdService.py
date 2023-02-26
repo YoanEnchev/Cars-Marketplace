@@ -20,10 +20,9 @@ from services.CarBodyConfigurationService import CarBodyConfigurationService
 from services.ExtraCategoryService import ExtraCategoryService
 
 
-from initializers.db import db
-from initializers.redis_manager import redis_manager
-from models.VehicleAd import VehicleAd
-from forms.CarAdForm import CarAdForm
+from initializers import db, redis_manager
+from models import VehicleAdDBModel
+from forms import CarAdForm
 
 import base64, json, os, shutil
 
@@ -73,7 +72,7 @@ class VehicleAdService(BaseModelService):
         data['publisher_id'] = current_user.id
         data['is_approved'] = None
 
-        vehicle_ad = VehicleAd(data)
+        vehicle_ad = VehicleAdDBModel(data)
         vehicle_ad.extras = (ExtraRepository()).get_by_id_list(json.loads(form_data['extras']))
         db.session.add(vehicle_ad)
         db.session.commit() # Create vehicle now so it know what id will the object have to determine image folder path.
@@ -83,7 +82,7 @@ class VehicleAdService(BaseModelService):
         db.session.commit()
 
 
-    def handle_ad_update(self, vehicle_ad: VehicleAd, form_data: ImmutableMultiDict):
+    def handle_ad_update(self, vehicle_ad: VehicleAdDBModel, form_data: ImmutableMultiDict):
 
         shutil.rmtree(vehicle_ad.img_folder) # Delete all image files.
         vehicle_ad.image_names = self.save_images_on_disk(form_data['image_urls'], vehicle_ad)
@@ -99,7 +98,7 @@ class VehicleAdService(BaseModelService):
         db.session.commit()
 
 
-    def save_images_on_disk(self, image_urls: list, vehicle_ad: VehicleAd) -> list:
+    def save_images_on_disk(self, image_urls: list, vehicle_ad: VehicleAdDBModel) -> list:
         # Make sure function is called only when image folder doesn't exist.
         
         image_names = []
@@ -164,14 +163,14 @@ class VehicleAdService(BaseModelService):
         
         return json.loads(data_to_extract)
 
-    def increment_views(self, vehicle_ad: VehicleAd):
+    def increment_views(self, vehicle_ad: VehicleAdDBModel):
         
         vehicle_ad.views += 1
 
         db.session.add(vehicle_ad)
         db.session.commit()
 
-    def approve_ad(self, vehicle_ad: VehicleAd):
+    def approve_ad(self, vehicle_ad: VehicleAdDBModel):
         vehicle_ad.is_approved = True
 
         db.session.add(vehicle_ad)
@@ -180,7 +179,7 @@ class VehicleAdService(BaseModelService):
         flash('Успешно одобряване на обява.', 'primary')
 
 
-    def decline_ad(self, vehicle_ad: VehicleAd):
+    def decline_ad(self, vehicle_ad: VehicleAdDBModel):
         vehicle_ad.is_approved = False
 
         db.session.add(vehicle_ad)

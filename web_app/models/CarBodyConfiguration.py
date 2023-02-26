@@ -1,6 +1,6 @@
-from initializers.db import db
+from initializers import db
 
-class CarBodyConfiguration(db.Model):
+class CarBodyConfigurationDBModel(db.Model):
 
     __tablename__ = 'car_body_configurations'
 

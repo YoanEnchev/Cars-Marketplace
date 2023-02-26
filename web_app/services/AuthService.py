@@ -4,10 +4,10 @@ from flask import redirect, url_for, flash, session
 from flask_login import login_user
 from injector import inject
 
-from models.User import User
+from models import UserDBModel
 from services.UserService import UserService
 from services.FormService import FormService
-from forms.RegistrationForm import RegistrationForm
+from forms import RegistrationForm
 
 class AuthService:
 
@@ -37,12 +37,12 @@ class AuthService:
 
 
     # Login
-    def handle_successful_login(self, user: User|None) -> Response:
+    def handle_successful_login(self, user: UserDBModel|None) -> Response:
         login_user(user)
 
         return redirect(url_for('home_app.home'))
 
-    def handle_unsuccessful_login(self, user: User|None) -> Response:
+    def handle_unsuccessful_login(self, user: UserDBModel|None) -> Response:
         message = 'Невалидна парола.'
 
         if not user:

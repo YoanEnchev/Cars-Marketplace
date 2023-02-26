@@ -1,7 +1,7 @@
 from flask import Blueprint, request, url_for, abort, redirect
 
 from services.VehicleAdService import VehicleAdService
-from decorators.must_be_admin import must_be_admin
+from decorators import must_be_admin
 
 
 admin_app = Blueprint('admin_app', __name__, template_folder='../templates')

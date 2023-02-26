@@ -1,6 +1,6 @@
 from repositories.BaseRepository import BaseRepository
-from models.EcoStandart import EcoStandart
+from models import EcoStandartDBModel
 
 class EcoStandartRepository(BaseRepository):
     
-    entity:object = EcoStandart
+    entity:object = EcoStandartDBModel

@@ -1,4 +1,4 @@
-from initializers.db import db
+from initializers import db
 from services.helpers.serialize_model_list import serialize_model_list
 from sqlalchemy.orm import joinedload
 

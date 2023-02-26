@@ -1,4 +1,4 @@
-from initializers.main_app import main_app
+from initializers import main_app
 from flask import url_for
 
 # For some reason (due to the dependency injector) the following exception is thrown "TypeError: Injecting Any is not supported".

@@ -1,6 +1,6 @@
-from initializers.db import db
+from initializers import db
 
-class FuelType(db.Model):
+class FuelTypeDBModel(db.Model):
 
     __tablename__ = 'fuel_types'
 

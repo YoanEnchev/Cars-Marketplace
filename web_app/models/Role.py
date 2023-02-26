@@ -1,6 +1,6 @@
-from initializers.db import db
+from initializers import db
 
-class Role(db.Model):
+class RoleDBModel(db.Model):
 
     __tablename__ = 'roles'
 

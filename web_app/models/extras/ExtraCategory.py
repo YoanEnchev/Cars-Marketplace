@@ -1,7 +1,7 @@
-from initializers.db import db
+from initializers import db
 from services.helpers.serialize_model_list import serialize_model_list
 
-class ExtraCategory(db.Model):
+class ExtraCategoryDBModel(db.Model):
 
     __tablename__ = 'extras_categories'
 

@@ -1,6 +1,6 @@
-from initializers.db import db
+from initializers import db
 
-class EcoStandart(db.Model):
+class EcoStandartDBModel(db.Model):
 
     __tablename__ = 'eco_standarts'
 

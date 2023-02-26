@@ -1,6 +1,6 @@
 from repositories.BaseRepository import BaseRepository
-from models.CarBodyConfiguration import CarBodyConfiguration
+from models import CarBodyConfigurationDBModel
 
 class CarBodyConfigurationRepository(BaseRepository):
 
-    entity:object = CarBodyConfiguration
+    entity:object = CarBodyConfigurationDBModel

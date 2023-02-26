@@ -1,6 +1,6 @@
 from repositories.BaseRepository import BaseRepository
-from models.Gearbox import Gearbox
+from models import GearboxDBModel
 
 class GearboxRepository(BaseRepository):
     
-    entity:object = Gearbox
+    entity:object = GearboxDBModel

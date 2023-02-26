@@ -1,7 +1,6 @@
 import pytest
-from initializers.db import db
-from initializers.main_app import main_app
-from models.Role import Role
+from initializers import db, main_app
+from models import RoleDBModel
 
 @pytest.fixture(autouse=True)
 def run_before_and_after_tests(tmpdir):
@@ -13,10 +12,10 @@ def run_before_and_after_tests(tmpdir):
         db.drop_all() # Drop tables.
         db.create_all() # Create tables.
 
-        role_admin = Role({'title': 'admin xx'})
+        role_admin = RoleDBModel({'title': 'admin xx'})
         db.session.add(role_admin)
 
-        role_ordinary_user = Role({'title': 'ordinary_user xx'})
+        role_ordinary_user = RoleDBModel({'title': 'ordinary_user xx'})
         db.session.add(role_ordinary_user)
         db.session.commit()
 

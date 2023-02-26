@@ -1,6 +1,6 @@
 from repositories.BaseRepository import BaseRepository
-from models.FuelType import FuelType
+from models import FuelTypeDBModel
 
 class FuelTypeRepository(BaseRepository):
     
-    entity:object = FuelType
+    entity:object = FuelTypeDBModel

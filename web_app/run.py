@@ -3,22 +3,17 @@ from flask_injector import FlaskInjector
 from dependencies import configure
 
 # Import views
-from views.home import home_app
-from views.cars import cars_app
-from views.auth import auth_app
-from views.admin import admin_app
+from views import home_app, cars_app, auth_app, admin_app
 import views.status_codes # Register status codes.
 
 # Register commands
-from commands.seeder import seed
-from commands.drop_tables import drop_tables
+from commands import seed, drop_tables
 
 # Register extensions:
-from extensions.url_for import url_for
+from extensions import url_for
 
-# Enable initializers
-from initializers.login_manager import login_manager # Enable authentication
-from initializers.main_app import main_app
+# Import initializers
+from initializers import login_manager, main_app # login_manager enables authentication
 
 main_app.cli.add_command(seed)
 main_app.cli.add_command(drop_tables)

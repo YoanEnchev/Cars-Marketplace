@@ -1,6 +1,6 @@
-from initializers.db import db
+from initializers import db
 
-class Color(db.Model):
+class ColorDBModel(db.Model):
 
     __tablename__ = 'colors'
 

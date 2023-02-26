@@ -6,8 +6,8 @@ import copy
 
 from services.VehicleAdService import VehicleAdService
 
-from forms.CarAdForm import CarAdForm
-from decorators.must_be_admin import must_be_admin
+from forms import CarAdForm
+from decorators import must_be_admin
 
 cars_app = Blueprint('cars_app', __name__, template_folder='../templates')
 vehicle_additional_relations = ['eco_standart', 'extras', 'car_body_configuration', 'gearbox', 'color']

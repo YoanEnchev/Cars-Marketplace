@@ -1,6 +1,6 @@
-from initializers.db import db
+from initializers import db
 
-class Gearbox(db.Model):
+class GearboxDBModel(db.Model):
 
     __tablename__ = 'gearboxes'
 

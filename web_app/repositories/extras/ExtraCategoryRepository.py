@@ -1,6 +1,6 @@
 from repositories.BaseRepository import BaseRepository
-from models.extras.ExtraCategory import ExtraCategory
+from models.extras import ExtraCategoryDBModel
 
 class ExtraCategoryRepository(BaseRepository):
     
-    entity:object = ExtraCategory
+    entity:object = ExtraCategoryDBModel

@@ -1,6 +1,6 @@
 from repositories.BaseRepository import BaseRepository
-from models.Region import Region
+from models import RegionDBModel
 
 class RegionRepository(BaseRepository):
     
-    entity:object = Region
+    entity:object = RegionDBModel

@@ -4,7 +4,7 @@ from flask_injector import FlaskInjector
 from injector import inject
 from werkzeug.security import check_password_hash
 
-from forms.RegistrationForm import RegistrationForm
+from forms import RegistrationForm
 from services.AuthService import AuthService
 from services.UserService import UserService
 

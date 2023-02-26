@@ -1,8 +1,8 @@
-from initializers.db import db
-from models.tables.VehicleExtra import VehicleExtra
-from models.extras.ExtraCategory import ExtraCategory
+from initializers import db
+from models.tables import VehicleExtraDBTable
+from models.extras import ExtraCategoryDBModel
 
-class Extra(db.Model):
+class ExtraDBModel(db.Model):
 
     __tablename__ = 'extras'
 
@@ -10,9 +10,9 @@ class Extra(db.Model):
     title = db.Column(db.String(80), nullable=False)
     
     extra_category_id = db.Column(db.Integer, db.ForeignKey('extras_categories.id'))
-    extra_category = db.relationship(ExtraCategory, lazy="joined") # Eager load make.
+    extra_category = db.relationship(ExtraCategoryDBModel, lazy="joined") # Eager load make.
     
-    vehicles = db.relationship('VehicleAd', secondary=VehicleExtra, backref='extras_vehicle')
+    vehicles = db.relationship('VehicleAd', secondary=VehicleExtraDBTable, backref='extras_vehicle')
 
     def __init__(self, data):
         self.title = data['title']
