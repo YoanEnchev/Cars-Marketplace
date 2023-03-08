@@ -1,5 +1,6 @@
-from initializers import db
-from services.helpers.serialize_model_list import serialize_model_list
+from initializers.database import db
+from services.helpers.serialization import serialize_model_list
+#from models.Model import ModelDBModel
 
 class MakeDBModel(db.Model):
 
@@ -9,7 +10,7 @@ class MakeDBModel(db.Model):
     title = db.Column(db.String(80), nullable=False)
     
     # Eager load models.
-    models = db.relationship("Model", backref='model', lazy='joined')
+    models = db.relationship('ModelDBModel', backref='model', lazy='joined')
 
     def __init__(self, data):
         self.title = data['title']

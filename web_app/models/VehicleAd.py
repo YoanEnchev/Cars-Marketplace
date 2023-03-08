@@ -1,12 +1,10 @@
 import os
 from flask import url_for, request
 from flask_login import current_user
-from initializers import db
+from initializers.database import db
+from services.helpers.serialization import serialize_model_list
 
-from services.helpers.serialize_model_list import serialize_model_list
-
-from models import ModelDBModel, MakeDBModel, FuelTypeDBModel, SettlementDBModel, UserDBModel, EcoStandartDBModel, GearboxDBModel, CarBodyConfiguration, ColorDBModel
-from models.tables import VehicleExtraDBTable
+from models.tables.VehicleExtra import VehicleExtraDBTable
 
 class VehicleAdDBModel(db.Model):
 
@@ -16,33 +14,33 @@ class VehicleAdDBModel(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     
     model_id = db.Column(db.Integer, db.ForeignKey('models.id'))
-    model = db.relationship(ModelDBModel, lazy="joined") # Eager load.
+    model = db.relationship('ModelDBModel', lazy="joined") # Eager load.
 
     make_id = db.Column(db.Integer, db.ForeignKey('makes.id'))
-    make = db.relationship(MakeDBModel, lazy="joined") # Eager load.
+    make = db.relationship('MakeDBModel', lazy="joined") # Eager load.
 
     fuel_type_id = db.Column(db.Integer, db.ForeignKey('fuel_types.id'))
-    fuel_type = db.relationship(FuelTypeDBModel, lazy="joined") # Eager load.
+    fuel_type = db.relationship('FuelTypeDBModel', lazy="joined") # Eager load.
     
     settlement_id = db.Column(db.Integer, db.ForeignKey('settlements.id'))
-    settlement = db.relationship(SettlementDBModel, lazy="joined") # Eager load.
+    settlement = db.relationship('SettlementDBModel', lazy="joined") # Eager load.
 
     publisher_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    publisher = db.relationship(UserDBModel, lazy="joined") # Eager load.
+    publisher = db.relationship('UserDBModel', lazy="joined") # Eager load.
 
     car_body_configuration_id = db.Column(db.Integer, db.ForeignKey('car_body_configurations.id'))
-    car_body_configuration = db.relationship(CarBodyConfiguration)
+    car_body_configuration = db.relationship('CarBodyConfigurationDBModel')
 
     eco_standart_id = db.Column(db.Integer, db.ForeignKey('eco_standarts.id'))
-    eco_standart = db.relationship(EcoStandartDBModel)
+    eco_standart = db.relationship('EcoStandartDBModel')
 
     gearbox_id = db.Column(db.Integer, db.ForeignKey('gearboxes.id'))
-    gearbox = db.relationship(GearboxDBModel, lazy="joined") # Eager load.
+    gearbox = db.relationship('GearboxDBModel', lazy="joined") # Eager load.
     
     color_id = db.Column(db.Integer, db.ForeignKey('colors.id'))
-    color = db.relationship(ColorDBModel, lazy="joined") # Eager load.
+    color = db.relationship('ColorDBModel', lazy="joined") # Eager load.
 
-    extras = db.relationship('Extra', secondary=VehicleExtraDBTable, backref='vehicle_ads')
+    extras = db.relationship('ExtraDBModel', secondary=VehicleExtraDBTable, backref='vehicle_ads')
 
     manufacture_year = db.Column(db.Integer)
     hp = db.Column(db.Integer)

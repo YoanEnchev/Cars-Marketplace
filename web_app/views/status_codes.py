@@ -1,5 +1,5 @@
 from flask import render_template
-from initializers import main_app
+from initializers.app import main_app
 
 @main_app.errorhandler(403)
 def unauthorized(e):

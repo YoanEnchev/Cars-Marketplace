@@ -2,12 +2,10 @@ from flask import Blueprint, render_template, request, url_for, abort, flash
 from flask_login import login_required, current_user
 from injector import inject
 from datetime import datetime
+from services.VehicleAd import VehicleAdService
+from forms.Car import CarAdForm
+from decorators.admin import must_be_admin
 import copy
-
-from services.VehicleAdService import VehicleAdService
-
-from forms import CarAdForm
-from decorators import must_be_admin
 
 cars_app = Blueprint('cars_app', __name__, template_folder='../templates')
 vehicle_additional_relations = ['eco_standart', 'extras', 'car_body_configuration', 'gearbox', 'color']

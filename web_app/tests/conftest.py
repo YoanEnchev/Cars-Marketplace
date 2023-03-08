@@ -1,6 +1,7 @@
 import pytest
-from initializers import db, main_app
-from models import RoleDBModel
+from initializers.app import main_app
+from initializers.database import db
+from models.Role import RoleDBModel
 
 @pytest.fixture(autouse=True)
 def run_before_and_after_tests(tmpdir):

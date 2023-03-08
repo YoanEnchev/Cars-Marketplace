@@ -4,9 +4,9 @@ from flask_injector import FlaskInjector
 from injector import inject
 from werkzeug.security import check_password_hash
 
-from forms import RegistrationForm
-from services.AuthService import AuthService
-from services.UserService import UserService
+from forms.User import RegistrationForm
+from services.Auth import AuthService
+from services.User import UserService
 
 auth_app = Blueprint('auth_app', __name__, template_folder='templates')
 

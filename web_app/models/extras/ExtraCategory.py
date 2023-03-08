@@ -1,5 +1,5 @@
-from initializers import db
-from services.helpers.serialize_model_list import serialize_model_list
+from initializers.database import db
+from services.helpers.serialization import serialize_model_list
 
 class ExtraCategoryDBModel(db.Model):
 
@@ -9,7 +9,7 @@ class ExtraCategoryDBModel(db.Model):
     title = db.Column(db.String(80), nullable=False)
 
     # Eager load extras.
-    extras = db.relationship("Extra", backref='extra', lazy='joined')
+    extras = db.relationship("ExtraDBModel", backref='extra', lazy='joined')
 
     def __init__(self, data):
         self.title = data['title']

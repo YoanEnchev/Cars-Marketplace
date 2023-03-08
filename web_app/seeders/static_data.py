@@ -1,10 +1,26 @@
-from initializers import db
+from initializers.database import db
 
-from models import MakeDBModel, ColorDBModel, CarBodyConfigurationDBModel, EcoStandartDBModel, FuelTypeDBModel, GearboxDBModel, RegionDBModel, SettlementDBModel, ModelDBModel
-from models.extras import ExtraDBModel, ExtraCategoryDBModel
+from models.Make import MakeDBModel
+from models.Color import ColorDBModel
+from models.CarBodyConfiguration import CarBodyConfigurationDBModel
+from models.EcoStandart import EcoStandartDBModel
+from models.FuelType import FuelTypeDBModel
+from models.Gearbox import GearboxDBModel
+from models.Region import RegionDBModel
+from models.Settlement import SettlementDBModel
+from models.Model import ModelDBModel
 
-from commands.data import makes_models, extras_and_categories, colors, car_body_configurations, eco_standarts, fuels, gearboxes, regions_and_settlements
+from models.extras.Extra import ExtraCategoryDBModel
+from models.extras.Extra import ExtraDBModel
 
+from commands.data.makes_models import makes_models
+from commands.data.extras_and_categories import extras_and_categories
+from commands.data.colors import colors
+from commands.data.car_body_configurations import car_body_configurations
+from commands.data.eco_standarts import eco_standarts
+from commands.data.fuels import fuels
+from commands.data.gearboxes import gearboxes
+from commands.data.regions_and_settlements import regions_and_settlements
 
 def init_static_data():
     # Makes & models seeding:

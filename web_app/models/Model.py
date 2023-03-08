@@ -1,5 +1,4 @@
-from initializers import db
-from models import MakeDBModel
+from initializers.database import db
 
 class ModelDBModel(db.Model):
 
@@ -9,7 +8,7 @@ class ModelDBModel(db.Model):
     title = db.Column(db.String(80), nullable=False)
 
     make_id = db.Column(db.Integer, db.ForeignKey('makes.id'))
-    make = db.relationship(MakeDBModel, lazy="joined") # Eager load make.
+    make = db.relationship('MakeDBModel', lazy="joined") # Eager load make.
 
     def __init__(self, data):
         self.title = data['title']

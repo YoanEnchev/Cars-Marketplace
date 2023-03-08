@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   resolve: {
-    extensions: ['.js', '.json', '.jsx', '.wasm'], // Add your extensions here.
+    extensions: ['.js', '.ts', '.json', '.jsx', '.tsx', '.wasm'], // Add your extensions here.
   },
   entry: {
     index: './app.js'
@@ -28,11 +28,16 @@ module.exports = {
             ]
         },
         {
-          test: /\.(ts|js|jsx)?$/,
+          test: /\.(js|jsx)?$/,
           loader: 'babel-loader',
           options: {
              presets: ['@babel/env', '@babel/preset-react']
           }
+        },
+        {
+          test: /\.(ts|tsx)?$/,
+          use: 'ts-loader',
+          exclude: /node_modules/
         }
     ]
   }

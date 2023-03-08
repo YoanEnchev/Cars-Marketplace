@@ -1,14 +1,19 @@
 from flask.cli import with_appcontext
 from injector import inject
 from faker import Faker
-from initializers import db, main_app
+
+from initializers.app import main_app
+from initializers.database import db
+
 import os, json, random, shutil
 
-from models import UserDBModel, VehicleAdDBModel, RoleDBModel
+from models.User import UserDBModel
+from models.VehicleAd import VehicleAdDBModel
+from models.Role import RoleDBModel
 
-from repositories.ModelRepository import ModelRepository
-from repositories.MakeRepository import MakeRepository
-from repositories.extras.ExtraRepository import ExtraRepository
+from repositories.Model import ModelRepository
+from repositories.Make import MakeRepository
+from repositories.extras.Extra import ExtraRepository
 
 from seeders.static_data import init_static_data
 

@@ -1,6 +1,5 @@
-from initializers import db
-
-from services.helpers.serialize_model_list import serialize_model_list
+from initializers.database import db
+from services.helpers.serialization import serialize_model_list
 
 class RegionDBModel(db.Model):
 
@@ -10,7 +9,7 @@ class RegionDBModel(db.Model):
     title = db.Column(db.String(80), nullable=False)
     
     # Eager load settlements.
-    settlements = db.relationship("Settlement", backref='settlement', lazy='joined')
+    settlements = db.relationship('SettlementDBModel', backref='settlement', lazy='joined')
 
     def __init__(self, data):
         self.title = data['title']

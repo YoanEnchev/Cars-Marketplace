@@ -1,4 +1,4 @@
-from initializers import db
+from initializers.database import db
 
 class CarBodyConfigurationDBModel(db.Model):
 

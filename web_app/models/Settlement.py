@@ -1,6 +1,4 @@
-from initializers import db
-
-from models import RegionDBModel
+from initializers.database import db
 
 class SettlementDBModel(db.Model):
 
@@ -10,7 +8,7 @@ class SettlementDBModel(db.Model):
     title = db.Column(db.String(80), nullable=False)
     
     region_id = db.Column(db.Integer, db.ForeignKey('regions.id'))
-    region = db.relationship(RegionDBModel, lazy="joined") # Eager load.
+    region = db.relationship('RegionDBModel', lazy="joined") # Eager load.
 
     def __init__(self, data):
         self.title = data['title']
