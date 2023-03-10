@@ -34,6 +34,7 @@ services:
     volumes:
       # What sql script to run when creating the container.
       - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./db/create_test_db.sql:/docker-entrypoint-initdb.d/create_test_db.sql
   redis:
     container_name: redis_db
     image: redis:6.2-alpine

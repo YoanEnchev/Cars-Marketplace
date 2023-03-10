@@ -91,3 +91,6 @@ CMD ["apache2ctl", "-D", "FOREGROUND"]
 
 # List all keys:
 # KEYS * 
+
+
+# psql --host=postgres --username=postgres_test --dbname=cars_marketplace_test

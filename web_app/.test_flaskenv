@@ -2,19 +2,18 @@ FLASK_APP="run.py"
 FLASK_DEBUG=1
 
 DB="postgresql"
-DB_USER="my_user"
+DB_USER="postgres_test"
 DB_HOST="host.docker.internal" # So docker accesses localhost of the pc machine.
-DB_POSTGRES_PORT=0
-DB_NAME="my_db_name"
-DB_PASSWORD="my_password"
+DB_POSTGRES_PORT=5532  # Since 5432 is the default port used by pgadmin we set different one.
+DB_NAME="cars_marketplace_test"
+DB_PASSWORD="test_db_common"
 DB_ENCODING="utf8"
 DB_URL="${DB}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_POSTGRES_PORT}/${DB_NAME}?client_encoding=${DB_ENCODING}"
-DB_URL_TEST="${DB}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_POSTGRES_PORT}/${DB_TEST_NAME}?client_encoding=${DB_ENCODING}"
 
 REDIS_HOST="host.docker.internal" # So docker accesses localhost of the pc machine.
-REDIS_PORT=6379
-REDIS_PASSWORD='password'
+REDIS_PORT=6389
+REDIS_PASSWORD='eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81'
 # Default redis db index is 0.
 
 
-SECRET_KEY="my secret key"
+SECRET_KEY="1b3xf4b3x1bDv31b6xaFAF1bxc1b6AFAx5b1xMFA62b1"
