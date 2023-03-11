@@ -9,7 +9,7 @@ from models.tables.VehicleExtra import VehicleExtraDBTable
 class VehicleAdDBModel(db.Model):
 
     __tablename__ = 'vehicle_ads'
-    base_image_folder = 'static/imgs/cars'
+    cars_folder_url_path = 'static/imgs/cars/'
 
     id = db.Column(db.Integer, primary_key = True)
     
@@ -87,9 +87,14 @@ class VehicleAdDBModel(db.Model):
         self.is_approved = data['is_approved']
 
 
+    @staticmethod
+    def base_image_folder() -> str:
+        return os.environ['STATIC_FOLDER_PATH']  + '/imgs/cars'
+
+
     @property
     def img_folder(self):
-        return self.base_image_folder + '/' + str(self.id)
+        return self.base_image_folder() + '/' + str(self.id)
 
     @property
     def format_price(self):
@@ -97,7 +102,7 @@ class VehicleAdDBModel(db.Model):
 
     @property
     def images_urls(self):
-        return [(request.url_root + self.img_folder + '/' + name) for name in self.image_names]
+        return [(request.url_root + self.cars_folder_url_path + str(self.id) + '/' + name) for name in self.image_names]
         
     @property
     def current_user_is_publisher(self):
@@ -134,14 +139,14 @@ class VehicleAdDBModel(db.Model):
     def serialize(self, relations=[]):
 
         image_names = self.image_names
-        thumbnail_url = request.url_root
+        thumbnail_url = request.url_root + self.cars_folder_url_path
         
         if len(image_names) == 0:
             # if no images are uploaded, assume a default pic thumbnail. 
-            thumbnail_url += self.base_image_folder + '/default.png'
+            thumbnail_url += '/default.png'
         else:
             # If images are uploaded assume thumbnail is the first one.
-            thumbnail_url += self.img_folder + '/' + image_names[0]
+            thumbnail_url += str(self.id) + '/' + image_names[0]
 
         result = {
             'id': self.id,
@@ -165,7 +170,7 @@ class VehicleAdDBModel(db.Model):
             'edit_page': request.url_root[:-1] + url_for('cars_app.update', id=self.id),
             
             'thumbnail_url': thumbnail_url,
-            'imsge_urls': [request.url_root + self.img_folder + '/' + name for name in image_names],
+            'imsge_urls': [request.url_root + self.cars_folder_url_path + str(self.id) + '/' + name for name in image_names],
 
             'is_in_wishlist': False,
             
