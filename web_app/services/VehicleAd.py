@@ -19,6 +19,7 @@ from services.Gearbox import GearboxService
 from services.EcoStandart import EcoStandartService
 from services.CarBodyConfiguration import CarBodyConfigurationService
 from services.ExtraCategory import ExtraCategoryService
+from services.helpers.serialization import serialize_model_list
 
 from initializers.database import db
 from initializers.redis import redis_manager
@@ -26,7 +27,7 @@ from initializers.redis import redis_manager
 from models.VehicleAd import VehicleAdDBModel
 from forms.Car import CarAdForm
 
-import base64, json, os, shutil
+import base64, json, os, shutil, math
 
 class VehicleAdService(BaseModelService):
 
@@ -52,10 +53,32 @@ class VehicleAdService(BaseModelService):
         self.car_body_configuration_service = car_body_configuration_service
         self.extra_category_service = extra_category_service
 
-    def paginated_extraction(self, page: int, per_page: int, filters: dict, sort: str):
-
-        return self.model_repository.paginated_extraction(page=page, per_page=per_page, filters=filters, sort=sort)
+    def paginated_extraction(self, page: int, per_page: int, filters: dict, sort: str) -> object:
         
+        pagination = self.model_repository.paginated_extraction(page=page, per_page=per_page, filters=filters, sort=sort)
+        
+        current_page = pagination.page
+
+        # Indicates what are the shown items (like 21 - 30) for pagnation with 10 items per page.
+        items_numeration_start = (current_page - 1) * per_page + 1
+        items_numeration_end = current_page * per_page
+        total_records = pagination.total
+
+        if items_numeration_end > total_records:
+            items_numeration_end = total_records
+        
+        return {
+            'items': serialize_model_list(pagination.items),
+            'displayed_items_numercation': {
+                'start': items_numeration_start,
+                'end': items_numeration_end
+            },
+            'total_records': total_records,
+            'current_page': current_page,
+            'per_page': pagination.per_page,
+            'total_pages': math.ceil(total_records / per_page)
+        }
+
 
     def is_valid_sort(self, sort: str):
         # Splits by last occurance of the character.

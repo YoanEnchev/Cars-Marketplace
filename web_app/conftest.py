@@ -1,1 +1,1 @@
-# This empty file allows for modules inside the src to be imported by pytest
+# This empty file allows for modules outside the tests to be imported by pytest

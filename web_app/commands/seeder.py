@@ -17,13 +17,7 @@ from repositories.extras.Extra import ExtraRepository
 
 from seeders.static_data import init_static_data
 
-@main_app.cli.command('seed')
-@with_appcontext
-@inject
-def seed():
-
-    db.create_all() # Create tables.
-
+def seed_fictive_records():
     role_admin = RoleDBModel({'title': 'admin'})
     db.session.add(role_admin)
 
@@ -108,3 +102,12 @@ def seed():
 
                     else:
                         raise Exception('Missing data.json file for ' +  car_path)
+
+
+@main_app.cli.command('seed')
+@with_appcontext
+@inject
+def seed():
+
+    db.create_all() # Create tables.
+    seed_fictive_records()
