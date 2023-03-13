@@ -83,8 +83,6 @@ def seed_fictive_records():
                             **{
                                 'model_id': model_obj.id,
                                 'make_id': model_obj.make_id,
-                                'settlement_id': random.randint(1, 1000),
-                                'publisher_id': random.randint(2, 8),
                                 'description': 'Lorem ipsum dolor sit amet.' * 10,
                                 'is_approved': None
                             }

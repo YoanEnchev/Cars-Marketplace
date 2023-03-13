@@ -4,6 +4,8 @@
     "gearbox_id": 2,
     "car_body_configuration_id": 8,
     "color_id": 4,
+    "settlement_id": 530,
+    "publisher_id": 1,
     "hp": 170,
     "manufacture_year": 2013,
     "price": 15000,

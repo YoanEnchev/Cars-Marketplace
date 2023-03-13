@@ -4,6 +4,8 @@
     "gearbox_id": 1,
     "car_body_configuration_id": 2,
     "color_id": 15,
+    "settlement_id": 531,
+    "publisher_id": 2,
     "hp": 90,
     "manufacture_year": 2021,
     "price": 19000,

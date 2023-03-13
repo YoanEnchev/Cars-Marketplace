@@ -56,3 +56,31 @@ def test_model_filter():
 
     vw_ids: list[int] = list(map(lambda record: record.id, passat_records))
     assert vw_ids == [16, 15]
+
+def test_region_filter():
+    # Find vehicles in Sofia (includes all Sofia prefacture towns like Botevgrad).
+    sofia_records: list[VehicleAdDBModel] = (VehicleAdRepository()).paginated_extraction(
+        filters={**default_filters, **{'region_id': 23}}
+    ).items
+
+    sofia_ids: list[int] = list(map(lambda record: record.id, sofia_records))
+    assert sofia_ids == [17, 16, 15, 14, 13]
+
+def test_settlement_filter():
+    # Find vehicles in Sofia city.
+    sofia_city_records: list[VehicleAdDBModel] = (VehicleAdRepository()).paginated_extraction(
+        filters={**default_filters, **{'settlement_id': 4023}}
+    ).items
+
+    sofia_ids: list[int] = list(map(lambda record: record.id, sofia_city_records))
+    assert sofia_ids == [14, 13]
+
+def test_max_price_filter():
+    # Find vehicles under specific price.
+    vehicles_under_6000_leva_records: list[VehicleAdDBModel] = (VehicleAdRepository()).paginated_extraction(
+        filters={**default_filters, **{'max_price': 6000}}
+    ).items
+
+    vehicles_under_6000_leva_records_ids: list[int] = list(map(lambda record: record.id, vehicles_under_6000_leva_records))
+    assert vehicles_under_6000_leva_records_ids == [15, 11]
+

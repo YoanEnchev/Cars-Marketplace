@@ -4,6 +4,8 @@
     "gearbox_id": 1,
     "car_body_configuration_id": 8,
     "color_id": 1,
+    "settlement_id": 531,
+    "publisher_id": 2,
     "hp": 140,
     "manufacture_year": 2011,
     "price": 12000,

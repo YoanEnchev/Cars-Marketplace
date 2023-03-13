@@ -4,6 +4,8 @@
     "gearbox_id": 2,
     "car_body_configuration_id": 4,
     "color_id": 8,
+    "settlement_id": 4024,
+    "publisher_id": 8,
     "hp": 190,
     "manufacture_year": 2022,
     "price": 65000,
