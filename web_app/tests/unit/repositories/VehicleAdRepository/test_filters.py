@@ -1,19 +1,6 @@
-from typing import List
 from repositories.VehicleAd import VehicleAdRepository
 from models.VehicleAd import VehicleAdDBModel
-
-default_filters = {
-    'make_id': 0,
-    'model_id': 0,
-    'region_id': 0,
-    'settlement_id': 0,
-    'max_price': 0,
-    'min_year': 0,
-    'fuel_type_id': 0,
-    'gearbox_id': 0,
-    'publisher_id': 0,
-    'context': ''
-}
+from tests.unit.repositories.VehicleAdRepository.common import default_filters
 
 # This tests relies on the fictive records created in the fixtures.
 
@@ -27,7 +14,7 @@ def test_no_filter():
 
     ids: list[int] = list(map(lambda record: record.id, records))
 
-    assert ids == list(range(17, 0, -1)) # Assume vehicle contain the same ids.
+    assert ids == list(range(17, 0, -1)) 
 
 def test_make_filter():
     
@@ -84,3 +71,42 @@ def test_max_price_filter():
     vehicles_under_6000_leva_records_ids: list[int] = list(map(lambda record: record.id, vehicles_under_6000_leva_records))
     assert vehicles_under_6000_leva_records_ids == [15, 11]
 
+def test_min_year_filter():
+    # Find newer vehicles.
+    vehicles_after_2021_year: list[VehicleAdDBModel] = (VehicleAdRepository()).paginated_extraction(
+        filters={**default_filters, **{'min_year': 2021}}
+    ).items
+
+    vehicles_after_2021_year_ids: list[int] = list(map(lambda record: record.id, vehicles_after_2021_year))
+    assert vehicles_after_2021_year_ids == [17, 16, 14, 13, 7, 4]
+
+def test_fuel_filter():
+    # Find benzine vehicles.
+    vehicles_benzine_fuel: list[VehicleAdDBModel] = (VehicleAdRepository()).paginated_extraction(
+        filters={**default_filters, **{'fuel_type_id': 1}}
+    ).items
+
+    vehicles_benzine_fuel_ids: list[int] = list(map(lambda record: record.id, vehicles_benzine_fuel))
+    assert vehicles_benzine_fuel_ids == [14, 8, 7, 2]
+
+def test_gearbox_filter():
+    # Find manual gearbox vehicles.
+    vehicles_manual_gearbox: list[VehicleAdDBModel] = (VehicleAdRepository()).paginated_extraction(
+        filters={**default_filters, **{'gearbox_id': 1}}
+    ).items
+
+    vehicles_manual_gearbox_ids: list[int] = list(map(lambda record: record.id, vehicles_manual_gearbox))
+    assert vehicles_manual_gearbox_ids == [15, 14, 11, 4, 3]
+
+def test_combined_filters():
+    # Find vehicles according to multiple filters.
+    vehicles_combined_filters_records: list[VehicleAdDBModel] = (VehicleAdRepository()).paginated_extraction(
+        filters={**default_filters, **{
+            'make_id': 97,
+            'min_year': 2020,
+            'max_price': 24000
+        }}
+    ).items
+
+    vehicles_combined_filters_ids: list[int] = list(map(lambda record: record.id, vehicles_combined_filters_records))
+    assert vehicles_combined_filters_ids == [12, 10]
