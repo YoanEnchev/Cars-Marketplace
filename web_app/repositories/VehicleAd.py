@@ -4,11 +4,14 @@ from sqlalchemy import desc, asc
 from flask_login import current_user
 from flask_sqlalchemy.pagination import Pagination
 
+default_sort_col = 'created_at'
+default_sort_order = 'desc'
+
 class VehicleAdRepository(BaseRepository):
     
     entity:object = VehicleAdDBModel
 
-    def paginated_extraction(self, per_page: int=12, page: int=1, filters: dict={}, sort: str='created_at_desc') -> Pagination:
+    def paginated_extraction(self, per_page: int=12, page: int=1, filters: dict={}, sort: str='{default_sort_col}_{default_sort_order}') -> Pagination:
 
         filterList = []
 
@@ -58,8 +61,18 @@ class VehicleAdRepository(BaseRepository):
             query = query.filter(VehicleAdDBModel.settlement.has(region_id=filters['region_id']))
 
         # Splits by last occurance of the character.
+        sort_args = sort.rsplit('_', 1)
+        if len(sort_args) < 2:
+            # Invalid sort argument is passed. So make it work the same as the default sort.
+            sort_args = [default_sort_col, default_sort_order]
+
         # Example 'created_at_asc' splits into ['created_at', 'asc']
-        [column, sort_direction] = sort.rsplit('_', 1)
+        [column, sort_direction] = sort_args
+
+        # If column or direction is invalid - make it work the same as the default sort.
+        if column not in ['created_at', 'price', 'manufacture_year'] or sort_direction not in ['asc', 'desc']:
+            [column, sort_direction] = [default_sort_col, default_sort_order]
+
         attribute = getattr(VehicleAdDBModel, column)
 
         order_by = asc(attribute)

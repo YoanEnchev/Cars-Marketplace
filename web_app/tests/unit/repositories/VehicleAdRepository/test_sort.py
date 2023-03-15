@@ -89,3 +89,40 @@ def test_year_sort():
     expected_years.reverse()
     
     assert years == expected_years
+
+def test_invalid_sort():
+    # When invalid sort string is specified expect for the function to work as if the default sort is specified.
+    expected_ids = list(range(17, 0, -1))
+
+    # No _ symbol
+    records: list[VehicleAdDBModel] = (VehicleAdRepository()).paginated_extraction(
+        filters=default_filters,
+        per_page=100, # So all records in the DB are returned on the first page.
+        sort='invalid'
+    ).items
+
+    ids: list[int] = list(map(lambda record: record.id, records))
+
+    assert ids == expected_ids
+
+    # Invalid column
+    records: list[VehicleAdDBModel] = (VehicleAdRepository()).paginated_extraction(
+        filters=default_filters,
+        per_page=100, # So all records in the DB are returned on the first page.
+        sort='invalid_col_asc'
+    ).items
+    
+    ids: list[int] = list(map(lambda record: record.id, records))
+
+    assert ids == expected_ids
+
+    # Invalid order
+    records: list[VehicleAdDBModel] = (VehicleAdRepository()).paginated_extraction(
+        filters=default_filters,
+        per_page=100, # So all records in the DB are returned on the first page.
+        sort='created_at_invalid'
+    ).items
+    
+    ids: list[int] = list(map(lambda record: record.id, records))
+
+    assert ids == expected_ids
