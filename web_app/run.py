@@ -1,3 +1,4 @@
+print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 # Import libraries
 from flask_injector import FlaskInjector
 from dependencies import configure

@@ -32,8 +32,9 @@ def seed_fictive_records():
     fake = Faker()
     
     # Users seeding:
-    for i in range(1, 10):
-        user = UserDBModel({'email': fake.email(), 'first_name': fake.name(), 'password': '123456', 'phone': '08 88 888 888'})
+    # We specify emails here they are known when testing.
+    for email in ['thfhthth@rackabzar.com', 'aleiki@onlinecmail.com', 'daveb316@greendike.com', 'evgenijkulinchenko@otpku.com', 'rkoehler@infosol.me', 'msn01@oxford-edu.cf', 'agaff1@asifboot.com', 'nkotke@onosyaikh.com', 'lidoandoliver@hulas.me', 'dragooi@getcashstash.com']:
+        user = UserDBModel({'email': email, 'first_name': fake.name(), 'password': '123456', 'phone': '08 88 888 888'})
         db.session.add(user)
     
     db.session.commit()
