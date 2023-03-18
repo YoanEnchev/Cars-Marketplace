@@ -39,6 +39,7 @@ class AuthService:
     # Login
     def handle_successful_login(self, user: UserDBModel|None) -> Response:
         login_user(user)
+        flash('Успешнo влизане.', 'primary')
 
         return redirect(url_for('home_app.home'))
 
@@ -46,7 +47,7 @@ class AuthService:
         message = 'Невалидна парола.'
 
         if not user:
-            message = "Потребител с такъв имейл не съществува"
+            message = "Потребител с такъв имейл не съществува."
 
         flash(message, 'danger')
 

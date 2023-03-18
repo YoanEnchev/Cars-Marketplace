@@ -33,9 +33,9 @@ def login(auth_service: AuthService, user_service: UserService):
     
     if request.method == 'GET':
         return render_template('auth/login.html')
-
-    user = user_service.get_user_by_email(request.form.get('email'))
     
+    user = user_service.get_user_by_email(request.form.get('email'))
+
     if user and check_password_hash(user.password, request.form.get('password')):
         return auth_service.handle_successful_login(user)
     

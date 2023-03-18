@@ -31,5 +31,6 @@ class UserDBModel(db.Model, UserMixin):
         
         return {
             'id': self.id,
+            'email': self.email,
             'first_name': self.first_name
         }

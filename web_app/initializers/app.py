@@ -2,9 +2,9 @@ from flask import Flask
 from dotenv import load_dotenv
 import os, sys
 
-if 'pytest' in sys.modules:
-    # Load different environments variables if running pytest.
-    load_dotenv('.flaskenv.test')
+
+# Load different environments variables if running pytest.
+load_dotenv('.flaskenv.test' if 'pytest' in sys.modules else '.flaskenv')
 
 env_data = os.environ
 
