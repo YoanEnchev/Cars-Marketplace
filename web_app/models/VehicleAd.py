@@ -40,7 +40,7 @@ class VehicleAdDBModel(db.Model):
     color_id = db.Column(db.Integer, db.ForeignKey('colors.id'))
     color = db.relationship('ColorDBModel', lazy="joined") # Eager load.
 
-    extras = db.relationship('ExtraDBModel', secondary=VehicleExtraDBTable, backref='vehicle_ads')
+    extras = db.relationship('ExtraDBModel', secondary=VehicleExtraDBTable, backref='vehicle_ads', cascade="all, delete", passive_deletes=True)
 
     manufacture_year = db.Column(db.Integer)
     hp = db.Column(db.Integer)
@@ -168,6 +168,7 @@ class VehicleAdDBModel(db.Model):
             # :-1 removes last symbol. This way we avoid double slash ('//').
             'detail_page': request.url_root[:-1] + url_for('cars_app.detail', id=self.id),
             'edit_page': request.url_root[:-1] + url_for('cars_app.update', id=self.id),
+            'delete_action_url': request.url_root[:-1] + url_for('cars_app.delete', id=self.id),
             
             'thumbnail_url': thumbnail_url,
             'imsge_urls': [request.url_root + self.cars_folder_url_path + str(self.id) + '/' + name for name in image_names],
@@ -175,7 +176,7 @@ class VehicleAdDBModel(db.Model):
             'is_in_wishlist': False,
             
             # User has logged in and is the publisher of the ad
-            'is_editable': current_user.get_id() is not None and (int(current_user.get_id()) == self.publisher_id)
+            'published_by_current_user': current_user.get_id() is not None and (int(current_user.get_id()) == self.publisher_id)
         }
 
         if 'eco_standart' in relations:

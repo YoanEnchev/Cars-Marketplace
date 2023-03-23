@@ -12,3 +12,6 @@ class BaseModelService:
 
     def get_all(self, serialization=False, relations=[]) -> list:
         return self.model_repository.get_all(serialization=serialization, relations=relations)
+    
+    def permanent_delete(self, entity_object):
+        return self.model_repository.permanent_delete(entity_object)

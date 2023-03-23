@@ -239,5 +239,13 @@ class VehicleAdService(BaseModelService):
         
         flash(self.form_service.get_error_message(form), 'danger')
         return redirect(url_for('home_app.home'))
+    
+
+    def handle_successful_ad_delete(self, entity_object: VehicleAdDBModel, flush: bool = False) -> Response:
+        
+        self.model_repository.permanent_delete(entity_object, flush)
+
+        flash('Успешно изтриван на обява.', 'primary')
+        return redirect(url_for('cars_app.list_my_ads'))
 
     

@@ -36,5 +36,9 @@ class BaseRepository:
         return self.entity.query.filter(self.entity.id.in_(ids)).all()
 
     # DELETE:
-    def permanent_delete(self, entity_object):
-        self.db.delete(entity_object) 
+    def permanent_delete(self, entity_object, flush: bool = False):
+
+        self.entity.query.filter_by(id=entity_object.id).delete()
+
+        if flush:
+            self.db.session.commit()

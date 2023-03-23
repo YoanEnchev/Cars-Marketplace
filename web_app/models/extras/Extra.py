@@ -12,7 +12,7 @@ class ExtraDBModel(db.Model):
     extra_category_id = db.Column(db.Integer, db.ForeignKey('extras_categories.id'))
     extra_category = db.relationship(ExtraCategoryDBModel, lazy="joined") # Eager load make.
     
-    vehicles = db.relationship('VehicleAdDBModel', secondary=VehicleExtraDBTable, backref='extras_vehicle')
+    vehicles = db.relationship('VehicleAdDBModel', secondary=VehicleExtraDBTable, backref='extras_vehicle', passive_deletes=True)
 
     def __init__(self, data):
         self.title = data['title']

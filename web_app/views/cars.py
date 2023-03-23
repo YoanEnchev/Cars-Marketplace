@@ -107,7 +107,7 @@ def update(id, vehicle_ad_service: VehicleAdService):
         return abort(404)
 
     if not vehicle_ad.current_user_is_publisher:
-        flash('Only the publisher can edit the ad.', 'danger')
+        flash('Само публикувалият потребител може да редактира собствената си обява.', 'danger')
         return abort(403)
 
     if request.method == 'GET':
@@ -127,6 +127,20 @@ def update(id, vehicle_ad_service: VehicleAdService):
     
     return vehicle_ad_service.handle_unsuccessful_ad_update(form)
 
+@inject
+@cars_app.route('/cars/<id>/delete', methods=['POST'], endpoint='delete')
+def delete(id, vehicle_ad_service: VehicleAdService):
+    
+    vehicle_ad = vehicle_ad_service.get_by_id(id=id, relations=['extras', 'publisher'])
+    
+    if vehicle_ad is None:
+        return abort(404)
+
+    if not vehicle_ad.current_user_is_publisher:
+        flash('Само публикувалият потребител може да изтрие собствената си обява.', 'danger')
+        return abort(403)
+    
+    return vehicle_ad_service.handle_successful_ad_delete(vehicle_ad, True)
 
 # Data is fetched by ajax and used for car search and create/edit form.
 @inject

@@ -26,10 +26,11 @@ export default interface VehicleAdInterface {
     status: string,
     detail_page: string,
     edit_page: string,
+    delete_action_url: string
     thumbnail_url: string,
     imsge_urls: Array<string>,
     is_in_wishlist: boolean,
-    is_editable: boolean,
+    published_by_current_user: boolean,
     
     // Relations:
     eco_standart?: EcoStandartInterface,
