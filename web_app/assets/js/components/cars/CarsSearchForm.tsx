@@ -6,7 +6,7 @@ import VehicleAdInterface from '../../common/interfaces/models/VehicleAdInterfac
 import RegionInterface from '../../common/interfaces/models/RegionInterface'
 import FuelInterface from '../../common/interfaces/models/FuelInterface'
 import GearboxInterface from '../../common/interfaces/models/GearboxInterface'
-import StaticFormDataResponse from '../../common/interfaces/responses/staticFormDataResponse'
+import StaticFormDataResponse from '../../common/interfaces/responses/StaticFormDataResponse'
 import MakeInterface from '../../common/interfaces/models/MakeInterface'
 import SelectOptions from '../../common/interfaces/dom_elemens_data/SelectOptions'
 

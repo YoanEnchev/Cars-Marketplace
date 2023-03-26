@@ -35,7 +35,6 @@ class BaseRepository:
     def get_by_id_list(self, ids:list):
         return self.entity.query.filter(self.entity.id.in_(ids)).all()
 
-    # DELETE:
     def permanent_delete(self, entity_object, flush: bool = False):
 
         self.entity.query.filter_by(id=entity_object.id).delete()

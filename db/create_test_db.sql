@@ -1,4 +1,4 @@
-/* Make sure the DB and credentials are the same as in the .flaskenv.test DB */
+/* Make sure the DB and credentials are the same as in the .env test environments. */
 CREATE USER postgres_test WITH PASSWORD 'test_db_common';
 
 CREATE DATABASE cars_marketplace_test;

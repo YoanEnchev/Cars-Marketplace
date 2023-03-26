@@ -22,7 +22,7 @@ import ExtraCategoryInterface from '../../../common/interfaces/models/ExtraCateg
 import ExtraCategoryItemInterface from '../../../common/interfaces/models/ExtraCategoryItemInterface'
 
 import CarAdFormProps from '../../../common/interfaces/properties/CarAdFormProps'
-import StaticFormDataResponse from '../../../common/interfaces/responses/staticFormDataResponse'
+import StaticFormDataResponse from '../../../common/interfaces/responses/StaticFormDataResponse'
 
 const CarAdForm: FC<CarAdFormProps> = ({staticFormDataUrl, vehicleParams = null, actionUrl, buttonText, currentYear}) => {
     

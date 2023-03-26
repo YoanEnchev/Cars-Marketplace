@@ -1,4 +1,3 @@
-#FROM python:3.10.4-slim-buster
 FROM ubuntu
 
 WORKDIR /var/www/web_app
@@ -55,18 +54,12 @@ ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 # Avoids cross-env: not found when executing npm run watch.
 RUN npm install --global cross-env
 
-# Create tables & insert fictive records
-# So files declaring commands and run.py are imported.
+# Makes it visible to the ENTRYPOINT instruction.
+COPY entrypoint.sh /
 
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+ENTRYPOINT ["sh", "/entrypoint.sh"]
 
-
-# When server is setup execute the following commands inside container:
-# For /var/www/web_app
-# pip3 install -r requirements.txt
-
-# For /var/www/web_app/assets/js
-# npm install
+# For /var/www/web_app/assets/js and development:
 # npm run watch
 
 # To view any apache2 errors:
@@ -74,9 +67,6 @@ CMD ["apache2ctl", "-D", "FOREGROUND"]
 
 # For truncating error file:
 # truncate -s 0 /var/log/apache2/error.log
-
-
-#['', '/usr/local/lib/python310.zip', '/usr/local/lib/python3.10', '/usr/local/lib/python3.10/lib-dynload', '/usr/local/lib/python3.10/site-packages']
 
 # Open SQL container:
 # psql --host=postgres --username=$POSTGRES_USER --dbname=$POSTGRES_DB
@@ -92,5 +82,5 @@ CMD ["apache2ctl", "-D", "FOREGROUND"]
 # List all keys:
 # KEYS * 
 
-
+# Open test db:
 # psql --host=postgres --username=postgres_test --dbname=cars_marketplace_test
