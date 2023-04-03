@@ -8,8 +8,12 @@ login_manager = LoginManager()
 login_manager.init_app(main_app)
 
 @login_manager.user_loader
-def load_user(user_id):
-    return db.session.query(UserDBModel).get(user_id)
+def load_user(id):
+    try:
+        return db.session.query(UserDBModel).filter_by(id=id).first()
+        print('HERE !!!!!!!')
+    except:
+        return None
 
 @login_manager.unauthorized_handler
 def unauth_handler():

@@ -34,8 +34,8 @@ def seed_fictive_records():
     # Users seeding:
     # We specify emails here they are known when testing.
     for email in ['thfhthth@rackabzar.com', 'aleiki@onlinecmail.com', 'daveb316@greendike.com', 'evgenijkulinchenko@otpku.com', 'rkoehler@infosol.me', 'msn01@oxford-edu.cf', 'agaff1@asifboot.com', 'nkotke@onosyaikh.com', 'lidoandoliver@hulas.me', 'dragooi@getcashstash.com']:
-        user = UserDBModel({'email': email, 'first_name': fake.name(), 'password': '123456', 'phone': '08 88 888 888'})
-        db.session.add(user)
+        loopUser = UserDBModel({'email': email, 'first_name': fake.name(), 'password': '123456', 'phone': '08 88 888 888'})
+        db.session.add(loopUser)
     
     db.session.commit()
 
@@ -96,8 +96,13 @@ def seed_fictive_records():
                         db.session.commit()
 
                         os.makedirs(vehicle_ad_obj.img_folder)
+
+                        # Files created via command cannot be edited afterwards when using the app.
+                        os.chmod(vehicle_ad_obj.img_folder, 0o777) 
                         for name in image_names:
-                            shutil.copyfile(car_path + '/' + name, vehicle_ad_obj.img_folder + '/' + name)
+                            destination = vehicle_ad_obj.img_folder + '/' + name
+                            shutil.copyfile(car_path + '/' + name, destination)
+                            os.chmod(destination, 0o777) 
 
                     else:
                         raise Exception('Missing data.json file for ' +  car_path)

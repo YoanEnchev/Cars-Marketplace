@@ -32,13 +32,14 @@ services:
       - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
       - ./db/create_test_db.sql:/docker-entrypoint-initdb.d/create_test_db.sql
   redis:
+    env_file: '.env'
     # Source: https://geshan.com.np/blog/2022/01/redis-docker/
     container_name: redis_db
     image: redis:6.2-alpine
     restart: always
     ports:
       - "${REDIS_PORT}:6379"
-    # Make sure the last parameter (the pass) is the same as in the .flaskenv file.
+    # Make sure the last parameter (the pass) is the same as in the .env file.
     # Make redis authroized with 2 different passwords (one for test).
     command: >
       sh -c "redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}

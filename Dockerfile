@@ -59,21 +59,6 @@ COPY entrypoint.sh /
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]
 
-# For /var/www/web_app/assets/js and development:
-# npm run watch
-
-# To view any apache2 errors:
-# nano /var/log/apache2/error.log
-
-# For truncating error file:
-# truncate -s 0 /var/log/apache2/error.log
-
-# Open SQL container:
-# psql --host=postgres --username=$POSTGRES_USER --dbname=$POSTGRES_DB
-# Password for user postgres:
-
-# Export sql:
-# pg_dump -U $POSTGRES_USER -h localhost $POSTGRES_DB >> /docker-entrypoint-initdb.d/create_tables.sql
 
 # Open redis container
 # redis-cli
@@ -81,6 +66,3 @@ ENTRYPOINT ["sh", "/entrypoint.sh"]
 
 # List all keys:
 # KEYS * 
-
-# Open test db:
-# psql --host=postgres --username=postgres_test --dbname=cars_marketplace_test

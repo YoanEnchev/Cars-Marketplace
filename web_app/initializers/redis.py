@@ -8,4 +8,4 @@ if 'pytest' in sys.modules:
     redis_db_index_key += '_TEST'
 
 env_data = os.environ
-redis_manager = redis.Redis(host=env_data['REDIS_HOST'], port=env_data['REDIS_PORT'], db=redis_db_index_key, password=redis_password_key)
+redis_manager = redis.Redis(host=env_data['REDIS_HOST'], port=env_data['REDIS_PORT'], db=env_data[redis_db_index_key], password=env_data[redis_password_key])

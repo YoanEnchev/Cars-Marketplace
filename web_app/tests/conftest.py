@@ -9,6 +9,7 @@ def call_ahead_of_all_tests():
     with main_app.app_context():
         db.drop_all()
         db.create_all()
+
         seed_fictive_records()
         yield # this is where the testing happens
 

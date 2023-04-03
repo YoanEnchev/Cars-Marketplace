@@ -20,6 +20,7 @@ from services.EcoStandart import EcoStandartService
 from services.CarBodyConfiguration import CarBodyConfigurationService
 from services.ExtraCategory import ExtraCategoryService
 from services.helpers.serialization import serialize_model_list
+from services.helpers.delete_shutil_file import del_rw
 
 from initializers.database import db
 from initializers.redis import redis_manager
@@ -109,7 +110,8 @@ class VehicleAdService(BaseModelService):
 
     def handle_ad_update(self, vehicle_ad: VehicleAdDBModel, form_data: ImmutableMultiDict):
 
-        shutil.rmtree(vehicle_ad.img_folder) # Delete all image files.
+        # Delete all image files.
+        shutil.rmtree(vehicle_ad.img_folder, ignore_errors=False, onerror=del_rw) # onerror handles deletion of files which were generated via the flask seeding command.
         vehicle_ad.image_names = self.save_images_on_disk(form_data['image_urls'], vehicle_ad)
 
         data = dict(form_data) # Make dict mutable.
