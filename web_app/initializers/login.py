@@ -11,7 +11,6 @@ login_manager.init_app(main_app)
 def load_user(id):
     try:
         return db.session.query(UserDBModel).filter_by(id=id).first()
-        print('HERE !!!!!!!')
     except:
         return None
 

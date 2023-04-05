@@ -4,6 +4,7 @@ Simple web application using Python & Flask in the backend, TypeScript & React i
 
 ---------------------------------------------
 
+
 ## Installation
 - Create .env file with the same content as .env.example:
 ```
@@ -50,7 +51,7 @@ In order for changes to take effect you need to run the npm watcher:
 
 ---------------------------------------------
 
-## Containers
+## Containers Usage
 
 ### python_server
 Contains backend (Python) and frontend (React + TypeScript) logic. You can do the actions in CLI such as:
@@ -85,3 +86,38 @@ Container serving as a redis database used for caching. You can connect to the a
 To connect to the test database perform the following commands:
 - Open the container in CLI by executing this command: `redis-cli`
 - To authorize perform the following command: `AUTH <redis_password>`. Replace `<redis_password>` with the value of the environment variable of `REDIS_PASSWORD_TEST` (example: `AUTH SAMPLE_REDIS_PASSWORD_FOR_TESTS`)
+- Afterwards you can execute any redis command such as `keys *`
+
+---------------------------------------------
+
+## Tests Running
+
+In order to run tests execute the following command:
+- Open the `python_server` container
+- Execute the command `pytest` or `pytest -s` if you need to see logs from the `print` function
+
+---------------------------------------------
+
+## Flask commands
+
+Flask commands are executed inside `python_server` container CLI.
+
+- If you want to delete all tables and uploaded vehicle images use the following command: `flask drop-tables` inside `python_server`
+- If you want to create all tables, insert fictive records and upload vehicle images use the following command: `flask seed`
+
+
+## ERD - Entity Relationship Diagram
+Indicates the attributes and relationship of the database tables:
+
+![image description](docs/images/ERD.png)
+
+
+## Backend development files:
+
+- Commands directory. Contains code for flask commands (example `flask seed`) and data needed for seeding
+- Decorators directory. Contains functions that are meant to execute before certain endpoint and block access and further execution if needed. Such as accessing admin route by non admin user.
+- Extensions directory. Contains functions definition which makes it possible to execute code by simply calling a function in the template file.
+- Forms directory. Contains files which define what field the form has. It's used for request validation.
+-  Initializers directory. Change it
+-  Models directory. Contains models representing tables, relations and records serialization. Tables with many to many relations are placed inside the `models/tables` directory.
+- Repositories directory

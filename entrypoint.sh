@@ -15,7 +15,13 @@ fi
 # Go back to /web_app:
 cd ../../
 
-# Wait a few secoonds before showing a message that script finished so it doesn't overlap with other seconds.
+if [ ! -d "static/imgs/cars/1" ]
+then
+    # Generate fictive records and thumbnail images in static folder.
+    flask seed
+fi
+
+# Wait a few seconds before showing a message that script finished so it doesn't overlap with other seconds.
 sleep 3 && 
     echo '..........................................' &&
     echo 'Finished building. Server is up.' &&

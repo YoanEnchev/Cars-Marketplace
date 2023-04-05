@@ -58,11 +58,3 @@ RUN npm install --global cross-env
 COPY entrypoint.sh /
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]
-
-
-# Open redis container
-# redis-cli
-# AUTH eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-
-# List all keys:
-# KEYS * 
