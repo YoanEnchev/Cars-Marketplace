@@ -1,6 +1,6 @@
 import pytest
-from initializers.app import main_app
-from initializers.database import db
+from app import main_app
+from helpers.database import db
 from commands.seeder import seed_fictive_records
 
 @pytest.fixture(scope="session", autouse=True)

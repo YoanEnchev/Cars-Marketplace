@@ -118,19 +118,21 @@ Indicates the attributes and relationship of the database tables:
 - `Decorators` directory. Contains functions that are meant to execute before certain endpoint and block access and further execution if needed. Such as accessing admin route by non admin user
 - `Extensions` directory. Contains functions definition which makes it possible to execute code by simply calling a function in the template file
 - `Forms` directory. Contains files which define what field the form has. It's used for request validation
--  `Initializers` directory. Change it
+-  `Helpers` directory. Contains functions which handle business data and can be used
+outside services (examples: in models, repositories, services) unlike services which are supposed to be used only in views via dependency injection. It's also suitable for logic that is not meant to be used as a class
 -  `Models` directory. Contains models representing tables, relations and records serialization. Tables with many to many relations are placed inside the `models/tables` directory
 - `Repositories` directory. Contains files working with database layer by using the ORM library SQL Alchemy. There is one base class which is inherited by all repositories
 - `Seeders` folder. Contains scripts that populates records in tables
 - `Services` folder. Services perform business operations such as image processing and database operations using repository classes
 - `Static` folder. Contains files that can be publicly accessed by anyone such as images and javascript bundle file
-- `Templates` folder. Contains HTML templates files with template enjine processing operations such as loops and if statements.
-- `Tests` folder. Contains configuration, unit and functional tests.
-- `Views` folder. Contains files which define what python logic should be executed on certain endpoint.  Such files also use services through dependency injection.
-- `App.wsgi` file. Defines the starting point for execution of the Apache server.
-- `Requirements.txt` file. Defines libraries and their versions. They can be installed via `pip3`.
-- `Run.py` file.  Starting point of the app.
-- `.env.example` file. Contains environment variables with sample values. This file is supposed to be used for creating the `.env` file.
+- `Templates` folder. Contains HTML templates files with template enjine processing operations such as loops and if statements
+- `Tests` folder. Contains configuration, unit and functional tests
+- `Views` folder. Contains files which define what python logic should be executed on certain endpoint.  Such files also use services through dependency injection
+- `app.py` file. Defines flask app and database settings 
+- `App.wsgi` file. Defines the starting point for execution of the Apache server
+- `Requirements.txt` file. Defines libraries and their versions. They can be installed via `pip3`
+- `Run.py` file.  Starting point of the app
+- `.env.example` file. Contains environment variables with sample values. This file is supposed to be used for creating the `.env` file
 - `.env` file. Contains environment variables and values. Unlike `.env.example` it's values are actually used by the application and are not just samples. This files is ignored by git for security reasons
 `Apache2.conf` file. Defines settings for apache2 server
 - `Docker-compose.yaml` file. Defines docker containers

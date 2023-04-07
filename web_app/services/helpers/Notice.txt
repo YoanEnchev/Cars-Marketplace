@@ -1,4 +1,0 @@
-This folder contains functions which handle business data and can be used
-outside services (ex in models, repositories, services).
-
-Don't use them in views, use services instead if you need them.

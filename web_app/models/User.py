@@ -1,4 +1,4 @@
-from initializers.database import db
+from helpers.database import db
 from werkzeug.security import generate_password_hash
 from flask_login import UserMixin
 from models.Role import RoleDBModel

@@ -1,8 +1,8 @@
 from models.User import UserDBModel
 from flask_login import LoginManager
 from flask import request, jsonify, render_template
-from initializers.app import main_app
-from initializers.database import db
+from app import main_app
+from helpers.database import db
 
 login_manager = LoginManager()
 login_manager.init_app(main_app)

@@ -1,4 +1,4 @@
-from initializers.database import db
+from helpers.database import db
 
 class ModelDBModel(db.Model):
 

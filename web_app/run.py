@@ -18,8 +18,9 @@ from commands.drop_tables import drop_tables
 from extensions.url_for import url_for
 
 # Import initializers
-from initializers.login import login_manager # login_manager enables authentication
-from initializers.app import main_app
+from helpers.login import login_manager # login_manager enables authentication
+
+from app import main_app
 
 main_app.cli.add_command(seed)
 main_app.cli.add_command(drop_tables)

@@ -19,11 +19,11 @@ from services.Gearbox import GearboxService
 from services.EcoStandart import EcoStandartService
 from services.CarBodyConfiguration import CarBodyConfigurationService
 from services.ExtraCategory import ExtraCategoryService
-from services.helpers.serialization import serialize_model_list
-from services.helpers.delete_shutil_file import del_rw
+from helpers.serialization import serialize_model_list
+from helpers.delete_shutil_file import del_rw
 
-from initializers.database import db
-from initializers.redis import redis_manager
+from helpers.database import db
+from helpers.redis import redis_manager
 
 from models.VehicleAd import VehicleAdDBModel
 from forms.Car import CarAdForm

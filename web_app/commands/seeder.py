@@ -2,8 +2,8 @@ from flask.cli import with_appcontext
 from injector import inject
 from faker import Faker
 
-from initializers.app import main_app
-from initializers.database import db
+from app import main_app
+from helpers.database import db
 
 import os, json, random, shutil
 

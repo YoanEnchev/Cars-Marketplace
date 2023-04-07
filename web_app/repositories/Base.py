@@ -1,5 +1,5 @@
-from initializers.database import db
-from services.helpers.serialization import serialize_model_list
+from helpers.database import db
+from helpers.serialization import serialize_model_list
 from sqlalchemy.orm import joinedload
 
 class BaseRepository:

@@ -1,6 +1,6 @@
 from tests.functional.common import BASE_URL
 import requests
-from initializers.app import main_app
+from app import main_app
 
 def test_get_request():
     

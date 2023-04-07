@@ -1,4 +1,4 @@
-from initializers.database import db
+from helpers.database import db
 from models.tables.VehicleExtra import VehicleExtraDBTable
 from models.extras.ExtraCategory import ExtraCategoryDBModel
 

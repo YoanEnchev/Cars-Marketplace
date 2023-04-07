@@ -1,8 +1,8 @@
 import os
 from flask import url_for, request
 from flask_login import current_user
-from initializers.database import db
-from services.helpers.serialization import serialize_model_list
+from helpers.database import db
+from helpers.serialization import serialize_model_list
 
 from models.tables.VehicleExtra import VehicleExtraDBTable
 

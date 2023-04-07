@@ -1,4 +1,4 @@
-from initializers.database import db
+from helpers.database import db
 
 from models.Make import MakeDBModel
 from models.Color import ColorDBModel
