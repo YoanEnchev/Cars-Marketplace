@@ -19,7 +19,7 @@ services:
   postgres:
     env_file: '.env'
     container_name: postgres_db
-    image: postgres:10.5
+    image: postgres:14.7
     restart: always
     logging:
       options:
@@ -34,7 +34,7 @@ services:
     env_file: '.env'
     # Source: https://geshan.com.np/blog/2022/01/redis-docker/
     container_name: redis_db
-    image: redis:6.2-alpine
+    image: redis:7.0-alpine
     restart: always
     ports:
       - "${REDIS_PORT}:6379"
@@ -44,3 +44,10 @@ services:
       sh -c "redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
       && redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD_TEST}
       "
+  ec2_container:
+    env_file: '.env_ec2'
+    build:
+      context: ./
+      dockerfile: ./Dockerfile_ec2
+    ports:
+      - '81:80'

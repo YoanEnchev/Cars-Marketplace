@@ -188,7 +188,7 @@ class VehicleAdService(BaseModelService):
         
         redis_manager.set(self.static_form_data_key, json.dumps(data_to_extract)) # Convert to string before saving
         
-        return json.loads(data_to_extract)
+        return data_to_extract
 
     def increment_views(self, vehicle_ad: VehicleAdDBModel):
         

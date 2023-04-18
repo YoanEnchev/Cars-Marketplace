@@ -25,8 +25,6 @@ def test_invalid_password():
         'email': 'lidoandoliver@hulas.me',
         'password' : 'invalid_password'
     })
-    
-    print(response.text)
 
     assert response.ok
     assert 'Невалидна парола.' in response.text

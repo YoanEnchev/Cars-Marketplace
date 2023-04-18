@@ -73,6 +73,7 @@ def seed_fictive_records():
                 if os.path.exists(car_path):
 
                     image_names = os.listdir(car_path)
+                    image_names.sort()
                     image_names.pop() # Remove data.json file.
                     
                     if os.path.exists(car_path + '/data.json'):
