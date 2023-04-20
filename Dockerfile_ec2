@@ -68,7 +68,7 @@ RUN npm install --global cross-env
 WORKDIR /var/www/web_app/assets/js
 RUN npm install
 RUN npm run build
-RUN cd ../../
+#RUN cd ../../
 WORKDIR /var/www/web_app
 
 
@@ -83,10 +83,29 @@ CMD apache2ctl -D FOREGROUND
 
 # What to do:
 # service postgresql start
+
 # su - postgres
+# Open new user
+
+# psql -c "CREATE USER ${DB_USER} WITH ENCRYPTED password '${DB_PASSWORD}';"
+# psql -c "CREATE DATABASE ${DB_NAME};"
+# psql -c "CREATE USER ${DB_USER_TEST} WITH ENCRYPTED password '${DB_PASSWORD_TEST}';"
+# psql -c "CREATE DATABASE ${DB_NAME_TEST};"
+
+
+# redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD} --port ${REDIS_PORT} && redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD_TEST} } --port ${REDIS_PORT}
+# Runs in background.
+
+# flask seed
+
+
+
+
+
+
+
+
 # psql -c "CREATE USER cars_marketplace_user WITH ENCRYPTED password 'SAMPLE_PASSWORD';"
 # psql -c "CREATE DATABASE cars_marketplace;"
-# psql -c "CREATE USER cars_marketplace_user_test WITH ENCRYPTED password 'test_db_common';"
-# psql -c "CREATE DATABASE cars_marketplace_test;"
-# redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD} --port ${REDIS_PORT} && redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD_TEST} } --port ${REDIS_PORT}
-# flask seed
+# psql -c "CREATE USER ${DB_USER_TEST} WITH ENCRYPTED password '${DB_PASSWORD_TEST}';"
+# psql -c "CREATE DATABASE ${DB_NAME_TEST};"

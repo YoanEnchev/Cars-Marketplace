@@ -24,8 +24,10 @@ def seed_fictive_records():
     role_ordinary_user = RoleDBModel({'title': 'ordinary_user'})
     db.session.add(role_ordinary_user)
     db.session.commit()
+
+    env_data = os.environ
     
-    user = UserDBModel({'email': 'admin@admin.com', 'first_name': 'Admin', 'password': 'admin', 'phone': '08 88 888 888'})
+    user = UserDBModel({'email': 'admin@admin.com', 'first_name': 'Admin', 'password': env_data['ADMIN_USER_PASSWORD'], 'phone': '08 88 888 888'})
     user.role_id = RoleDBModel.ADMIN_ID
     db.session.add(user)
 
