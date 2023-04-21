@@ -72,11 +72,18 @@ cp ./apache2.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Start postgre and create necessary databases
 service postgresql start
-su - postgres
-psql -c "CREATE USER ${DB_USER} WITH ENCRYPTED password '${DB_PASSWORD}';"
-psql -c "CREATE DATABASE ${DB_NAME};"
-psql -c "CREATE USER ${DB_USER_TEST} WITH ENCRYPTED password '${DB_PASSWORD_TEST}';"
-psql -c "CREATE DATABASE ${DB_NAME_TEST};"
-redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD} --port ${REDIS_PORT} && redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD_TEST} --port ${REDIS_PORT}
-exit
+
+
+# Execute postgres commands with a super user.
+su - postgres -c "psql -c \"CREATE USER ${DB_USER} WITH ENCRYPTED password '${DB_PASSWORD}';\""
+su - postgres -c "psql -c \"CREATE DATABASE ${DB_NAME};\""
+su - postgres -c "psql -c \"CREATE USER ${DB_USER_TEST} WITH ENCRYPTED password '${DB_PASSWORD_TEST}';\""
+su - postgres -c "psql -c \"CREATE DATABASE ${DB_NAME_TEST};\""
+
 flask seed
+
+redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD} --port ${REDIS_PORT} && redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD_TEST} --port ${REDIS_PORT} > redis.log &
+
+echo '..........................................'
+echo 'Finished setup.'
+echo '..........................................'
