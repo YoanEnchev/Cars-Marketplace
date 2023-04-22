@@ -100,12 +100,9 @@ def seed_fictive_records():
 
                         os.makedirs(vehicle_ad_obj.img_folder)
 
-                        # Files created via command cannot be edited afterwards when using the app.
-                        os.chmod(vehicle_ad_obj.img_folder, 0o777) 
                         for name in image_names:
                             destination = vehicle_ad_obj.img_folder + '/' + name
                             shutil.copyfile(car_path + '/' + name, destination)
-                            os.chmod(destination, 0o777) 
 
                     else:
                         raise Exception('Missing data.json file for ' +  car_path)

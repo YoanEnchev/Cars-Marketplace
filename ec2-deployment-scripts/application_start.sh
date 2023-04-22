@@ -2,13 +2,17 @@
 
 # When uploading new changes:
 
+cd ../web_app
+
+# Install python packages from requirements.txt:
+pip3 install -r requirements.txt
+
+
+# Install node js packages:
 cd assets/js
 npm install
-run build
+npm run build
 cd ../../
-
-# Install packages from requirements.txt:
-pip3 install -r requirements.txt
 
 # Start services:
 apache2ctl -D FOREGROUND
