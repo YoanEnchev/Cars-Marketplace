@@ -227,7 +227,8 @@ class VehicleAdService(BaseModelService):
         
         session[self.vehicle_creation_session_key] = form_data # Set form field values so they are restored for form.
 
-        flash(self.form_service.get_error_message(form), 'danger')
+        # Alternative to the message: self.form_service.get_error_message(form),
+        flash('Неправилно попълнени данни.' ,'danger')
         return redirect(url_for('cars_app.create'))
 
 
@@ -239,7 +240,8 @@ class VehicleAdService(BaseModelService):
 
     def handle_unsuccessful_ad_update(self, form: CarAdForm) -> Response:
         
-        flash(self.form_service.get_error_message(form), 'danger')
+        # Alternative to the message: self.form_service.get_error_message(form)
+        flash('Неправилно попълнени данни.', 'danger')
         return redirect(url_for('home_app.home'))
     
 
@@ -247,7 +249,7 @@ class VehicleAdService(BaseModelService):
         
         self.model_repository.permanent_delete(entity_object, flush)
 
-        flash('Успешно изтриван на обява.', 'primary')
+        flash('Успешно изтриванe на обява.', 'primary')
         return redirect(url_for('cars_app.list_my_ads'))
 
     

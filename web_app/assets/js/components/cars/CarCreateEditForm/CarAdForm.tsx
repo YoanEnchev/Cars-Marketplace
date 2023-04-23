@@ -260,7 +260,7 @@ const CarAdForm: FC<CarAdFormProps> = ({staticFormDataUrl, vehicleParams = null,
             type: 'input', 
             required: 'required',
             inputType: 'number',
-            min: 0,
+            min: 1,
             max: 5 * Math.pow(10, 7)
         },
         {

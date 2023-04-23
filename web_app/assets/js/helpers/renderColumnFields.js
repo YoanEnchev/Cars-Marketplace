@@ -32,6 +32,10 @@ export default function renderColumnFields(formFields) {
             maxLength: field.maxLength,
         }
 
+        if (fieldType === 'input') {
+            propsObj.type = field.inputType || 'input'
+        }
+
         return (
             <div className={`field-wrapper ${sizeClasses}`} key={index}>
                 <label className='p-1 w-100'>{field.label}

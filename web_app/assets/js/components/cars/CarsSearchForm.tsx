@@ -112,7 +112,8 @@ const CarsSearchForm: FC<CarsSearchFormProps> = ({staticFormDataUrl, currentYear
             label: 'Макс. Цена (в лева)',
             name: 'max_price',
             type: 'input', 
-            inputType: 'number'
+            inputType: 'number',
+            min: 1,
         },
         {
             label: 'Година',

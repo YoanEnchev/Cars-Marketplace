@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/express-app
+    destination: /home/ec2-user/cars_marketplace
 hooks:
   ApplicationStop:
     - location: ec2-deployment-scripts/application_stop.sh
