@@ -5,7 +5,7 @@
 cd ../web_app
 
 # Install python packages from requirements.txt:
-pip3 install -r requirements.txt
+sudo pip3 install -r requirements.txt
 
 
 # Install node js packages:
@@ -15,4 +15,4 @@ npm run build
 cd ../../
 
 # Start services:
-apache2ctl -D FOREGROUND
+sudo apache2ctl -D FOREGROUND
