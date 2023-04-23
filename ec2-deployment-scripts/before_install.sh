@@ -2,12 +2,10 @@
 # When deploying project for first time:
 
 # Give permission for everything in the express-app directory.
-#sudo chmod -R 777 /home/ec2-user/Cars-Marketplace
+sudo chmod -R 777 /home/ubuntu/Cars-Marketplace
 
 # Navigate into our working directory where we have all our github files.
-#cd /home/ec2-user/Cars-Marketplace
-
-cd ../web_app
+cd /home/ubuntu/Cars-Marketplace/web_app
 
 # Remove old python versions if exist:
 rm -f /usr/bin/python
