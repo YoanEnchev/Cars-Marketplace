@@ -1,4 +1,5 @@
 from werkzeug.wrappers import Response
+from werkzeug.datastructures import ImmutableMultiDict
 
 from flask import redirect, url_for, flash, session
 from flask_login import login_user
@@ -29,8 +30,14 @@ class AuthService:
         flash('Успешна регистрация.', 'primary')
         return redirect(url_for('home_app.home'))
 
-    def handle_unsuccessful_registration(self, form_data: dict, form: RegistrationForm) -> Response:
-        session[self.regisration_session_key] = form_data # Set form field values so they are restored for form.
+    def handle_unsuccessful_registration(self, form_data: ImmutableMultiDict, form: RegistrationForm) -> Response:
+
+        data = dict(form_data) # Make dict mutable.
+
+        del data['password']
+        del data['repeat_password']
+
+        session[self.regisration_session_key] = data # Set form field values so they are restored for form.
 
         flash(self.form_service.get_error_message(form), 'danger')
         return redirect(url_for('auth_app.register'))

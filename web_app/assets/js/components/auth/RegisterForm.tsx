@@ -5,7 +5,7 @@ import RegisterFormValidation from '../../common/interfaces/validations/Register
 const RegisterForm: FC<RegisterFormProps> = (props) => {
 
     const [email, setEmail] = useState<string>(props.email || '')
-    const [firstName, setFirstName] = useState<string>(props.firstName || '')
+    const [firstName, setFirstName] = useState<string>(props.first_name || '')
     const [phone, setPhone] = useState<string>(props.phone ?? '')
     const [password, setPassword] = useState<string>('')
     const [repeatPassword, setRepeatPassword] = useState<string>('')

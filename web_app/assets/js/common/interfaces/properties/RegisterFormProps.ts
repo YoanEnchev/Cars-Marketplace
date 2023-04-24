@@ -1,5 +1,5 @@
 export default interface RegisterFormProps {
     email: string,
-    firstName: string,
+    first_name: string,
     phone: string
 }
