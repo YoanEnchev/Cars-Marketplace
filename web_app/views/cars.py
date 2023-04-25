@@ -80,11 +80,11 @@ def detail(id, vehicle_ad_service: VehicleAdService):
     
     if not vehicle_ad.is_approved:
         if not current_user.is_authenticated:
-            flash("User must be authenticated in order to view the ad that's not approved.", 'danger')
+            flash("Необходимо е да сте логнат за да видите неудобрената обява.", 'danger')
             return abort(403)
 
         if not (current_user.is_admin() or vehicle_ad.current_user_is_publisher):
-            flash("User must be publisher or admin of the ad in order to view ad that's not approved.", 'danger')
+            flash("Необходимо е да сте администратор или създателя на обявата за да разглеждате неудобрена обява.", 'danger')
             return abort(403)
         
 

@@ -15,4 +15,6 @@ npm run build
 cd ../../
 
 # Start services:
+redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD} --port ${REDIS_PORT} && redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD_TEST} --port ${REDIS_PORT} > logs/redis.log &
+
 sudo apache2ctl -D FOREGROUND

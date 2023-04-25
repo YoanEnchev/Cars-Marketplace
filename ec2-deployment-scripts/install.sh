@@ -94,8 +94,6 @@ while [ "$i" -le 17 ]; do
     i=$(( i + 1 ))
 done
 
-redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD} --port ${REDIS_PORT} && redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD_TEST} --port ${REDIS_PORT} > logs/redis.log &
-
 # Avoids apache error
 sudo chmod +x /home/ubuntu/
 
