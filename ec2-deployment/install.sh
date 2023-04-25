@@ -63,7 +63,7 @@ yes | sudo apt-get install redis
 sudo npm install --global cross-env
 
 mkdir -p /etc/apache2/sites-enabled # Create folders recursively.
-sudo cp ../apache2.conf /etc/apache2/sites-enabled/000-default.conf
+sudo cp ../ec2-deployment/apache2.conf /etc/apache2/sites-enabled/000-default.conf
 
 
 # Start postgre and create necessary databases
