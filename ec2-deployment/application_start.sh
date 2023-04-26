@@ -14,6 +14,12 @@ npm install
 npm run build
 cd ../../
 
+# Set env variables because those variables are forgotten on each server rebooting.
+set -a
+source ../.env
+set +a
+
+
 # Start services:
 redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD} --port ${REDIS_PORT} && redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD_TEST} --port ${REDIS_PORT} > logs/redis.log &
 
